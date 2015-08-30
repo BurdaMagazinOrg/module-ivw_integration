@@ -1,0 +1,4 @@
+services:
+  bdd_ivw.tracker:
+    class: Drupal\ivw_integration\IvwTracker
+    arguments: ['@entity.manager', '@entity.query', '@config.factory', '@path.matcher', '@current_route_match', '@token']
