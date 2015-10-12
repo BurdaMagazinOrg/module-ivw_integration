@@ -1,7 +1,7 @@
 name: IVW Tracking
 type: module
 description: 'IVW (SZM 2) tracking'
-package: Thunder
+package: Tracking
 core: 8.x
 
 dependencies:
