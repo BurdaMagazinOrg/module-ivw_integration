@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\bdd_ivw\Form\SettingsForm.
+ * Contains \Drupal\ivw_integration\Form\SettingsForm.
  */
 
-namespace Drupal\bdd_ivw\Form;
+namespace Drupal\ivw_integration\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -25,7 +25,7 @@ class SettingsForm extends ConfigFormBase {
   protected $token = array();
 
    /**
-   * Constructs a \Drupal\bdd_ivw\SettingsForm object.
+   * Constructs a \Drupal\ivw_integration\SettingsForm object.
    *
    * @param ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
@@ -51,16 +51,16 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'bdd_ivw_settings_form';
+    return 'ivw_integration_settings_form';
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $bdd_ivw_settings = $this->config('bdd_ivw.settings');
+    $ivw_integration_settings = $this->config('ivw_integration.settings');
     $form['current_code'] = array(
-      '#markup' => 'Current Default Code: ' . $this->token->replace($bdd_ivw_settings->get('code_template'), array(), array('sanitize' => FALSE)),
+      '#markup' => 'Current Default Code: ' . $this->token->replace($ivw_integration_settings->get('code_template'), array(), array('sanitize' => FALSE)),
     );
 
     $form['settings'] = array(
@@ -88,7 +88,7 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => t('IVW Site name'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('site'),
+      '#default_value' => $ivw_integration_settings->get('site'),
       '#description' => t('Site name as given by IVW, this is used as default for the "st" parameter in the iam_data object')
     );
 
@@ -98,7 +98,7 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
       '#maxlength' => 256,
       '#size' => 128,
-      '#default_value' => $bdd_ivw_settings->get('code_template'),
+      '#default_value' => $ivw_integration_settings->get('code_template'),
       '#description' => t('Code template, for creating the actual ivw code.'),
     );
 
@@ -111,7 +111,7 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => t('Site is responsive'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('responsive'),
+      '#default_value' => $ivw_integration_settings->get('responsive'),
       '#description' => t('Responsive sites must handle mobile code in javascript, this is activated here.')
     );
 
@@ -125,7 +125,7 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Mobile width'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('mobile_width'),
+      '#default_value' => $ivw_integration_settings->get('mobile_width'),
       '#description' => t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.')
     );
 
@@ -133,14 +133,14 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => t('Fallback offering code'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('offering_default'),
+      '#default_value' => $ivw_integration_settings->get('offering_default'),
       '#description' => t('A single ivw site can have multiple offerings, they can be differentiated by different numbers.'),
       '#min' => 1,
     );
     $form['default_values']['offering_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Offering code is overrideable'),
-      '#default_value' => $bdd_ivw_settings->get('offering_overridable'),
+      '#default_value' => $ivw_integration_settings->get('offering_overridable'),
     );
     $form['default_values']['language_default'] = array(
       '#type' => 'select',
@@ -151,12 +151,12 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Fallback language'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('language_default'),
+      '#default_value' => $ivw_integration_settings->get('language_default'),
     );
     $form['default_values']['language_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Language code is overrideable'),
-      '#default_value' => $bdd_ivw_settings->get('language_overridable'),
+      '#default_value' => $ivw_integration_settings->get('language_overridable'),
     );
     $form['default_values']['format_default'] = array(
       '#type' => 'select',
@@ -168,12 +168,12 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Fallback format'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('format_default'),
+      '#default_value' => $ivw_integration_settings->get('format_default'),
     );
     $form['default_values']['format_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Format code is overrideable'),
-      '#default_value' => $bdd_ivw_settings->get('format_overridable'),
+      '#default_value' => $ivw_integration_settings->get('format_overridable'),
     );
     $form['default_values']['creator_default'] = array(
       '#type' => 'select',
@@ -184,12 +184,12 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Fallback creator'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('creator_default'),
+      '#default_value' => $ivw_integration_settings->get('creator_default'),
     );
     $form['default_values']['creator_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Creator code is overrideable'),
-      '#default_value' => $bdd_ivw_settings->get('creator_overridable'),
+      '#default_value' => $ivw_integration_settings->get('creator_overridable'),
     );
     $form['default_values']['homepage_default'] = array(
       '#type' => 'select',
@@ -200,12 +200,12 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Fallback homepage flag'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('homepage_default'),
+      '#default_value' => $ivw_integration_settings->get('homepage_default'),
     );
     $form['default_values']['homepage_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Homepage flag is overridable'),
-      '#default_value' => $bdd_ivw_settings->get('homepage_overridable'),
+      '#default_value' => $ivw_integration_settings->get('homepage_overridable'),
     );
     $form['default_values']['delivery_default'] = array(
       '#type' => 'select',
@@ -216,12 +216,12 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Fallback delivery'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('delivery_default'),
+      '#default_value' => $ivw_integration_settings->get('delivery_default'),
     );
     $form['default_values']['delivery_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Delivery flag is overridable'),
-      '#default_value' => $bdd_ivw_settings->get('delivery_overridable'),
+      '#default_value' => $ivw_integration_settings->get('delivery_overridable'),
     );
     $form['default_values']['app_default'] = array(
       '#type' => 'select',
@@ -231,12 +231,12 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Fallback app flag'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('app_default'),
+      '#default_value' => $ivw_integration_settings->get('app_default'),
     );
     $form['default_values']['app_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('App flag is overridable'),
-      '#default_value' => $bdd_ivw_settings->get('app_overridable'),
+      '#default_value' => $ivw_integration_settings->get('app_overridable'),
     );
     $form['default_values']['paid_default'] = array(
       '#type' => 'select',
@@ -246,12 +246,12 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Fallback paid flag'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('paid_default'),
+      '#default_value' => $ivw_integration_settings->get('paid_default'),
     );
     $form['default_values']['paid_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Paid flag is overridable'),
-      '#default_value' => $bdd_ivw_settings->get('paid_overridable'),
+      '#default_value' => $ivw_integration_settings->get('paid_overridable'),
     );
     $form['default_values']['content_default'] = array(
       '#type' => 'select',
@@ -301,12 +301,12 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Fallback content category'),
       '#required' => TRUE,
-      '#default_value' => $bdd_ivw_settings->get('content_default'),
+      '#default_value' => $ivw_integration_settings->get('content_default'),
     );
     $form['default_values']['content_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Content category is overridable'),
-      '#default_value' => $bdd_ivw_settings->get('content_overridable'),
+      '#default_value' => $ivw_integration_settings->get('content_overridable'),
     );
 
 
@@ -318,7 +318,7 @@ class SettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
-    $this->config('bdd_ivw.settings')
+    $this->config('ivw_integration.settings')
       ->set('site', $values['site'])
       ->set('code_template', $values['code_template'])
       ->set('responsive', $values['responsive'])
@@ -349,7 +349,7 @@ class SettingsForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'bdd_ivw.settings',
+      'ivw_integration.settings',
     ];
   }
 }

@@ -6,7 +6,7 @@ function ivw_integration_requirements($phase) {
   $requirements = [];
 
   if ($phase == 'runtime') {
-    $config = \Drupal::config('bdd_ivw.settings');
+    $config = \Drupal::config('ivw_integration.settings');
 
     // Raise warning if Google user account has not been set yet.
     if (empty($config->get('site'))) {

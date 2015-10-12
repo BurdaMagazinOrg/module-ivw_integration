@@ -1,4 +1,4 @@
-bdd_ivw.admin_settings:
+ivw_integration.admin_settings:
   path: '/admin/config/system/ivw'
   defaults:
     _form: '\Drupal\ivw_integration\Form\SettingsForm'
