@@ -24,24 +24,33 @@ function ivw_integration_theme() {
  * Implements hook_form_BASE_FORM_ID_alter() for node_form().
  */
 function ivw_integration_form_node_form_alter(&$form, FormStateInterface $form_state) {
-  $form['ivw_integration_settings_override'] = array(
-    '#type' => 'details',
-    '#title' => t('IVW settings'),
-    '#open' => FALSE,
-    '#group' => 'advanced',
-    '#optional' => FALSE,
-  );
-
   /* Is there a better way to get the node? */
   $entity = $form_state->getBuildInfo()['callback_object']->getEntity();
+  $has_settings = FALSE;
 
   /**
    * Set group of all ivw_integration_settings elements
    */
   foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
     if ($fieldDefinition->getType() === 'ivw_integration_settings') {
+      $has_settings = TRUE;
       $form[$fieldDefinition->getName()]['#group'] = 'ivw_integration_settings_override';
     }
+  }
+  if($has_settings) {
+    if(isset($form['advanced'])) {
+      $form['advanced'] = array(
+        '#type' => 'vertical_tabs',
+        '#weight' => 99,
+      );
+    }
+    $form['ivw_integration_settings_override'] = array(
+      '#type' => 'details',
+      '#title' => t('IVW settings'),
+      '#open' => FALSE,
+      '#group' => 'advanced',
+      '#optional' => TRUE,
+    );
   }
 }
 
