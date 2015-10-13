@@ -5,7 +5,6 @@
  * Builds placeholder replacement tokens for ivw-related data.
  */
 
-use Drupal\taxonomy\TermStorage;
 use Drupal\Component\Utility\Xss;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Render\BubbleableMetadata;
@@ -98,12 +97,10 @@ function ivw_integration_tokens($type, $tokens, array $data, array $options, Bub
 }
 
 function ivw_integration_get_setting($name) {
-  $isFront = \Drupal::service('path.matcher')->isFrontPage();
   /**
    * @var CurrentRouteMatch $currentRoutematch
    */
   $currentRoutematch = \Drupal::service('current_route_match');
-  $routeMatch = $currentRoutematch->getRouteObject();
 
 
   $parameters = ['node', 'media', 'taxonomy_term'];
@@ -149,10 +146,7 @@ function ivw_integration_get_setting($name) {
   }
 
   $default_setting_key = $name . '_default';
-  $settings = \Drupal::config('ivw_integrationw.settings');
-  $default_setting = $settings->get($default_setting_key);
-
-  return $default_setting;
+  return \Drupal::config('ivw_integration.settings')->get($default_setting_key);
 }
 
 /**
