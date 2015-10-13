@@ -16,7 +16,7 @@ use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Utility\Token;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class IvwTracker implements CacheableDependencyInterface {
+class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   /**
    * The entity storage object for taxonomy terms.
    *
@@ -91,6 +91,9 @@ class IvwTracker implements CacheableDependencyInterface {
     $this->token = $token;
   }
 
+  /**
+   * @inherit
+   */
   public function getTrackingInformation() {
     return array(
       'st' => $this->getSt(),
@@ -100,10 +103,23 @@ class IvwTracker implements CacheableDependencyInterface {
     );
   }
 
+  /**
+   * Gets the st parameter.
+   *
+   * @return string
+   *  The value of the st parameter.
+   */
   protected function getSt() {
     return $this->configFactory->get('ivw_integration.settings')->get('site');
   }
 
+  /**
+   * Gets the cp parameter, possible overrides have been applied for
+   * the current page.
+   *
+   * @return string
+   *  The value of the cp parameter.
+   */
   protected function getCp() {
     $settings = $this->configFactory->get('ivw_integration.settings');
     $code_template = $settings->get('code_template');
@@ -111,11 +127,24 @@ class IvwTracker implements CacheableDependencyInterface {
     return $this->token->replace($code_template, array(), array('sanitize' => FALSE));
   }
 
+  /**
+   * Gets the cpm parameter, possible overrides have been applied for
+   * the current page.
+   *
+   * @return string
+   *  The value of the cpm parameter.
+   */
   protected function getCpm() {
     // TODO: this is absolutely not generic
     return str_replace('D1A', 'D2A', $this->getCp());
   }
 
+  /**
+   * Gets the sv parameter.
+   *
+   * @return string
+   *  The value of the sv parameter.
+   */
   protected function getSv() {
     return $this->pathMatch->isFrontPage() ? 'ke' : 'in';
   }
