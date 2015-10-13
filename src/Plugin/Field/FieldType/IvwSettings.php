@@ -19,7 +19,8 @@ use Drupal\Core\TypedData\DataDefinition;
  *   id = "ivw_integration_settings",
  *   label = @Translation("IVW settings"),
  *   description = @Translation("Define content specific IVW settings. These settings override the default settings."),
- *   default_widget = "ivw_integration_widget"
+ *   default_widget = "ivw_integration_widget",
+ *   default_formatter = "ivw_empty_formatter"
  * )
  */
 class IvwSettings extends FieldItemBase {

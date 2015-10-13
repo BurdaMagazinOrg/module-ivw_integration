@@ -2,27 +2,27 @@
 
 /**
  * @file
- * Contains Drupal\ad_integration\Plugin\Field\FieldFormatter\AdEmptyFormatter.
+ * Contains Drupal\ivw_integration\Plugin\Field\FieldFormatter\IvwEmptyFormatter.
  */
 
-namespace Drupal\ad_integration\Plugin\Field\FieldFormatter;
+namespace Drupal\ivw_integration\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Field\FieldItemListInterface;
 
 /**
- * Plugin implementation of the 'ad_empty_formatter' formatter.
+ * Plugin implementation of the 'ivw_empty_formatter' formatter.
  *
  * @FieldFormatter(
- *   id = "ad_empty_formatter",
- *   module = "ad",
+ *   id = "ivw_empty_formatter",
+ *   module = "ivw_integration",
  *   label = @Translation("Empty formatter"),
  *   field_types = {
- *     "ad_integration_settings"
+ *     "ivw_integration_settings"
  *   }
  * )
  */
-class AdEmptyFormatter extends FormatterBase {
+class IvwEmptyFormatter extends FormatterBase {
 
   /**
    * {@inheritdoc}
