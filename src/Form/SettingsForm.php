@@ -63,7 +63,7 @@ class SettingsForm extends ConfigFormBase {
       '#markup' => 'Current Default Code: ' . $this->token->replace($ivw_integration_settings->get('code_template'), array(), array('sanitize' => FALSE)),
     );
 
-    $form['settings'] = array(
+    $form['ivw_settings'] = array(
       '#type' => 'vertical_tabs',
       '#default_tab' => 'site_settings',
     );
@@ -71,16 +71,14 @@ class SettingsForm extends ConfigFormBase {
     $form['site_settings'] = array(
       '#type' => 'details',
       '#title' => t('Site settings'),
-      '#collapsible' => FALSE,
-      '#collapsed' => FALSE,
+      '#open' => TRUE,
       '#group' => 'ivw_settings',
     );
 
     $form['default_values'] = array(
       '#type' => 'details',
       '#title' => t('Default values'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+      '#open' => FALSE,
       '#group' => 'ivw_settings',
     );
 
