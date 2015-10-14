@@ -1,7 +1,6 @@
 <?php
 
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -37,8 +36,8 @@ function ivw_integration_form_node_form_alter(&$form, FormStateInterface $form_s
       $form[$fieldDefinition->getName()]['#group'] = 'ivw_integration_settings_override';
     }
   }
-  if($has_settings) {
-    if(isset($form['advanced'])) {
+  if ($has_settings) {
+    if (isset($form['advanced'])) {
       $form['advanced'] = array(
         '#type' => 'vertical_tabs',
         '#weight' => 99,
@@ -62,14 +61,14 @@ function ivw_integration_form_taxonomy_term_form_alter(&$form, FormStateInterfac
 }
 
 /**
- * Implements template_preprocess_html().
+ * Implements hook_page_attachments().
  */
 function ivw_integration_page_attachments(array &$page) {
   $trackerService = \Drupal::service('ivw_integration.tracker');
   $config = \Drupal::config('ivw_integration.settings');
   $tracker = $trackerService->getTrackingInformation();
   // site value is missing, do not render tag
-  if (empty($tracker['st'])){
+  if (empty($tracker['st'])) {
     return;
   }
 
@@ -84,6 +83,8 @@ function ivw_integration_page_attachments(array &$page) {
     ],
     'ivw_library'
   ];
+
+  $mobile_width = $config->get("mobile_width") ? 'var ivw_mobile_width = ' . $config->get("mobile_width")  : '';
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
@@ -93,13 +94,15 @@ function ivw_integration_page_attachments(array &$page) {
       '#value' => 'var iam_data = {
                   "st": "' . $tracker['st'] . '",
                   "cp": "' . $tracker['cp'] . '",
-                  "sv": "' . $tracker['sv'] . '"
-              }
-              if(window.innerWidth < ' . $config->get('ivw_mobile_width') . ') {
-                iam_data.cp = "' . $tracker['cpm']. '"
-              }
-              iom.c(iam_data, 1);',
+                  "sv": "' . $tracker['sv'] . '",
+                  "cpm": "' . $tracker['cpm'] . '"
+              };
+              var ivw_cpm = "' . $tracker['cpm'] . '";
+              ' . $mobile_width . ';',
     ],
     'ivw_call'
   ];
+
+  $page['#attached']['library'][] = 'ivw_integration/ivw_call';
+
 }
