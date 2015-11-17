@@ -148,33 +148,3 @@ function ivw_integration_get_setting($name) {
   $default_setting_key = $name . '_default';
   return \Drupal::config('ivw_integration.settings')->get($default_setting_key);
 }
-
-/**
- * @param $name
- * @param $fieldDefinition
- * @param $entity
- */
-function get_overridden_ivw_setting($name, $fieldDefinition, $entity) {
-  if ($fieldDefinition->getType() === 'ivw_integration_settings') {
-    $fieldName = $fieldDefinition->getName();
-    if (!empty($entity->$fieldName->get(0)->$name)) {
-      return $entity->$fieldName->get(0)->$name;
-    }
-  }
-}
-
-function get_overridden_ivw_setting_from_term($name, Term $term) {
-  foreach ($term->getFieldDefinitions() as $fieldDefinition) {
-    $override = get_overridden_ivw_setting($name, $fieldDefinition, $term);
-    if (isset($override)) {
-      return $override;
-    }
-  }
-
-  foreach (\Drupal::entityManager()->getStorage('taxonomy_term')->loadParents($term->id()) as $parent) {
-    $override =  get_overridden_ivw_setting_from_term($name, $parent);
-    if (isset($override)) {
-      return $override;
-    }
-  }
-}
