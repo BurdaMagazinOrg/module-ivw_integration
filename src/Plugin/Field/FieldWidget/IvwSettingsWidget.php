@@ -273,7 +273,8 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
   private function getParentSetting($name) {
     $parameters = ['node', 'media', 'taxonomy_term'];
     $entity = NULL;
-
+    $setting = NULL;
+    
     foreach($parameters as $parameter) {
       /**
        * @var ContentEntityInterface $entity
