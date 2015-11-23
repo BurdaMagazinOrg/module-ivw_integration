@@ -132,7 +132,9 @@ function ivw_integration_get_setting($name) {
           $fieldName = $fieldDefinition->getName();
           if($tid = $entity->$fieldName->target_id) {
             $term = Term::load($tid);
-            $termOverride = get_overridden_ivw_setting_from_term($name, $term);
+            if($term) {
+              $termOverride = get_overridden_ivw_setting_from_term($name, $term);
+            }
           }
         }
       }

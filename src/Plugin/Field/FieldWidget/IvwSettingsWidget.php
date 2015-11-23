@@ -287,8 +287,10 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
             $fieldName = $fieldDefinition->getName();
             if($tid = $entity->$fieldName->target_id) {
               $term = Term::load($tid);
-              if($setting = get_overridden_ivw_setting_from_term($name, $term)){
-                break;
+              if($term) {
+                if ($setting = get_overridden_ivw_setting_from_term($name, $term)) {
+                  break;
+                }
               }
             }
           }
