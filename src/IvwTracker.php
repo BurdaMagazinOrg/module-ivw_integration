@@ -154,7 +154,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * {@inheritdoc}
    */
   public function getCacheContexts() {
-    return ['url'];
+    return ['url.path'];
   }
 
   /**
