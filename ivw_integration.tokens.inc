@@ -111,6 +111,9 @@ function ivw_integration_get_setting($name) {
      * @var ContentEntityInterface $entity
      */
     if($entity = $currentRoutematch->getParameter($parameter)){
+      if (is_numeric($entity)) {
+        $entity = \Drupal\node\Entity\Node::load($entity);
+      }
       /**
        * Search for ivw_integration_settings field
        */
