@@ -97,6 +97,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   public function getTrackingInformation() {
     return array(
       'st' => $this->getSt(),
+      'mobile_st' => $this->getMobileSt(),
       'cp' => $this->getCp(),
       'cpm' => $this->getCpm(),
       'sv' => $this->getSv()
@@ -112,6 +113,17 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   protected function getSt() {
     return $this->configFactory->get('ivw_integration.settings')->get('site');
   }
+
+  /**
+   * Gets the mobile_st parameter.
+   *
+   * @return string
+   *  The value of the mobile_st parameter.
+   */
+  protected function getMobileSt() {
+    return $this->configFactory->get('ivw_integration.settings')->get('mobile_site');
+  }
+
 
   /**
    * Gets the cp parameter, possible overrides have been applied for

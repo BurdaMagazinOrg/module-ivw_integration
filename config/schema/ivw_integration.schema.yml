@@ -5,6 +5,9 @@ ivw_integration.settings:
     site:
       type: string
       label: 'IVW site name as used in st parameter'
+    site:
+      type: string
+      label: 'IVW mobile site name as used in st parameter'
     code_template:
       type: string
       label: 'IVW code template'

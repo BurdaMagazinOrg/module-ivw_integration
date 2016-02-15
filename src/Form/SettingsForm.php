@@ -89,7 +89,13 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $ivw_integration_settings->get('site'),
       '#description' => t('Site name as given by IVW, this is used as default for the "st" parameter in the iam_data object')
     );
-
+    $form['site_settings']['mobile_site'] = array(
+      '#type' => 'textfield',
+      '#title' => t('IVW Mobile Site name'),
+      '#required' => TRUE,
+      '#default_value' => $ivw_integration_settings->get('mobile_site'),
+      '#description' => t('Mobile site name as given by IVW, this is used as default for the "st" parameter in the iam_data object')
+    );
     $form['site_settings']['code_template'] = array(
       '#type' => 'textfield',
       '#title' => t('Code template'),
@@ -318,6 +324,7 @@ class SettingsForm extends ConfigFormBase {
     $values = $form_state->getValues();
     $this->config('ivw_integration.settings')
       ->set('site', $values['site'])
+      ->set('mobile_site', $values['mobile_site'])
       ->set('code_template', $values['code_template'])
       ->set('responsive', $values['responsive'])
       ->set('mobile_width', $values['mobile_width'])

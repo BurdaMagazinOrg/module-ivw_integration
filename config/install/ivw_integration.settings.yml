@@ -1,4 +1,5 @@
 site: ''
+mobile_site: ''
 code_template: '[ivw:offering]L[ivw:language]F[ivw:format]S[ivw:creator]H[ivw:homepage]D[ivw:delivery]A[ivw:app]P[ivw:paid]C[ivw:content]'
 responsive: 1
 mobile_width: 480
