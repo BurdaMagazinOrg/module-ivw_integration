@@ -17,6 +17,10 @@ function ivw_integration_theme() {
         'sv' => NULL
       ),
     ),
+    'ivw_call' => array(
+      'variables' => array(),
+      'template' => 'ivw-call',
+    ),
   );
 }
 
