@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "ivw_integration_call_block",
- *   admin_label = @Translation("IVW caal, place near opening <bod> tag"),
+ *   admin_label = @Translation("IVW call"),
  * )
  */
 class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface {
