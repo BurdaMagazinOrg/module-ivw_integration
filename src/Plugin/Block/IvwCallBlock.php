@@ -80,12 +80,8 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return array(
-      'ivw_tag' => array(
-        '#theme' => 'ivw_tag',
-        '#st' => $tracker['st'],
-        '#cp' => $tracker['cp'],
-        '#cpm' => $tracker['cpm'],
-        '#sv' => $tracker['sv']
+      'ivw_call' => array(
+        '#theme' => 'ivw_call'
       ),
     );
   }
