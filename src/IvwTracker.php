@@ -9,12 +9,11 @@ namespace Drupal\ivw_integration;
 
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Path\PathMatcher;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Utility\Token;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   /**
@@ -62,7 +61,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   /**
    * Generates IVW tracking information.
    *
-   * @param EntityManagerInterface $entity_manager
+   * @param EntityTypeManagerInterface $entity_manager
    *   The entity query object for taxonomy terms.
    * @param QueryFactory $query
    *   The entity query object for taxonomy terms.
@@ -76,7 +75,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *   Token service.
    */
   public function __construct(
-    EntityManagerInterface $entity_manager,
+    EntityTypeManagerInterface $entity_manager,
     QueryFactory $query,
     ConfigFactoryInterface $config_factory,
     PathMatcher $path_match,
