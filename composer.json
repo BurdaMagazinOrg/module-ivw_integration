@@ -1,5 +1,5 @@
  {
-  "name": "burdamagazinorg/iwv_integration",
+  "name": "drupal/iwv_integration",
   "type": "drupal-module",
   "description": "IVW Integration", 
   "license": "GPL-2.0+",
