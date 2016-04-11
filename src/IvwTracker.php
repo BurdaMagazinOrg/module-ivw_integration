@@ -157,7 +157,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *  The value of the sv parameter.
    */
   protected function getSv() {
-    return $this->pathMatch->isFrontPage() ? 'ke' : 'in';
+    return 'in';
   }
 
 
