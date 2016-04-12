@@ -99,9 +99,13 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
       'mobile_st' => $this->getMobileSt(),
       'cp' => $this->getCp(),
       'cpm' => $this->getCpm(),
-      'sv' => $this->getSv()
+      'sv' => $this->getSv(),
+      'mobile_sv' => $this->getMobileSv(),
     );
   }
+
+
+
 
   /**
    * Gets the st parameter.
@@ -154,12 +158,23 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * Gets the sv parameter.
    *
    * @return string
-   *  The value of the sv parameter.
+   *  The value of the sv parameter. If non is defined anywhere 'in' is returned as default
    */
   protected function getSv() {
-    return 'in';
+    $sv = $this->token->replace('[ivw:frabo]', array(), array('sanitize' => FALSE));
+    return empty($sv) ? 'in' : $sv;
   }
 
+  /**
+   * Gets the sv parameter for mobile devices.
+   *
+   * @return string
+   *  The value of the sv parameter. If non is defined anywhere 'mo' is returned as default
+   */
+  protected function getMobileSv() {
+    $sv = $this->token->replace('[ivw:frabo_mobile]', array(), array('sanitize' => FALSE));
+    return empty($sv) ? 'mo' : $sv;
+  }
 
   /**
    * {@inheritdoc}

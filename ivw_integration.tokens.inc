@@ -70,6 +70,14 @@ function ivw_integration_token_info() {
     'name' => t("Content"),
     'description' => t("Content category identifier."),
   );
+  $ivw['frabo'] = array(
+    'name' => t("Frabo control"),
+    'description' => t("The frabo control variable."),
+  );
+  $ivw['frabo_mobile'] = array(
+    'name' => t("Frabo mobile control"),
+    'description' => t("The frabo mobile control variable."),
+  );
 
   return array(
     'types' => array('ivw' => $type),

@@ -14,7 +14,7 @@ interface IvwTrackerInterface {
    * Gets all tracking parameters
    *
    * @return string[]
-   *   Array containing 'st', 'cp', 'cpm' and 'sv' parameters.
+   *   Array containing 'st', 'mobile_st', 'cp', 'cpm', 'sv' and 'mobile_sv' parameters.
    */
   function getTrackingInformation();
 }

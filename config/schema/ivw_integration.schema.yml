@@ -71,3 +71,15 @@ ivw_integration.settings:
     content_overridable:
       type: bool
       label: 'Content setting is overridable'
+    frabo:
+      type: string
+      label: 'Frabo control'
+    frabo_overridable:
+      type: bool
+      label: 'Frabo control is overridable'
+    frabo_mobile:
+      type: string
+      label: 'Frabo control for mobile'
+    frabo_mobile_overridable:
+      type: bool
+      label: 'Frabo control for mobile is overridable'

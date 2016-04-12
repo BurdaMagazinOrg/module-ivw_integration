@@ -91,6 +91,7 @@ function ivw_integration_page_attachments(array &$page) {
 
   $mobile_width = $config->get("mobile_width") ? 'var ivw_mobile_width = ' . $config->get("mobile_width")  : '';
   $mobile_site = $config->get("mobile_site") ? 'var ivw_mobile_site = "' . $config->get("mobile_site") . '"' : '';
+  $mobile_sv = 'var ivw_mobile_sv = "' . $tracker['mobile_sv'] . '"';
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
@@ -105,7 +106,8 @@ function ivw_integration_page_attachments(array &$page) {
               };
               var ivw_cpm = "' . $tracker['cpm'] . '";
               ' . $mobile_width . ';
-              ' . $mobile_site . ';',
+              ' . $mobile_site . ';
+              ' . $mobile_sv .';',
     ],
     'ivw_call'
   ];

@@ -133,6 +133,40 @@ class SettingsForm extends ConfigFormBase {
       '#description' => t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.')
     );
 
+
+    $form['default_values']['frabo_default'] = array(
+      '#type' => 'select',
+      '#options' => array(
+        'in' => t('in: Deliver questionaire (preferred implementation)'),
+        'i2' => t('i2: Alternative implementation, use this if in does not work'),
+        'ke' => t('ke: Do not deliver questionaire')
+      ),
+      '#title' => t('Frabo control'),
+      '#required' => TRUE,
+      '#default_value' => $ivw_integration_settings->get('frabo_default'),
+    );
+    $form['default_values']['frabo_overridable'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Frabo control is overrideable'),
+      '#default_value' => $ivw_integration_settings->get('frabo_overridable'),
+    );
+
+    $form['default_values']['frabo_mobile_default'] = array(
+      '#type' => 'select',
+      '#options' => array(
+        'mo' => t('mo: Mobile delivery of questionaire'),
+        'ke' => t('ke: Do not deliver questionaire')
+      ),
+      '#title' => t('Frabo mobile control'),
+      '#required' => TRUE,
+      '#default_value' => $ivw_integration_settings->get('frabo_mobile_default'),
+    );
+    $form['default_values']['frabo_mobile_overridable'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Frabo mobile control is overrideable'),
+      '#default_value' => $ivw_integration_settings->get('frabo_mobile_overridable'),
+    );
+
     $form['default_values']['offering_default'] = array(
       '#type' => 'textfield',
       '#title' => t('Fallback offering code'),
@@ -346,6 +380,10 @@ class SettingsForm extends ConfigFormBase {
       ->set('paid_overridable', $values['paid_overridable'])
       ->set('content_default', $values['content_default'])
       ->set('content_overridable', $values['content_overridable'])
+      ->set('frabo_default', $values['frabo_default'])
+      ->set('frabo_overridable', $values['frabo_overridable'])
+      ->set('frabo_mobile_default', $values['frabo_mobile_default'])
+      ->set('frabo_mobile_overridable', $values['frabo_mobile_overridable'])
       ->save();
   }
 
