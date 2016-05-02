@@ -4,10 +4,6 @@ namespace Drupal\ivw_integration;
 
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
-use Drupal\Core\Path\PathMatcher;
-use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Utility\Token;
 
 /**
@@ -16,19 +12,6 @@ use Drupal\Core\Utility\Token;
  * @package Drupal\ivw_integration
  */
 class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
-  /**
-   * The entity storage object for taxonomy terms.
-   *
-   * @var TermStorageInterface
-   */
-  protected $termStorage;
-
-  /**
-   * The entity query object for nodes.
-   *
-   * @var \Drupal\Core\Entity\Query\Sql\Query
-   */
-  protected $nodeQuery;
 
   /**
    * The config factory.
@@ -36,20 +19,6 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * @var ConfigFactoryInterface
    */
   protected $configFactory;
-
-  /**
-   * The current path match.
-   *
-   * @var PathMatcher
-   */
-  protected $pathMatch;
-
-  /**
-   * The current route match.
-   *
-   * @var CurrentRouteMatch
-   */
-  protected $currentRouteMatch;
 
   /**
    * The token object.
@@ -61,32 +30,16 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   /**
    * Generates IVW tracking information.
    *
-   * @param EntityTypeManagerInterface $entity_manager
-   *   The entity query object for taxonomy terms.
-   * @param QueryFactory $query
-   *   The entity query object for taxonomy terms.
    * @param ConfigFactoryInterface $config_factory
    *   The config factory service.
-   * @param PathMatcher $path_match
-   *   The current path match.
-   * @param CurrentRouteMatch $current_route_match
-   *   The current route match.
    * @param Token $token
    *   Token service.
    */
   public function __construct(
-    EntityTypeManagerInterface $entity_manager,
-    QueryFactory $query,
     ConfigFactoryInterface $config_factory,
-    PathMatcher $path_match,
-    CurrentRouteMatch $current_route_match,
     Token $token
   ) {
-    $this->termStorage = $entity_manager->getStorage('taxonomy_term');
-    $this->nodeQuery = $query->get('node');
     $this->configFactory = $config_factory;
-    $this->pathMatch = $path_match;
-    $this->currentRouteMatch = $current_route_match;
     $this->token = $token;
   }
 
