@@ -2,3 +2,6 @@ services:
   ivw_integration.tracker:
     class: Drupal\ivw_integration\IvwTracker
     arguments: ['@entity_type.manager', '@entity.query', '@config.factory', '@path.matcher', '@current_route_match', '@token']
+  ivw_integration.lookup:
+    class: Drupal\ivw_integration\IvwLookupService
+    arguments: ['@current_route_match', '@config.factory', '@entity_type.manager']
