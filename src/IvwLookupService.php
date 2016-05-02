@@ -37,14 +37,14 @@ class IvwLookupService implements IvwLookupServiceInterface {
   /**
    * @inheritdoc
    */
-  public function byCurrentRoute($name) {
-    return $this->byRoute($name, $this->currentRouteMatch);
+  public function byCurrentRoute($name, $parentsOnly = FALSE) {
+    return $this->byRoute($name, $this->currentRouteMatch, $parentsOnly);
   }
 
   /**
    * @inheritdoc
    */
-  public function byRoute($name, RouteMatchInterface $route) {
+  public function byRoute($name, RouteMatchInterface $route, $parentsOnly = FALSE) {
 
     $entity = NULL;
 
@@ -56,7 +56,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
         if (is_numeric($entity)) {
           $entity = Node::load($entity);
         }
-        $setting = $this->searchEntity($name, $entity);
+        $setting = $this->searchEntity($name, $entity, $parentsOnly);
         if ($setting !== NULL) {
           return $setting;
         }
@@ -69,8 +69,8 @@ class IvwLookupService implements IvwLookupServiceInterface {
   /**
    * @inheritdoc
    */
-  public function byEntity($name, ContentEntityInterface $entity) {
-    $result = $this->searchEntity($name, $entity);
+  public function byEntity($name, ContentEntityInterface $entity, $parentsOnly = FALSE) {
+    $result = $this->searchEntity($name, $entity, $parentsOnly);
     return $result !== NULL ? $result : $this->defaults($name);
   }
 
@@ -83,22 +83,25 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
-   * @param $name
+   * @param string $name
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   * @param boolean $parentsOnly
    *
    * @return string|NULL
    */
-  protected function searchEntity($name, ContentEntityInterface $entity) {
+  protected function searchEntity($name, ContentEntityInterface $entity, $parentsOnly = FALSE) {
     //  Search for ivw_integration_settings field
     foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
       $fieldType = $fieldDefinition->getType();
-      /*
-       * If settings are found, check if an overridden value for the
-       * given setting is found and return that
-       */
-      $overiddenSetting = $this->getOverriddenIvwSetting($name, $fieldDefinition, $entity);
-      if (isset($overiddenSetting)) {
-        return $overiddenSetting;
+      if (!$parentsOnly) {
+        /*
+         * If settings are found, check if an overridden value for the
+         * given setting is found and return that
+         */
+        $overiddenSetting = $this->getOverriddenIvwSetting($name, $fieldDefinition, $entity);
+        if (isset($overiddenSetting)) {
+          return $overiddenSetting;
+        }
       }
 
       // Check for fallback categories if no ivw_integration_setting is found
@@ -146,7 +149,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
         return $override;
       }
     }
-    
+
     return NULL;
   }
 

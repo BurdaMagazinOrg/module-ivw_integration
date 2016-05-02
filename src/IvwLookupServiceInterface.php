@@ -15,26 +15,29 @@ interface IvwLookupServiceInterface {
 
   /**
    * @param string $name
+   * @param boolean $parentsOnly
    *
    * @return string
    */
-  public function byCurrentRoute($name);
+  public function byCurrentRoute($name, $parentsOnly);
 
   /**
    * @param string $name
    * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
+   * @param boolean $parentsOnly
    *
    * @return string
    */
-  public function byRoute($name, RouteMatchInterface $routeMatch);
+  public function byRoute($name, RouteMatchInterface $routeMatch, $parentsOnly);
 
   /**
    * @param $name
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   * @param boolean $parentsOnly
    *
    * @return string
    */
-  public function byEntity($name, ContentEntityInterface $entity);
+  public function byEntity($name, ContentEntityInterface $entity, $parentsOnly);
 
   /**
    * @param string $name
