@@ -67,22 +67,6 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
-   * @inheritdoc
-   */
-  public function byEntity($name, ContentEntityInterface $entity, $parentsOnly = FALSE) {
-    $result = $this->searchEntity($name, $entity, $parentsOnly);
-    return $result !== NULL ? $result : $this->defaults($name);
-  }
-
-  /**
-   * @inheritdoc
-   */
-  public function byTerm($name, TermInterface $term) {
-    $result = $this->searchTerm($name, $term);
-    return $result !== NULL ? $result : $this->defaults($name);
-  }
-
-  /**
    * @param string $name
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
    * @param boolean $parentsOnly
@@ -126,6 +110,23 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
   /**
    * @param string $name
+   * @param \Drupal\Core\Field\FieldDefinitionInterface $fieldDefinition
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *
+   * @return string|null
+   */
+  protected function getOverriddenIvwSetting($name, FieldDefinitionInterface $fieldDefinition, ContentEntityInterface $entity) {
+    if ($fieldDefinition->getType() === 'ivw_integration_settings') {
+      $fieldName = $fieldDefinition->getName();
+      if (!empty($entity->$fieldName->get(0)->$name)) {
+        return $entity->$fieldName->get(0)->$name;
+      }
+    }
+    return NULL;
+  }
+
+  /**
+   * @param string $name
    * @param \Drupal\taxonomy\TermInterface $term
    *
    * @return string|null
@@ -155,23 +156,6 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
   /**
    * @param string $name
-   * @param \Drupal\Core\Field\FieldDefinitionInterface $fieldDefinition
-   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
-   *
-   * @return string|null
-   */
-  protected function getOverriddenIvwSetting($name, FieldDefinitionInterface $fieldDefinition, ContentEntityInterface $entity) {
-    if ($fieldDefinition->getType() === 'ivw_integration_settings') {
-      $fieldName = $fieldDefinition->getName();
-      if (!empty($entity->$fieldName->get(0)->$name)) {
-        return $entity->$fieldName->get(0)->$name;
-      }
-    }
-    return NULL;
-  }
-
-  /**
-   * @param string $name
    *
    * @return string|NULL
    */
@@ -179,12 +163,20 @@ class IvwLookupService implements IvwLookupServiceInterface {
     return $this->config->get($name . '_default');
   }
 
+  /**
+   * @inheritdoc
+   */
+  public function byEntity($name, ContentEntityInterface $entity, $parentsOnly = FALSE) {
+    $result = $this->searchEntity($name, $entity, $parentsOnly);
+    return $result !== NULL ? $result : $this->defaults($name);
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function byTerm($name, TermInterface $term) {
+    $result = $this->searchTerm($name, $term);
+    return $result !== NULL ? $result : $this->defaults($name);
+  }
+
 }
-
-
-
-
-
-
-
-

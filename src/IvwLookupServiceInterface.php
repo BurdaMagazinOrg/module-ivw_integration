@@ -46,5 +46,5 @@ interface IvwLookupServiceInterface {
    * @return string
    */
   public function byTerm($name, TermInterface $term);
-  
+
 }
