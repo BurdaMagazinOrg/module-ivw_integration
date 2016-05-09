@@ -37,14 +37,14 @@ class IvwLookupService implements IvwLookupServiceInterface {
   /**
    * @inheritdoc
    */
-  public function byCurrentRoute($name, $parentsOnly = FALSE) {
-    return $this->byRoute($name, $this->currentRouteMatch, $parentsOnly);
+  public function byCurrentRoute($name, $termsOnly = FALSE) {
+    return $this->byRoute($name, $this->currentRouteMatch, $termsOnly);
   }
 
   /**
    * @inheritdoc
    */
-  public function byRoute($name, RouteMatchInterface $route, $parentsOnly = FALSE) {
+  public function byRoute($name, RouteMatchInterface $route, $termsOnly = FALSE) {
 
     $entity = NULL;
 
@@ -56,7 +56,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
         if (is_numeric($entity)) {
           $entity = Node::load($entity);
         }
-        $setting = $this->searchEntity($name, $entity, $parentsOnly);
+        $setting = $this->searchEntity($name, $entity, $termsOnly);
         if ($setting !== NULL) {
           return $setting;
         }
@@ -67,17 +67,33 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
+   * @inheritdoc
+   */
+  public function byEntity($name, ContentEntityInterface $entity, $termsOnly = FALSE) {
+    $result = $this->searchEntity($name, $entity, $termsOnly);
+    return $result !== NULL ? $result : $this->defaults($name);
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function byTerm($name, TermInterface $term) {
+    $result = $this->searchTerm($name, $term);
+    return $result !== NULL ? $result : $this->defaults($name);
+  }
+
+  /**
    * @param string $name
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
-   * @param boolean $parentsOnly
+   * @param boolean $termsOnly
    *
    * @return string|NULL
    */
-  protected function searchEntity($name, ContentEntityInterface $entity, $parentsOnly = FALSE) {
+  protected function searchEntity($name, ContentEntityInterface $entity, $termsOnly = FALSE) {
     //  Search for ivw_integration_settings field
     foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
       $fieldType = $fieldDefinition->getType();
-      if (!$parentsOnly) {
+      if (!$termsOnly) {
         /*
          * If settings are found, check if an overridden value for the
          * given setting is found and return that
@@ -110,28 +126,11 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
   /**
    * @param string $name
-   * @param \Drupal\Core\Field\FieldDefinitionInterface $fieldDefinition
-   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
-   *
-   * @return string|null
-   */
-  protected function getOverriddenIvwSetting($name, FieldDefinitionInterface $fieldDefinition, ContentEntityInterface $entity) {
-    if ($fieldDefinition->getType() === 'ivw_integration_settings') {
-      $fieldName = $fieldDefinition->getName();
-      if (!empty($entity->$fieldName->get(0)->$name)) {
-        return $entity->$fieldName->get(0)->$name;
-      }
-    }
-    return NULL;
-  }
-
-  /**
-   * @param string $name
    * @param \Drupal\taxonomy\TermInterface $term
    *
    * @return string|null
    */
-  public function searchTerm($name, TermInterface $term) {
+  protected function searchTerm($name, TermInterface $term) {
     foreach ($term->getFieldDefinitions() as $fieldDefinition) {
       $override = $this->getOverriddenIvwSetting($name, $fieldDefinition, $term);
       if (isset($override)) {
@@ -156,27 +155,28 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
   /**
    * @param string $name
+   * @param \Drupal\Core\Field\FieldDefinitionInterface $fieldDefinition
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *
+   * @return string|null
+   */
+  protected function getOverriddenIvwSetting($name, FieldDefinitionInterface $fieldDefinition, ContentEntityInterface $entity) {
+    if ($fieldDefinition->getType() === 'ivw_integration_settings') {
+      $fieldName = $fieldDefinition->getName();
+      if (!empty($entity->$fieldName->get(0)->$name)) {
+        return $entity->$fieldName->get(0)->$name;
+      }
+    }
+    return NULL;
+  }
+
+  /**
+   * @param string $name
    *
    * @return string|NULL
    */
   private function defaults($name) {
     return $this->config->get($name . '_default');
-  }
-
-  /**
-   * @inheritdoc
-   */
-  public function byEntity($name, ContentEntityInterface $entity, $parentsOnly = FALSE) {
-    $result = $this->searchEntity($name, $entity, $parentsOnly);
-    return $result !== NULL ? $result : $this->defaults($name);
-  }
-
-  /**
-   * @inheritdoc
-   */
-  public function byTerm($name, TermInterface $term) {
-    $result = $this->searchTerm($name, $term);
-    return $result !== NULL ? $result : $this->defaults($name);
   }
 
 }
