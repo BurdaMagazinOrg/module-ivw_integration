@@ -6,7 +6,7 @@
  */
 
 use Drupal\Component\Utility\Xss;
-use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\TermInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
@@ -95,12 +95,39 @@ function ivw_integration_tokens($type, $tokens, array $data, array $options, Bub
   $replacements = array();
 
   if ($type == 'ivw') {
+
+    $lookupFrom = 'currentRoute';
+    if (isset($data['entity']) && $data['entity'] instanceof ContentEntityInterface) {
+      $lookupFrom = 'entity';
+    } else if (isset($data['term']) && $data['term'] instanceof TermInterface) {
+      $lookupFrom = 'term';
+    }
     /**
      * @var \Drupal\ivw_integration\IvwLookupServiceInterface $lookup
      */
     $lookup = \Drupal::service('ivw_integration.lookup');
     foreach ($tokens as $name => $original) {
-      $replacement = $lookup->byCurrentRoute($name);
+
+      switch ($lookupFrom) {
+
+        case 'currentRoute':
+          $replacement = $lookup->byCurrentRoute($name);
+          break;
+
+        case 'entity':
+          $replacement = $lookup->byEntity($name, $data['entity']);
+          break;
+
+        case 'term':
+          $replacement = $lookup->byTerm($name, $data['term']);
+          break;
+
+        default:
+          $replacement = NULL;
+          break;
+        
+      }
+
       $replacements[$original] = $sanitize ? Xss::filter($replacement) : $replacement;
     }
   }

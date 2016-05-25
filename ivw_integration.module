@@ -27,6 +27,12 @@ function ivw_integration_theme() {
       ),
       'template' => 'ivw-call',
     ),
+    'ivw_fia' => array(
+      'template' => 'ivw-fia',
+      'variables' => array(
+        'fia_frame_url' => NULL,
+      )
+    )
   );
 }
 
