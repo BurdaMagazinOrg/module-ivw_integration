@@ -91,19 +91,12 @@ class IvwFiaFormatter extends FormatterBase implements ContainerFactoryPluginInt
         )
       );
 
-      $elements[$delta] = array('#markup' => $url);
+      $elements[$delta] = array(
+        '#theme' => 'ivw_fia',
+        '#fia_frame_url' => $url,
+      );
     }
     return $elements;
-//    $entity = $items->getEntity();
-//    if ($entity instanceof ContentEntityInterface) {
-//      return array(
-//        'ivw_fia' => array(
-//          '#theme' => 'ivw_fia',
-//          '#item' => 'http://fbia.elle.dev.local?' .
-//        )
-//      );
-//    }
-//    return array();
   }
 
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {

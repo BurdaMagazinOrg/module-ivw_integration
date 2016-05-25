@@ -1,0 +1,8 @@
+{% extends "@infinite/node/node--article.html.twig" %}
+
+{% block content_body %}
+    {{ content.field_ivw }}
+    {% if content.field_paragraphs['#items'] %}
+        {{ content.field_paragraphs }}
+    {% endif %}
+{% endblock %}
