@@ -15,8 +15,8 @@
     while (match = search.exec(query)) {
         iam_data[decode(match[1])] = decode(match[2]);
     }
-
     iom.c(iam_data, 1);
+    window.console && console.log(iam_data);
 </script>
 </body>
 </html>

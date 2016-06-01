@@ -5,10 +5,9 @@
  * Contains Drupal\ivw_integration\Plugin\Field\FieldFormatter\IvwEmptyFormatter.
  */
 
-namespace Drupal\ivw_integration\Plugin\Field\FieldFormatter;
+namespace Drupal\ivw_integration_fia\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -22,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @FieldFormatter(
  *   id = "ivw_fia_formatter",
- *   module = "ivw_integration",
+ *   module = "ivw_integration_fia",
  *   label = @Translation("FIA formatter"),
  *   field_types = {
  *     "ivw_integration_settings"
@@ -79,9 +78,9 @@ class IvwFiaFormatter extends FormatterBase implements ContainerFactoryPluginInt
    */
   public function viewElements(FieldItemListInterface $items, $langcode = NULL) {
     $elements = array();
-
+    $fiaDomainPrefix = $this->configFactory->get('ivw_integration_fia.settings')->get('fia_domain_prefix');
     foreach ($items as $delta => $item) {
-      $url = 'http://fbia.elle.dev.local?' . http_build_query(array(
+      $url = $fiaDomainPrefix . '?' . http_build_query(array(
           'st' => $this->configFactory->get('ivw_integration.settings')->get('site'), // maybe use mew value here?
           'cp' => $this->tokenService ->replace(
             $this->configFactory->get('ivw_integration.settings')->get('code_template'),

@@ -5,12 +5,3 @@ ivw_integration.admin_settings:
     _title: 'IVW settings'
   requirements:
     _permission: 'administer site configuration'
-
-ivw_integration.fia_page:
-  path: '/test_path'
-  defaults:
-    _controller: '\Drupal\ivw_integration\Controller\IvwFiaPageController::content'
-    _title: 'Hello World'
-    _layout: FALSE
-  requirements:
-    _permission: 'access content'
