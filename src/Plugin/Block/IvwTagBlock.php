@@ -5,9 +5,7 @@ namespace Drupal\ivw_integration\Plugin\Block;
 use Drupal\ivw_integration\IvwTracker;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Url;
 use Drupal\Core\Cache\Cache;
-use Drupal\taxonomy\TermInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -35,7 +33,6 @@ class IvwTagBlock extends BlockBase implements ContainerFactoryPluginInterface {
    *   A configuration array containing information about the plugin instance.
    * @param string $plugin_id
    *   The plugin_id for the plugin instance.
-   *
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
    * @param \Drupal\ivw_integration\IvwTracker $ivw_tracker
@@ -74,8 +71,8 @@ class IvwTagBlock extends BlockBase implements ContainerFactoryPluginInterface {
   public function build() {
     $tracker = $this->ivwTracker->getTrackingInformation();
 
-    // site is missing, do not render tag
-    if (empty($tracker['st'])){
+    // Site is missing, do not render tag.
+    if (empty($tracker['st'])) {
       return [];
     }
 
@@ -85,7 +82,7 @@ class IvwTagBlock extends BlockBase implements ContainerFactoryPluginInterface {
         '#st' => $tracker['st'],
         '#cp' => $tracker['cp'],
         '#cpm' => $tracker['cpm'],
-        '#sv' => $tracker['sv']
+        '#sv' => $tracker['sv'],
       ),
     );
   }

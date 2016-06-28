@@ -5,11 +5,10 @@
  * Builds placeholder replacement tokens for ivw-related data.
  */
 
+use Drupal\node\Entity\Node;
 use Drupal\Component\Utility\Xss;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Render\BubbleableMetadata;
-use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Routing\CurrentRouteMatch;
 
 /**
  * Implements hook_token_info().
@@ -21,7 +20,7 @@ function ivw_integration_token_info() {
     'needs-data' => 'ivw',
   );
 
-  // Core comment tokens
+  // Core comment tokens.
   $ivw['site'] = array(
     'name' => t("IVW site name"),
     'description' => t("Site name as provided by IVW."),
@@ -105,54 +104,51 @@ function ivw_integration_tokens($type, $tokens, array $data, array $options, Bub
 }
 
 function ivw_integration_get_setting($name) {
-  /**
-   * @var CurrentRouteMatch $currentRoutematch
-   */
+  /* @var CurrentRouteMatch $currentRoutematch */
   $currentRoutematch = \Drupal::service('current_route_match');
-
 
   $parameters = ['node', 'media', 'taxonomy_term'];
 
   $entity = NULL;
-  foreach($parameters as $parameter){
-    /**
-     * @var ContentEntityInterface $entity
-     */
-    if($entity = $currentRoutematch->getParameter($parameter)){
+  foreach ($parameters as $parameter) {
+    /* @var ContentEntityInterface $entity */
+    if ($entity = $currentRoutematch->getParameter($parameter)) {
       if (is_numeric($entity)) {
-        $entity = \Drupal\node\Entity\Node::load($entity);
+        $entity = Node::load($entity);
       }
-      /**
+
+      /*
        * Search for ivw_integration_settings field
        */
       foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
-        $fieldType =  $fieldDefinition->getType();
-        /**
+        $fieldType = $fieldDefinition->getType();
+        /*
          * If settings are found, check if an overridden value for the
          * given setting is found and return that
          */
         $overiddenSetting = get_overridden_ivw_setting($name, $fieldDefinition, $entity);
-        if (isset($overiddenSetting)){
+        if (isset($overiddenSetting)) {
           return $overiddenSetting;
         }
 
-        /**
+        /*
          * Check for fallback categories if no ivw_integration_setting is found
          */
-        if(!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
+        if (!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
           $fieldName = $fieldDefinition->getName();
-          if($tid = $entity->$fieldName->target_id) {
+          if ($tid = $entity->$fieldName->target_id) {
             $term = Term::load($tid);
-            if($term) {
+            if ($term) {
               $termOverride = get_overridden_ivw_setting_from_term($name, $term);
             }
           }
         }
       }
-      /**
+
+      /*
        * If we not returned before, it is possible, that we found a termOverride
        */
-      if(isset($termOverride)) {
+      if (isset($termOverride)) {
         return $termOverride;
       }
     }

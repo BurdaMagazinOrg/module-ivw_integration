@@ -1,14 +1,8 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\ivw_integration\Plugin\Field\FieldType\IvwSettings.
- */
-
 namespace Drupal\ivw_integration\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldItemBase;
-use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\TypedData\DataDefinition;
 
@@ -24,6 +18,7 @@ use Drupal\Core\TypedData\DataDefinition;
  * )
  */
 class IvwSettings extends FieldItemBase {
+
   /**
    * {@inheritdoc}
    */
@@ -102,4 +97,5 @@ class IvwSettings extends FieldItemBase {
 
     return $properties;
   }
+
 }

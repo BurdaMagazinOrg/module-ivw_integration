@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ivw_integration\Plugin\Field\Widget\IvwSettingsWidget.
- */
-
 namespace Drupal\ivw_integration\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -112,7 +107,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '#options' => array(
           1 => 'Deutsch',
           2 => 'Andere Sprache, Inhalt prüfbar',
-          3 => 'Andere Sprache, Inhalt nicht prüfbar'
+          3 => 'Andere Sprache, Inhalt nicht prüfbar',
         ),
         '#title' => t('Language'),
         '#required' => FALSE,
@@ -128,7 +123,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
           1 => 'Bild/Text',
           2 => 'Audio',
           3 => 'Video',
-          4 => 'Andere dynamische Formate'
+          4 => 'Andere dynamische Formate',
         ),
         '#title' => t('Format'),
         '#required' => FALSE,
@@ -143,7 +138,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '#options' => array(
           1 => 'Redaktion',
           2 => 'User',
-          3 => 'Unbekannt'
+          3 => 'Unbekannt',
         ),
         '#title' => t('Creator'),
         '#required' => FALSE,
@@ -158,7 +153,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '#options' => array(
           1 => 'Homepage des Angebots',
           2 => 'Keine Homepage',
-          3 => 'Hompage der Fremddomains bei Multi-Angeboten'
+          3 => 'Hompage der Fremddomains bei Multi-Angeboten',
         ),
         '#title' => t('Homepage flag'),
         '#required' => FALSE,
@@ -173,7 +168,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '#options' => array(
           1 => 'Online',
           2 => 'Mobile',
-          3 => 'Connected TV'
+          3 => 'Connected TV',
         ),
         '#title' => t('Delivery'),
         '#required' => FALSE,
@@ -187,7 +182,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '#type' => 'select',
         '#options' => array(
           1 => 'App',
-          2 => 'Keine App'
+          2 => 'Keine App',
         ),
         '#title' => t('Fallback app flag'),
         '#required' => FALSE,
@@ -201,7 +196,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '#type' => 'select',
         '#options' => array(
           1 => 'Paid',
-          2 => 'Nicht zugeordnet'
+          2 => 'Nicht zugeordnet',
         ),
         '#title' => t('Paid flag'),
         '#required' => FALSE,
@@ -254,7 +249,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '39' => 'Jobs Rubrikenmärkte/Kleinanzeigen',
         '40' => 'Fahrzeuge Rubrikenmärkte/Kleinanzeigen',
         '41' => 'Sonstiges Rubrikenmärkte/Kleinanzeigen',
-        '42' => 'Sonstiges (Bereich E-Commerce)'
+        '42' => 'Sonstiges (Bereich E-Commerce)',
       );
       $element[$name] = array(
         '#type' => 'select',
@@ -274,20 +269,18 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
     $parameters = ['node', 'media', 'taxonomy_term'];
     $entity = NULL;
     $setting = NULL;
-    
-    foreach($parameters as $parameter) {
-      /**
-       * @var ContentEntityInterface $entity
-       */
-      if($entity = $this->currentRouteMatch->getParameter($parameter)){
+
+    foreach ($parameters as $parameter) {
+      /* @var ContentEntityInterface $entity */
+      if ($entity = $this->currentRouteMatch->getParameter($parameter)) {
         $setting = NULL;
         foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
           $fieldType = $fieldDefinition->getType();
-          if($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
+          if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
             $fieldName = $fieldDefinition->getName();
-            if($tid = $entity->$fieldName->target_id) {
+            if ($tid = $entity->$fieldName->target_id) {
               $term = Term::load($tid);
-              if($term) {
+              if ($term) {
                 if ($setting = get_overridden_ivw_setting_from_term($name, $term)) {
                   break;
                 }
@@ -297,10 +290,11 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         }
       }
     }
-    if(!$setting) {
+    if (!$setting) {
       $default_setting_key = $name . '_default';
       $setting = $this->configFactory->get('ivw_integration.settings')->get($default_setting_key);
     }
     return $setting;
   }
+
 }
