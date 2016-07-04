@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\ivw_integration\Plugin\Field\FieldFormatter\IvwEmptyFormatter.
- */
-
 namespace Drupal\ivw_integration\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FormatterBase;

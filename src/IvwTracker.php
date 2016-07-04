@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\ivw_integration\IvwTracker
- */
-
 namespace Drupal\ivw_integration;
 
 use Drupal\Core\Cache\CacheableDependencyInterface;
@@ -15,6 +10,11 @@ use Drupal\Core\Path\PathMatcher;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Utility\Token;
 
+/**
+ * Class IvwTracker.
+ *
+ * @package Drupal\ivw_integration
+ */
 class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   /**
    * The entity storage object for taxonomy terms.
@@ -91,7 +91,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   }
 
   /**
-   * @inherit
+   * {@inheritdoc}
    */
   public function getTrackingInformation() {
     return array(
@@ -104,14 +104,11 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
     );
   }
 
-
-
-
   /**
    * Gets the st parameter.
    *
    * @return string
-   *  The value of the st parameter.
+   *   The value of the st parameter.
    */
   protected function getSt() {
     return $this->configFactory->get('ivw_integration.settings')->get('site');
@@ -121,19 +118,19 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * Gets the mobile_st parameter.
    *
    * @return string
-   *  The value of the mobile_st parameter.
+   *   The value of the mobile_st parameter.
    */
   protected function getMobileSt() {
     return $this->configFactory->get('ivw_integration.settings')->get('mobile_site');
   }
 
-
   /**
-   * Gets the cp parameter, possible overrides have been applied for
-   * the current page.
+   * Gets the cp parameter.
+   *
+   * Possible overrides have been applied for the current page.
    *
    * @return string
-   *  The value of the cp parameter.
+   *   The value of the cp parameter.
    */
   protected function getCp() {
     $settings = $this->configFactory->get('ivw_integration.settings');
@@ -143,14 +140,15 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   }
 
   /**
-   * Gets the cpm parameter, possible overrides have been applied for
-   * the current page.
+   * Gets the cpm parameter.
+   *
+   * Possible overrides have been applied for the current page.
    *
    * @return string
-   *  The value of the cpm parameter.
+   *   The value of the cpm parameter.
    */
   protected function getCpm() {
-    // TODO: this is absolutely not generic
+    // TODO: this is absolutely not generic.
     return str_replace('D1A', 'D2A', $this->getCp());
   }
 
@@ -158,7 +156,8 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * Gets the sv parameter.
    *
    * @return string
-   *  The value of the sv parameter. If non is defined anywhere 'in' is returned as default
+   *   The value of the sv parameter.
+   *   If non is defined anywhere 'in' is returned as default.
    */
   protected function getSv() {
     $sv = $this->token->replace('[ivw:frabo]', array(), array('sanitize' => FALSE));
@@ -169,7 +168,8 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * Gets the sv parameter for mobile devices.
    *
    * @return string
-   *  The value of the sv parameter. If non is defined anywhere 'mo' is returned as default
+   *   The value of the sv parameter.
+   *   If non is defined anywhere 'mo' is returned as default.
    */
   protected function getMobileSv() {
     $sv = $this->token->replace('[ivw:frabo_mobile]', array(), array('sanitize' => FALSE));
@@ -198,5 +198,5 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   public function getCacheMaxAge() {
     return 0;
   }
-}
 
+}

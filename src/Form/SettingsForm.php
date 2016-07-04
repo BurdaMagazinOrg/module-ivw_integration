@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ivw_integration\Form\SettingsForm.
- */
-
 namespace Drupal\ivw_integration\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -24,15 +19,15 @@ class SettingsForm extends ConfigFormBase {
    */
   protected $token = array();
 
-   /**
+  /**
    * Constructs a \Drupal\ivw_integration\SettingsForm object.
    *
    * @param ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
-    * @param Token $token
-    *   The token object.
+   * @param Token $token
+   *   The token object.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Token $token){
+  public function __construct(ConfigFactoryInterface $config_factory, Token $token) {
     parent::__construct($config_factory);
     $this->token = $token;
   }
@@ -87,14 +82,14 @@ class SettingsForm extends ConfigFormBase {
       '#title' => t('IVW Site name'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('site'),
-      '#description' => t('Site name as given by IVW, this is used as default for the "st" parameter in the iam_data object')
+      '#description' => t('Site name as given by IVW, this is used as default for the "st" parameter in the iam_data object'),
     );
     $form['site_settings']['mobile_site'] = array(
       '#type' => 'textfield',
       '#title' => t('IVW Mobile Site name'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('mobile_site'),
-      '#description' => t('Mobile site name as given by IVW, this is used as default for the "st" parameter in the iam_data object')
+      '#description' => t('Mobile site name as given by IVW, this is used as default for the "st" parameter in the iam_data object'),
     );
     $form['site_settings']['code_template'] = array(
       '#type' => 'textfield',
@@ -116,7 +111,7 @@ class SettingsForm extends ConfigFormBase {
       '#title' => t('Site is responsive'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('responsive'),
-      '#description' => t('Responsive sites must handle mobile code in javascript, this is activated here.')
+      '#description' => t('Responsive sites must handle mobile code in javascript, this is activated here.'),
     );
 
     $form['site_settings']['mobile_width'] = array(
@@ -130,16 +125,15 @@ class SettingsForm extends ConfigFormBase {
       '#title' => t('Mobile width'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('mobile_width'),
-      '#description' => t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.')
+      '#description' => t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.'),
     );
-
 
     $form['default_values']['frabo_default'] = array(
       '#type' => 'select',
       '#options' => array(
         'in' => t('in: Deliver questionaire (preferred implementation)'),
         'i2' => t('i2: Alternative implementation, use this if in does not work'),
-        'ke' => t('ke: Do not deliver questionaire')
+        'ke' => t('ke: Do not deliver questionaire'),
       ),
       '#title' => t('Frabo control'),
       '#required' => TRUE,
@@ -155,7 +149,7 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'select',
       '#options' => array(
         'mo' => t('mo: Mobile delivery of questionaire'),
-        'ke' => t('ke: Do not deliver questionaire')
+        'ke' => t('ke: Do not deliver questionaire'),
       ),
       '#title' => t('Frabo mobile control'),
       '#required' => TRUE,
@@ -185,7 +179,7 @@ class SettingsForm extends ConfigFormBase {
       '#options' => array(
         1 => 'Deutsch',
         2 => 'Andere Sprache, Inhalt prüfbar',
-        3 => 'Andere Sprache, Inhalt nicht prüfbar'
+        3 => 'Andere Sprache, Inhalt nicht prüfbar',
       ),
       '#title' => t('Fallback language'),
       '#required' => TRUE,
@@ -202,7 +196,7 @@ class SettingsForm extends ConfigFormBase {
         1 => 'Bild/Text',
         2 => 'Audio',
         3 => 'Video',
-        4 => 'Andere dynamische Formate'
+        4 => 'Andere dynamische Formate',
       ),
       '#title' => t('Fallback format'),
       '#required' => TRUE,
@@ -218,7 +212,7 @@ class SettingsForm extends ConfigFormBase {
       '#options' => array(
         1 => 'Redaktion',
         2 => 'User',
-        3 => 'Unbekannt'
+        3 => 'Unbekannt',
       ),
       '#title' => t('Fallback creator'),
       '#required' => TRUE,
@@ -234,7 +228,7 @@ class SettingsForm extends ConfigFormBase {
       '#options' => array(
         1 => 'Homepage des Angebots',
         2 => 'Keine Homepage',
-        3 => 'Hompage der Fremddomains bei Multi-Angeboten'
+        3 => 'Hompage der Fremddomains bei Multi-Angeboten',
       ),
       '#title' => t('Fallback homepage flag'),
       '#required' => TRUE,
@@ -250,7 +244,7 @@ class SettingsForm extends ConfigFormBase {
       '#options' => array(
         1 => 'Online',
         2 => 'Mobile',
-        3 => 'Connected TV'
+        3 => 'Connected TV',
       ),
       '#title' => t('Fallback delivery'),
       '#required' => TRUE,
@@ -265,7 +259,7 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'select',
       '#options' => array(
         1 => 'App',
-        2 => 'Keine App'
+        2 => 'Keine App',
       ),
       '#title' => t('Fallback app flag'),
       '#required' => TRUE,
@@ -280,7 +274,7 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'select',
       '#options' => array(
         1 => 'Paid',
-        2 => 'Nicht zugeordnet'
+        2 => 'Nicht zugeordnet',
       ),
       '#title' => t('Fallback paid flag'),
       '#required' => TRUE,
@@ -335,7 +329,7 @@ class SettingsForm extends ConfigFormBase {
         '39' => 'Jobs Rubrikenmärkte/Kleinanzeigen',
         '40' => 'Fahrzeuge Rubrikenmärkte/Kleinanzeigen',
         '41' => 'Sonstiges Rubrikenmärkte/Kleinanzeigen',
-        '42' => 'Sonstiges (Bereich E-Commerce)'
+        '42' => 'Sonstiges (Bereich E-Commerce)',
       ),
       '#title' => t('Fallback content category'),
       '#required' => TRUE,
@@ -346,7 +340,6 @@ class SettingsForm extends ConfigFormBase {
       '#title' => t('Content category is overridable'),
       '#default_value' => $ivw_integration_settings->get('content_overridable'),
     );
-
 
     return parent::buildForm($form, $form_state);
   }
@@ -395,4 +388,5 @@ class SettingsForm extends ConfigFormBase {
       'ivw_integration.settings',
     ];
   }
+
 }
