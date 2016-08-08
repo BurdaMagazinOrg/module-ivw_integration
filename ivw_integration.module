@@ -102,7 +102,7 @@ function ivw_integration_page_attachments(array &$page) {
                   "st": "' . $tracker['st'] . '",
                   "cp": "' . $tracker['cp'] . '",
                   "sv": "' . $tracker['sv'] . '",
-                  "cpm": "' . $tracker['cpm'] . '"
+                  "co": ""
               };
               var ivw_cpm = "' . $tracker['cpm'] . '";
               ' . $mobile_width . ';
