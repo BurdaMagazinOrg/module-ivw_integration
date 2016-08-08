@@ -14,14 +14,6 @@ use Drupal\taxonomy\Entity\Term;
  */
 function ivw_integration_theme() {
   return array(
-    'ivw_tag' => array(
-      'variables' => array(
-        'st' => NULL,
-        'cp' => NULL,
-        'cpm' => NULL,
-        'sv' => NULL,
-      ),
-    ),
     'ivw_call' => array(
       'variables' => array(),
       'template' => 'ivw-call',
