@@ -1,7 +1,16 @@
 <script type="text/javascript">
-    if ( (window.innerWidth < ivw_mobile_width) || (/iPhone/.test(window.navigator.userAgent))) {
-        iam_data.cp = ivw_cpm;
-        iam_data.sv = ivw_mobile_sv;
+    var iam_data = {
+        "st": "{{ st }}",
+        "cp": "{{ cp }}",
+        "sv": "{{ sv }}",
+        "co": "{{ co }}"
+    };
+
+    if ( (window.innerWidth < {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
+        iam_data.cp = "{{ mobile_cp }}";
+        iam_data.sv = "{{ mobile_sv }}";
+
+        var ivw_mobile_site = "{{ mobile_st }}";
         if((typeof ivw_mobile_site !== 'undefined') && ivw_mobile_site != '') {
             iam_data.st = ivw_mobile_site;
         }
@@ -9,4 +18,5 @@
     if ((typeof window.iom !== 'undefined') && (typeof window.iom.c === 'function')) {
         iom.c(iam_data, 1);
     }
+    console.log(iam_data);
 </script>
