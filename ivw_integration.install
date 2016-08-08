@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Contains installation hooks for module.
+ */
+
 /**
  * Implements hook_requirements().
  */

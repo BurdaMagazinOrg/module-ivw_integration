@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains module hooks.
+ */
+
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\taxonomy\Entity\Term;
@@ -14,7 +19,7 @@ function ivw_integration_theme() {
         'st' => NULL,
         'cp' => NULL,
         'cpm' => NULL,
-        'sv' => NULL
+        'sv' => NULL,
       ),
     ),
     'ivw_call' => array(
@@ -32,7 +37,7 @@ function ivw_integration_form_node_form_alter(&$form, FormStateInterface $form_s
   $entity = $form_state->getBuildInfo()['callback_object']->getEntity();
   $has_settings = FALSE;
 
-  /**
+  /*
    * Set group of all ivw_integration_settings elements
    */
   foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
@@ -72,7 +77,7 @@ function ivw_integration_page_attachments(array &$page) {
   $trackerService = \Drupal::service('ivw_integration.tracker');
   $config = \Drupal::config('ivw_integration.settings');
   $tracker = $trackerService->getTrackingInformation();
-  // site value is missing, do not render tag
+  // Site value is missing, do not render tag.
   if (empty($tracker['st'])) {
     return;
   }
@@ -83,20 +88,20 @@ function ivw_integration_page_attachments(array &$page) {
     [
       '#tag' => 'script',
       '#attributes' => [
-        'src' => 'https://script.ioam.de/iam.js'
+        'src' => 'https://script.ioam.de/iam.js',
       ],
     ],
-    'ivw_library'
+    'ivw_library',
   ];
 
-  $mobile_width = $config->get("mobile_width") ? 'var ivw_mobile_width = ' . $config->get("mobile_width")  : '';
+  $mobile_width = $config->get("mobile_width") ? 'var ivw_mobile_width = ' . $config->get("mobile_width") : '';
   $mobile_site = $config->get("mobile_site") ? 'var ivw_mobile_site = "' . $config->get("mobile_site") . '"' : '';
   $mobile_sv = 'var ivw_mobile_sv = "' . $tracker['mobile_sv'] . '"';
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
       '#attributes' => [
-        'type' => 'text/javascript'
+        'type' => 'text/javascript',
       ],
       '#value' => 'var iam_data = {
                   "st": "' . $tracker['st'] . '",
@@ -107,9 +112,9 @@ function ivw_integration_page_attachments(array &$page) {
               var ivw_cpm = "' . $tracker['cpm'] . '";
               ' . $mobile_width . ';
               ' . $mobile_site . ';
-              ' . $mobile_sv .';',
+              ' . $mobile_sv . ';',
     ],
-    'ivw_call'
+    'ivw_call',
   ];
 
   $page['#attached']['library'][] = 'ivw_integration/ivw_call';
@@ -133,7 +138,7 @@ function get_overridden_ivw_setting_from_term($name, Term $term) {
   }
 
   foreach (\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($term->id()) as $parent) {
-    $override =  get_overridden_ivw_setting_from_term($name, $parent);
+    $override = get_overridden_ivw_setting_from_term($name, $parent);
     if (isset($override)) {
       return $override;
     }
