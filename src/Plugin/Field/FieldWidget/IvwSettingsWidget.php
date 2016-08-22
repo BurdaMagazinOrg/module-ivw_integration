@@ -265,7 +265,6 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
     return $element;
   }
 
-  // TODO see whether this works (only difference here would be the override lookup)
   private function getParentSetting($name) {
     return $this->lookupService->byCurrentRoute($name, TRUE);
   }
