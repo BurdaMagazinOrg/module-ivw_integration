@@ -9,6 +9,7 @@ use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
+use Drupal\ivw_integration\IvwLookupServiceInterface;
 use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -33,11 +34,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
   protected $configFactory;
 
   /**
-   * The current route.
-   *
-   * @var \Drupal\Core\Routing\CurrentRouteMatch
+   * @var \Drupal\ivw_integration\IvwLookupServiceInterface
    */
-  protected $currentRouteMatch;
+  protected $lookupService;
 
   /**
    * {@inheritdoc}
@@ -49,12 +48,12 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
     array $settings,
     array $third_party_settings,
     ConfigFactoryInterface $config_factory,
-    CurrentRouteMatch $current_route_match
+    IvwLookupServiceInterface $lookup_service
   ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
 
     $this->configFactory = $config_factory;
-    $this->currentRouteMatch = $current_route_match;
+    $this->lookupService = $lookup_service;
   }
 
   /**
@@ -73,7 +72,8 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
       $configuration['settings'],
       $configuration['third_party_settings'],
       $container->get('config.factory'),
-      $container->get('current_route_match'));
+      $container->get('ivw_integration.lookup')
+    );
   }
 
   /**
@@ -266,35 +266,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
   }
 
   private function getParentSetting($name) {
-    $parameters = ['node', 'media', 'taxonomy_term'];
-    $entity = NULL;
-    $setting = NULL;
-
-    foreach ($parameters as $parameter) {
-      /* @var ContentEntityInterface $entity */
-      if ($entity = $this->currentRouteMatch->getParameter($parameter)) {
-        $setting = NULL;
-        foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
-          $fieldType = $fieldDefinition->getType();
-          if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
-            $fieldName = $fieldDefinition->getName();
-            if ($tid = $entity->$fieldName->target_id) {
-              $term = Term::load($tid);
-              if ($term) {
-                if ($setting = get_overridden_ivw_setting_from_term($name, $term)) {
-                  break;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    if (!$setting) {
-      $default_setting_key = $name . '_default';
-      $setting = $this->configFactory->get('ivw_integration.settings')->get($default_setting_key);
-    }
-    return $setting;
+    return $this->lookupService->byCurrentRoute($name, TRUE);
   }
 
 }
