@@ -1,9 +1,4 @@
 <?php
-
-/**
- * Copyright © 2016 Valiton GmbH.
- */
-
 namespace Drupal\ivw_integration;
 
 
