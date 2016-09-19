@@ -128,6 +128,7 @@ class SettingsForm extends ConfigFormBase {
       '#description' => t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.'),
     );
 
+    $frabo_default = $ivw_integration_settings->get('frabo_default');
     $form['default_values']['frabo_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -137,14 +138,16 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Frabo control'),
       '#required' => TRUE,
-      '#default_value' => $ivw_integration_settings->get('frabo_default'),
+      '#default_value' => $frabo_default ? $frabo_default : 'in',
     );
+
     $form['default_values']['frabo_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Frabo control is overrideable'),
       '#default_value' => $ivw_integration_settings->get('frabo_overridable'),
     );
 
+    $mobile_frabo_default = $ivw_integration_settings->get('frabo_mobile_default');
     $form['default_values']['frabo_mobile_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -153,8 +156,9 @@ class SettingsForm extends ConfigFormBase {
       ),
       '#title' => t('Frabo mobile control'),
       '#required' => TRUE,
-      '#default_value' => $ivw_integration_settings->get('frabo_mobile_default'),
+      '#default_value' => $mobile_frabo_default ? $mobile_frabo_default : 'mo',
     );
+
     $form['default_values']['frabo_mobile_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Frabo mobile control is overrideable'),
@@ -169,11 +173,13 @@ class SettingsForm extends ConfigFormBase {
       '#description' => t('A single ivw site can have multiple offerings, they can be differentiated by different numbers.'),
       '#min' => 1,
     );
+
     $form['default_values']['offering_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Offering code is overrideable'),
       '#default_value' => $ivw_integration_settings->get('offering_overridable'),
     );
+
     $form['default_values']['language_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -185,11 +191,13 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('language_default'),
     );
+
     $form['default_values']['language_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Language code is overrideable'),
       '#default_value' => $ivw_integration_settings->get('language_overridable'),
     );
+
     $form['default_values']['format_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -202,11 +210,13 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('format_default'),
     );
+
     $form['default_values']['format_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Format code is overrideable'),
       '#default_value' => $ivw_integration_settings->get('format_overridable'),
     );
+
     $form['default_values']['creator_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -218,11 +228,13 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('creator_default'),
     );
+
     $form['default_values']['creator_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Creator code is overrideable'),
       '#default_value' => $ivw_integration_settings->get('creator_overridable'),
     );
+
     $form['default_values']['homepage_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -234,11 +246,13 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('homepage_default'),
     );
+
     $form['default_values']['homepage_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Homepage flag is overridable'),
       '#default_value' => $ivw_integration_settings->get('homepage_overridable'),
     );
+
     $form['default_values']['delivery_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -250,11 +264,13 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('delivery_default'),
     );
+
     $form['default_values']['delivery_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Delivery flag is overridable'),
       '#default_value' => $ivw_integration_settings->get('delivery_overridable'),
     );
+
     $form['default_values']['app_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -265,11 +281,13 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('app_default'),
     );
+
     $form['default_values']['app_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('App flag is overridable'),
       '#default_value' => $ivw_integration_settings->get('app_overridable'),
     );
+
     $form['default_values']['paid_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -280,11 +298,13 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('paid_default'),
     );
+
     $form['default_values']['paid_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Paid flag is overridable'),
       '#default_value' => $ivw_integration_settings->get('paid_overridable'),
     );
+
     $form['default_values']['content_default'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -335,6 +355,7 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('content_default'),
     );
+
     $form['default_values']['content_overridable'] = array(
       '#type' => 'checkbox',
       '#title' => t('Content category is overridable'),
