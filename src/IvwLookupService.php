@@ -10,8 +10,10 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\TermInterface;
-use Drupal\taxonomy\TermStorage;
 
+/**
+ *
+ */
 class IvwLookupService implements IvwLookupServiceInterface {
 
   const supportedEntityParameters = ['node', 'media', 'taxonomy_term'];
@@ -28,6 +30,9 @@ class IvwLookupService implements IvwLookupServiceInterface {
    */
   protected $entityTypeManager;
 
+  /**
+   *
+   */
   public function __construct(RouteMatchInterface $currentRouteMatch, ConfigFactoryInterface $configFactory, EntityTypeManagerInterface $entityTypeManager) {
     $this->currentRouteMatch = $currentRouteMatch;
     $this->config            = $configFactory->get('ivw_integration.settings');
@@ -60,7 +65,8 @@ class IvwLookupService implements IvwLookupServiceInterface {
         }
         if ($entity instanceof TermInterface) {
           $setting = $this->searchTerm($name, $entity, $parentOnly);
-        } else {
+        }
+        else {
           $setting = $this->searchEntity($name, $entity, $parentOnly);
         }
 
@@ -92,12 +98,12 @@ class IvwLookupService implements IvwLookupServiceInterface {
   /**
    * @param string $name
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
-   * @param boolean $parentOnly
+   * @param bool $parentOnly
    *
-   * @return string|NULL
+   * @return string|null
    */
   protected function searchEntity($name, ContentEntityInterface $entity, $parentOnly = FALSE) {
-    //  Search for ivw_integration_settings field
+    // Search for ivw_integration_settings field.
     foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
       $fieldType = $fieldDefinition->getType();
       if (!$parentOnly) {
@@ -111,7 +117,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
         }
       }
 
-      // Check for fallback categories if no ivw_integration_setting is found
+      // Check for fallback categories if no ivw_integration_setting is found.
       if (!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
         $fieldName = $fieldDefinition->getName();
         if ($tid = $entity->$fieldName->target_id) {
@@ -123,7 +129,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
       }
     }
 
-    // If we did not return before, it is possible that we found a termOverride
+    // If we did not return before, it is possible that we found a termOverride.
     if (isset($termOverride)) {
       return $termOverride;
     }
@@ -183,7 +189,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
   /**
    * @param string $name
    *
-   * @return string|NULL
+   * @return string|null
    */
   private function defaults($name) {
     return $this->config->get($name . '_default');

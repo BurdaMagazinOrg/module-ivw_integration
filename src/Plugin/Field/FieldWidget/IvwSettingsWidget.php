@@ -8,9 +8,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\ivw_integration\IvwLookupServiceInterface;
-use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -265,6 +263,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
     return $element;
   }
 
+  /**
+   *
+   */
   private function getParentSetting($name) {
     return $this->lookupService->byCurrentRoute($name, TRUE);
   }

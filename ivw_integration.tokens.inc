@@ -9,7 +9,6 @@ use Drupal\Component\Utility\Xss;
 use Drupal\taxonomy\TermInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Routing\CurrentRouteMatch;
 
 /**
  * Implements hook_token_info().
@@ -99,7 +98,8 @@ function ivw_integration_tokens($type, $tokens, array $data, array $options, Bub
     $lookupFrom = 'currentRoute';
     if (isset($data['entity']) && $data['entity'] instanceof ContentEntityInterface) {
       $lookupFrom = 'entity';
-    } else if (isset($data['term']) && $data['term'] instanceof TermInterface) {
+    }
+    elseif (isset($data['term']) && $data['term'] instanceof TermInterface) {
       $lookupFrom = 'term';
     }
     /**
@@ -125,7 +125,7 @@ function ivw_integration_tokens($type, $tokens, array $data, array $options, Bub
         default:
           $replacement = NULL;
           break;
-        
+
       }
 
       $replacements[$original] = $sanitize ? Xss::filter($replacement) : $replacement;
