@@ -18,6 +18,7 @@ addons:
 branches:
   only:
     - /^8\.([0-9]+|x)\-[0-9]+\.([0-9]+|x)$/
+    - feature/2820072-phpcs-eslint
 
 env:
   global:
