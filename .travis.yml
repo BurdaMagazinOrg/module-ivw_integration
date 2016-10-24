@@ -105,21 +105,21 @@ before_install:
   - bash -x -e ./scripts/travis/test-source-code.sh
 
   # Continue with Drupal Tests
-  #- cd ./tests
-  #- composer global require "lionsad/drupal_ti:1.*"
-  #- drupal-ti before_install
+  - cd ./tests
+  - composer global require "lionsad/drupal_ti:1.*"
+  - drupal-ti before_install
 
 install:
-  #- drupal-ti install
+  - drupal-ti install
 
 before_script:
-  #- drupal-ti before_script
+  - drupal-ti before_script
 
 script:
-  #- drupal-ti script
+  - drupal-ti script
 
 after_script:
-  #- drupal-ti after_script
+  - drupal-ti after_script
 
 notifications:
   email: false
