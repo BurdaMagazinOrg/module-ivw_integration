@@ -18,7 +18,7 @@ use Drupal\taxonomy\TermInterface;
  */
 class IvwLookupService implements IvwLookupServiceInterface {
 
-  const SUPPORTEDENTITYPARAMETERS = ['node', 'media', 'taxonomy_term'];
+  const SUPPORTED_ENTITY_PARAMETERS = ['node', 'media', 'taxonomy_term'];
   /**
    * The route match.
    *
@@ -68,7 +68,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
     $entity = NULL;
 
-    foreach (static::SUPPORTEDENTITYPARAMETERS as $parameter) {
+    foreach (static::SUPPORTED_ENTITY_PARAMETERS as $parameter) {
       /* @var ContentEntityInterface $entity */
       if ($entity = $route->getParameter($parameter)) {
 
