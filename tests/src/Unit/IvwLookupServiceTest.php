@@ -109,7 +109,7 @@ class IvwLookupServiceTest extends UnitTestCase {
    *   currently examined entity WOULD inherit if it had
    *   no property for $name in its own ivw settings.
    * @param string $expected
-   *   Expected result of processRiddleResponse execution.
+   *   Expected result of byCurrentRoute execution.
    *
    * @dataProvider byCurrentRouteDataProvider
    */

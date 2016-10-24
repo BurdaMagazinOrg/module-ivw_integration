@@ -27,8 +27,8 @@ env:
     - PATH="$PATH:$HOME/.composer/vendor/bin"
 
     # Configuration variables.
-    - DRUPAL_TI_MODULE_NAME="riddle_marketplace"
-    - DRUPAL_TI_SIMPLETEST_GROUP="riddle_marketplace"
+    - DRUPAL_TI_MODULE_NAME="ivw_integration"
+    - DRUPAL_TI_SIMPLETEST_GROUP=$DRUPAL_TI_MODULE_NAME
 
     # Define runners and environment vars to include before and after the
     # main runners / environment vars.
