@@ -65,40 +65,40 @@ class SettingsForm extends ConfigFormBase {
 
     $form['site_settings'] = array(
       '#type' => 'details',
-      '#title' => t('Site settings'),
+      '#title' => $this->t('Site settings'),
       '#open' => TRUE,
       '#group' => 'ivw_settings',
     );
 
     $form['default_values'] = array(
       '#type' => 'details',
-      '#title' => t('Default values'),
+      '#title' => $this->t('Default values'),
       '#open' => FALSE,
       '#group' => 'ivw_settings',
     );
 
     $form['site_settings']['site'] = array(
       '#type' => 'textfield',
-      '#title' => t('IVW Site name'),
+      '#title' => $this->t('IVW Site name'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('site'),
-      '#description' => t('Site name as given by IVW, this is used as default for the "st" parameter in the iam_data object'),
+      '#description' => $this->t('Site name as given by IVW, this is used as default for the "st" parameter in the iam_data object'),
     );
     $form['site_settings']['mobile_site'] = array(
       '#type' => 'textfield',
-      '#title' => t('IVW Mobile Site name'),
+      '#title' => $this->t('IVW Mobile Site name'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('mobile_site'),
-      '#description' => t('Mobile site name as given by IVW, this is used as default for the "st" parameter in the iam_data object'),
+      '#description' => $this->t('Mobile site name as given by IVW, this is used as default for the "st" parameter in the iam_data object'),
     );
     $form['site_settings']['code_template'] = array(
       '#type' => 'textfield',
-      '#title' => t('Code template'),
+      '#title' => $this->t('Code template'),
       '#required' => TRUE,
       '#maxlength' => 256,
       '#size' => 128,
       '#default_value' => $ivw_integration_settings->get('code_template'),
-      '#description' => t('Code template, for creating the actual ivw code.'),
+      '#description' => $this->t('Code template, for creating the actual ivw code.'),
     );
 
     $form['site_settings']['code_template_token_tree'] = array(
@@ -108,10 +108,10 @@ class SettingsForm extends ConfigFormBase {
 
     $form['site_settings']['responsive'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Site is responsive'),
+      '#title' => $this->t('Site is responsive'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('responsive'),
-      '#description' => t('Responsive sites must handle mobile code in javascript, this is activated here.'),
+      '#description' => $this->t('Responsive sites must handle mobile code in javascript, this is activated here.'),
     );
 
     $form['site_settings']['mobile_width'] = array(
@@ -122,28 +122,28 @@ class SettingsForm extends ConfigFormBase {
           ':input[name="ivw_responsive"]' => array('checked' => FALSE),
         ),
       ),
-      '#title' => t('Mobile width'),
+      '#title' => $this->t('Mobile width'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('mobile_width'),
-      '#description' => t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.'),
+      '#description' => $this->t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.'),
     );
 
     $frabo_default = $ivw_integration_settings->get('frabo_default');
     $form['default_values']['frabo_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        'in' => t('in: Deliver questionaire (preferred implementation)'),
-        'i2' => t('i2: Alternative implementation, use this if in does not work'),
-        'ke' => t('ke: Do not deliver questionaire'),
+        'in' => $this->t('in: Deliver questionaire (preferred implementation)'),
+        'i2' => $this->t('i2: Alternative implementation, use this if in does not work'),
+        'ke' => $this->t('ke: Do not deliver questionaire'),
       ),
-      '#title' => t('Frabo control'),
+      '#title' => $this->t('Frabo control'),
       '#required' => TRUE,
       '#default_value' => $frabo_default ? $frabo_default : 'in',
     );
 
     $form['default_values']['frabo_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Frabo control is overrideable'),
+      '#title' => $this->t('Frabo control is overrideable'),
       '#default_value' => $ivw_integration_settings->get('frabo_overridable'),
     );
 
@@ -151,214 +151,214 @@ class SettingsForm extends ConfigFormBase {
     $form['default_values']['frabo_mobile_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        'mo' => t('mo: Mobile delivery of questionaire'),
-        'ke' => t('ke: Do not deliver questionaire'),
+        'mo' => $this->t('mo: Mobile delivery of questionaire'),
+        'ke' => $this->t('ke: Do not deliver questionaire'),
       ),
-      '#title' => t('Frabo mobile control'),
+      '#title' => $this->t('Frabo mobile control'),
       '#required' => TRUE,
       '#default_value' => $mobile_frabo_default ? $mobile_frabo_default : 'mo',
     );
 
     $form['default_values']['frabo_mobile_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Frabo mobile control is overrideable'),
+      '#title' => $this->t('Frabo mobile control is overrideable'),
       '#default_value' => $ivw_integration_settings->get('frabo_mobile_overridable'),
     );
 
     $form['default_values']['offering_default'] = array(
       '#type' => 'textfield',
-      '#title' => t('Fallback offering code'),
+      '#title' => $this->t('Fallback offering code'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('offering_default'),
-      '#description' => t('A single ivw site can have multiple offerings, they can be differentiated by different numbers.'),
+      '#description' => $this->t('A single ivw site can have multiple offerings, they can be differentiated by different numbers.'),
       '#min' => 1,
     );
 
     $form['default_values']['offering_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Offering code is overrideable'),
+      '#title' => $this->t('Offering code is overrideable'),
       '#default_value' => $ivw_integration_settings->get('offering_overridable'),
     );
 
     $form['default_values']['language_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        1 => 'Deutsch',
-        2 => 'Andere Sprache, Inhalt prüfbar',
-        3 => 'Andere Sprache, Inhalt nicht prüfbar',
+        1 => $this->t('German'),
+        2 => $this->t('Other language, content is verifiable'),
+        3 => $this->t('Other language, content is not verifiable'),
       ),
-      '#title' => t('Fallback language'),
+      '#title' => $this->t('Fallback language'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('language_default'),
     );
 
     $form['default_values']['language_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Language code is overrideable'),
+      '#title' => $this->t('Language code is overrideable'),
       '#default_value' => $ivw_integration_settings->get('language_overridable'),
     );
 
     $form['default_values']['format_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        1 => 'Bild/Text',
-        2 => 'Audio',
-        3 => 'Video',
-        4 => 'Andere dynamische Formate',
+        1 => $this->t('Image/Text'),
+        2 => $this->t('Audio'),
+        3 => $this->t('Video'),
+        4 => $this->t('Other dynamic format'),
       ),
-      '#title' => t('Fallback format'),
+      '#title' => $this->t('Fallback format'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('format_default'),
     );
 
     $form['default_values']['format_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Format code is overrideable'),
+      '#title' => $this->t('Format code is overrideable'),
       '#default_value' => $ivw_integration_settings->get('format_overridable'),
     );
 
     $form['default_values']['creator_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        1 => 'Redaktion',
-        2 => 'User',
-        3 => 'Unbekannt',
+        1 => $this->t('Editors'),
+        2 => $this->t('User'),
+        3 => $this->t('Unknown'),
       ),
-      '#title' => t('Fallback creator'),
+      '#title' => $this->t('Fallback creator'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('creator_default'),
     );
 
     $form['default_values']['creator_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Creator code is overrideable'),
+      '#title' => $this->t('Creator code is overrideable'),
       '#default_value' => $ivw_integration_settings->get('creator_overridable'),
     );
 
     $form['default_values']['homepage_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        1 => 'Homepage des Angebots',
-        2 => 'Keine Homepage',
-        3 => 'Hompage der Fremddomains bei Multi-Angeboten',
+        1 => $this->t('Homepage of the site'),
+        2 => $this->t('No Homepage'),
+        3 => $this->t('Hompage of foreign site'),
       ),
-      '#title' => t('Fallback homepage flag'),
+      '#title' => $this->t('Fallback homepage flag'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('homepage_default'),
     );
 
     $form['default_values']['homepage_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Homepage flag is overridable'),
+      '#title' => $this->t('Homepage flag is overridable'),
       '#default_value' => $ivw_integration_settings->get('homepage_overridable'),
     );
 
     $form['default_values']['delivery_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        1 => 'Online',
-        2 => 'Mobile',
-        3 => 'Connected TV',
+        1 => $this->t('Online'),
+        2 => $this->t('Mobile'),
+        3 => $this->t('Connected TV'),
       ),
-      '#title' => t('Fallback delivery'),
+      '#title' => $this->t('Fallback delivery'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('delivery_default'),
     );
 
     $form['default_values']['delivery_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Delivery flag is overridable'),
+      '#title' => $this->t('Delivery flag is overridable'),
       '#default_value' => $ivw_integration_settings->get('delivery_overridable'),
     );
 
     $form['default_values']['app_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        1 => 'App',
-        2 => 'Keine App',
+        1 => $this->t('App'),
+        2 => $this->t('No App'),
       ),
-      '#title' => t('Fallback app flag'),
+      '#title' => $this->t('Fallback app flag'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('app_default'),
     );
 
     $form['default_values']['app_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('App flag is overridable'),
+      '#title' => $this->t('App flag is overridable'),
       '#default_value' => $ivw_integration_settings->get('app_overridable'),
     );
 
     $form['default_values']['paid_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        1 => 'Paid',
-        2 => 'Nicht zugeordnet',
+        1 => $this->t('Paid'),
+        2 => $this->t('Not assigned'),
       ),
-      '#title' => t('Fallback paid flag'),
+      '#title' => $this->t('Fallback paid flag'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('paid_default'),
     );
 
     $form['default_values']['paid_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Paid flag is overridable'),
+      '#title' => $this->t('Paid flag is overridable'),
       '#default_value' => $ivw_integration_settings->get('paid_overridable'),
     );
 
     $form['default_values']['content_default'] = array(
       '#type' => 'select',
       '#options' => array(
-        '01' => 'Nachrichten',
-        '02' => 'Sport',
-        '03' => 'Entertainment/Boulevard/Stars/Film/Musik',
-        '04' => 'Fashion/Beauty',
-        '05' => 'Familie/Kinder/Lebenshilfe',
-        '06' => 'Liebe/Psychologie/Beziehungen',
-        '07' => 'Fahrzeuge/Verkehr/Mobilität',
-        '08' => 'Reise/Touristik',
-        '09' => 'Computer',
-        '10' => 'Consumer Electronics',
-        '11' => 'Telekommunikation/Internetdienste',
-        '12' => 'Spiele',
-        '13' => 'Wohnen/Immobilien/Garten/Haushalt',
-        '14' => 'Wirtschaft/Finanzen/Job/Karriere',
-        '15' => 'Gesundheit',
-        '16' => 'Essen/Trinken',
-        '17' => 'Kunst/Kultur/Literatur',
-        '18' => 'Erotik',
-        '19' => 'Wissenschaft/Bildung/Natur/Umwelt',
-        '20' => 'Angebotsinformation',
-        '21' => 'Vermischtes (multithematisch)',
-        '22' => 'Sonstiges (monothematisch)',
-        '23' => 'Übersichtsseite zu Spiele',
-        '24' => 'Casual Games',
-        '25' => 'Core Games',
-        '26' => 'Sonstiges (Bereich Spiele)',
-        '27' => 'Social Networking - Privat',
-        '28' => 'Social Networking - Business',
-        '29' => 'Partnersuche/Dating',
-        '30' => 'Newsletter',
-        '31' => 'E-Mail/SMS/E-Cards',
-        '32' => 'Messenger/Chat',
-        '33' => 'Sonstiges (Bereich Networking/Kommunikation',
-        '34' => 'Suchmaschinen',
-        '35' => 'Verzeichnisse/Auskunftsdienste',
-        '36' => 'Sonstiges (Bereich Suchmaschinen/Verzeichnisse)',
-        '37' => 'Onlineshops/Shopping Mall/Auktionen/B2bMarktplätze',
-        '38' => 'Immobilien Rubrikenmärkte/Kleinanzeigen',
-        '39' => 'Jobs Rubrikenmärkte/Kleinanzeigen',
-        '40' => 'Fahrzeuge Rubrikenmärkte/Kleinanzeigen',
-        '41' => 'Sonstiges Rubrikenmärkte/Kleinanzeigen',
-        '42' => 'Sonstiges (Bereich E-Commerce)',
+        '01' => $this->t('News'),
+        '02' => $this->t('Sport'),
+        '03' => $this->t('Entertainment/Boulevard/Stars/Film/Music'),
+        '04' => $this->t('Fashion/Beauty'),
+        '05' => $this->t('Family/Children/Counseling'),
+        '06' => $this->t('Life/Psychology/Relationships'),
+        '07' => $this->t('Cars/Traffic/Mobility'),
+        '08' => $this->t('Travel/Tourism'),
+        '09' => $this->t('Computer'),
+        '10' => $this->t('Consumer Electronics'),
+        '11' => $this->t('Telecommunication/Internet services'),
+        '12' => $this->t('Games'),
+        '13' => $this->t('Living/Real estate/Garden/Home'),
+        '14' => $this->t('Economy/Finance/Job/Career'),
+        '15' => $this->t('Health'),
+        '16' => $this->t('Food/Beverages'),
+        '17' => $this->t('Art/Culture/Litarature'),
+        '18' => $this->t('Erotic'),
+        '19' => $this->t('Science/Education/Nature/Environment'),
+        '20' => $this->t('Information about the offer'),
+        '21' => $this->t('Miscellaneous'),
+        '22' => $this->t('Remaining topics'),
+        '23' => $this->t('Games sitemap'),
+        '24' => $this->t('Casual Games'),
+        '25' => $this->t('Core Games'),
+        '26' => $this->t('Remaining topics (Games)'),
+        '27' => $this->t('Social Networking - Private'),
+        '28' => $this->t('Social Networking - Business'),
+        '29' => $this->t('Dating'),
+        '30' => $this->t('Newsletter'),
+        '31' => $this->t('E-Mail/SMS/E-Cards'),
+        '32' => $this->t('Messenger/Chat'),
+        '33' => $this->t('Remaining topics (Networking/Communikation'),
+        '34' => $this->t('Searchengine'),
+        '35' => $this->t('Directories/Information service'),
+        '36' => $this->t('Remaining topics (Searchengine/Directories)'),
+        '37' => $this->t('Onlineshops/Shopping Mall/Auctions/B2b Marketplace'),
+        '38' => $this->t('Real estate classifieds'),
+        '39' => $this->t('Jobs classifieds'),
+        '40' => $this->t('Cars classifieds'),
+        '41' => $this->t('Miscellaneous classifieds'),
+        '42' => $this->t('Miscellaneous (E-Commerce)'),
       ),
-      '#title' => t('Fallback content category'),
+      '#title' => $this->t('Fallback content category'),
       '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('content_default'),
     );
 
     $form['default_values']['content_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Content category is overridable'),
+      '#title' => $this->t('Content category is overridable'),
       '#default_value' => $ivw_integration_settings->get('content_overridable'),
     );
 

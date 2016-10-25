@@ -90,7 +90,6 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
       return [];
     }
 
-
     $mobile_width = $config->get("mobile_width") ? $config->get("mobile_width") : '';
     $mobile_site = $config->get("mobile_site") ? $config->get("mobile_site") : '';
     $mobile_sv = $tracker['mobile_sv'];
@@ -98,14 +97,15 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
     return array(
       'ivw_call' => array(
         '#theme' => 'ivw_call',
-        '#st' =>  $tracker['st'],
-        '#cp' =>  $tracker['cp'],
-        '#sv' =>  $tracker['sv'],
-        '#co' => '', # not yet configurable
+        '#st' => $tracker['st'],
+        '#cp' => $tracker['cp'],
+        '#sv' => $tracker['sv'],
+    // Not yet configurable.
+        '#co' => '',
         '#mobile_cp' => $tracker['cpm'],
         '#mobile_st' => $mobile_site,
         '#mobile_sv' => $mobile_sv,
-        '#mobile_width' => $mobile_width
+        '#mobile_width' => $mobile_width,
       ),
     );
   }

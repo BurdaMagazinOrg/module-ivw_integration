@@ -8,9 +8,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\ivw_integration\IvwLookupServiceInterface;
-use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -34,6 +32,8 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
   protected $configFactory;
 
   /**
+   * The IVW lookup service.
+   *
    * @var \Drupal\ivw_integration\IvwLookupServiceInterface
    */
   protected $lookupService;
@@ -87,7 +87,6 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
     FormStateInterface $form_state
   ) {
     $settings = $this->configFactory->get('ivw_integration.settings');
-    $empty_option = 'Parent value (:value)';
 
     if ($settings->get('offering_overridable')) {
       $element['offering'] = array(
@@ -105,9 +104,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
       $element['language'] = array(
         '#type' => 'select',
         '#options' => array(
-          1 => 'Deutsch',
-          2 => 'Andere Sprache, Inhalt prüfbar',
-          3 => 'Andere Sprache, Inhalt nicht prüfbar',
+          1 => $this->t('German'),
+          2 => $this->t('Other language, content is verifiable'),
+          3 => $this->t('Other language, content is not verifiable'),
         ),
         '#title' => t('Language'),
         '#required' => FALSE,
@@ -120,10 +119,10 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
       $element['format'] = array(
         '#type' => 'select',
         '#options' => array(
-          1 => 'Bild/Text',
-          2 => 'Audio',
-          3 => 'Video',
-          4 => 'Andere dynamische Formate',
+          1 => $this->t('Image/Text'),
+          2 => $this->t('Audio'),
+          3 => $this->t('Video'),
+          4 => $this->t('Other dynamic format'),
         ),
         '#title' => t('Format'),
         '#required' => FALSE,
@@ -136,9 +135,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
       $element['creator'] = array(
         '#type' => 'select',
         '#options' => array(
-          1 => 'Redaktion',
-          2 => 'User',
-          3 => 'Unbekannt',
+          1 => $this->t('Editors'),
+          2 => $this->t('User'),
+          3 => $this->t('Unknown'),
         ),
         '#title' => t('Creator'),
         '#required' => FALSE,
@@ -151,9 +150,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
       $element['homepage'] = array(
         '#type' => 'select',
         '#options' => array(
-          1 => 'Homepage des Angebots',
-          2 => 'Keine Homepage',
-          3 => 'Hompage der Fremddomains bei Multi-Angeboten',
+          1 => $this->t('Homepage of the site'),
+          2 => $this->t('No Homepage'),
+          3 => $this->t('Hompage of foreign site'),
         ),
         '#title' => t('Homepage flag'),
         '#required' => FALSE,
@@ -166,9 +165,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
       $element['delivery'] = array(
         '#type' => 'select',
         '#options' => array(
-          1 => 'Online',
-          2 => 'Mobile',
-          3 => 'Connected TV',
+          1 => $this->t('Online'),
+          2 => $this->t('Mobile'),
+          3 => $this->t('Connected TV'),
         ),
         '#title' => t('Delivery'),
         '#required' => FALSE,
@@ -181,8 +180,8 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
       $element['app'] = array(
         '#type' => 'select',
         '#options' => array(
-          1 => 'App',
-          2 => 'Keine App',
+          1 => $this->t('App'),
+          2 => $this->t('No App'),
         ),
         '#title' => t('Fallback app flag'),
         '#required' => FALSE,
@@ -195,8 +194,8 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
       $element['paid'] = array(
         '#type' => 'select',
         '#options' => array(
-          1 => 'Paid',
-          2 => 'Nicht zugeordnet',
+          1 => $this->t('Paid'),
+          2 => $this->t('Not assigned'),
         ),
         '#title' => t('Paid flag'),
         '#required' => FALSE,
@@ -208,48 +207,48 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
     if ($settings->get('content_overridable')) {
       $name = 'content';
       $options = array(
-        '01' => 'Nachrichten',
-        '02' => 'Sport',
-        '03' => 'Entertainment/Boulevard/Stars/Film/Musik',
-        '04' => 'Fashion/Beauty',
-        '05' => 'Familie/Kinder/Lebenshilfe',
-        '06' => 'Liebe/Psychologie/Beziehungen',
-        '07' => 'Fahrzeuge/Verkehr/Mobilität',
-        '08' => 'Reise/Touristik',
-        '09' => 'Computer',
-        '10' => 'Consumer Electronics',
-        '11' => 'Telekommunikation/Internetdienste',
-        '12' => 'Spiele',
-        '13' => 'Wohnen/Immobilien/Garten/Haushalt',
-        '14' => 'Wirtschaft/Finanzen/Job/Karriere',
-        '15' => 'Gesundheit',
-        '16' => 'Essen/Trinken',
-        '17' => 'Kunst/Kultur/Literatur',
-        '18' => 'Erotik',
-        '19' => 'Wissenschaft/Bildung/Natur/Umwelt',
-        '20' => 'Angebotsinformation',
-        '21' => 'Vermischtes (multithematisch)',
-        '22' => 'Sonstiges (monothematisch)',
-        '23' => 'Übersichtsseite zu Spiele',
-        '24' => 'Casual Games',
-        '25' => 'Core Games',
-        '26' => 'Sonstiges (Bereich Spiele)',
-        '27' => 'Social Networking - Privat',
-        '28' => 'Social Networking - Business',
-        '29' => 'Partnersuche/Dating',
-        '30' => 'Newsletter',
-        '31' => 'E-Mail/SMS/E-Cards',
-        '32' => 'Messenger/Chat',
-        '33' => 'Sonstiges (Bereich Networking/Kommunikation',
-        '34' => 'Suchmaschinen',
-        '35' => 'Verzeichnisse/Auskunftsdienste',
-        '36' => 'Sonstiges (Bereich Suchmaschinen/Verzeichnisse)',
-        '37' => 'Onlineshops/Shopping Mall/Auktionen/B2bMarktplätze',
-        '38' => 'Immobilien Rubrikenmärkte/Kleinanzeigen',
-        '39' => 'Jobs Rubrikenmärkte/Kleinanzeigen',
-        '40' => 'Fahrzeuge Rubrikenmärkte/Kleinanzeigen',
-        '41' => 'Sonstiges Rubrikenmärkte/Kleinanzeigen',
-        '42' => 'Sonstiges (Bereich E-Commerce)',
+        '01' => $this->t('News'),
+        '02' => $this->t('Sport'),
+        '03' => $this->t('Entertainment/Boulevard/Stars/Film/Music'),
+        '04' => $this->t('Fashion/Beauty'),
+        '05' => $this->t('Family/Children/Counseling'),
+        '06' => $this->t('Life/Psychology/Relationships'),
+        '07' => $this->t('Cars/Traffic/Mobility'),
+        '08' => $this->t('Travel/Tourism'),
+        '09' => $this->t('Computer'),
+        '10' => $this->t('Consumer Electronics'),
+        '11' => $this->t('Telecommunication/Internet services'),
+        '12' => $this->t('Games'),
+        '13' => $this->t('Living/Real estate/Garden/Home'),
+        '14' => $this->t('Economy/Finance/Job/Career'),
+        '15' => $this->t('Health'),
+        '16' => $this->t('Food/Beverages'),
+        '17' => $this->t('Art/Culture/Litarature'),
+        '18' => $this->t('Erotic'),
+        '19' => $this->t('Science/Education/Nature/Environment'),
+        '20' => $this->t('Information about the offer'),
+        '21' => $this->t('Miscellaneous'),
+        '22' => $this->t('Remaining topics'),
+        '23' => $this->t('Games sitemap'),
+        '24' => $this->t('Casual Games'),
+        '25' => $this->t('Core Games'),
+        '26' => $this->t('Remaining topics (Games)'),
+        '27' => $this->t('Social Networking - Private'),
+        '28' => $this->t('Social Networking - Business'),
+        '29' => $this->t('Dating'),
+        '30' => $this->t('Newsletter'),
+        '31' => $this->t('E-Mail/SMS/E-Cards'),
+        '32' => $this->t('Messenger/Chat'),
+        '33' => $this->t('Remaining topics (Networking/Communikation'),
+        '34' => $this->t('Searchengine'),
+        '35' => $this->t('Directories/Information service'),
+        '36' => $this->t('Remaining topics (Searchengine/Directories)'),
+        '37' => $this->t('Onlineshops/Shopping Mall/Auctions/B2b Marketplace'),
+        '38' => $this->t('Real estate classifieds'),
+        '39' => $this->t('Jobs classifieds'),
+        '40' => $this->t('Cars classifieds'),
+        '41' => $this->t('Miscellaneous classifieds'),
+        '42' => $this->t('Miscellaneous (E-Commerce)'),
       );
       $element[$name] = array(
         '#type' => 'select',
@@ -257,7 +256,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '#options' => $options,
         '#title' => t('Content category'),
         '#required' => FALSE,
-        '#empty_option' => t($empty_option, array(':value' => $options[$this->getParentSetting($name)])),
+        '#empty_option' => t('Parent value (:value)', array(':value' => $options[$this->getParentSetting($name)])),
         '#default_value' => isset($items[$delta]->$name) ? $items[$delta]->$name : NULL,
       );
     }
@@ -265,6 +264,15 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
     return $element;
   }
 
+  /**
+   * Get parent setting.
+   *
+   * @param string $name
+   *   The name of the IVW property to look up.
+   *
+   * @return string
+   *    The property value.
+   */
   private function getParentSetting($name) {
     return $this->lookupService->byCurrentRoute($name, TRUE);
   }

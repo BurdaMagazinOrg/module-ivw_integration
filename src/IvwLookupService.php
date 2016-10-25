@@ -10,24 +10,44 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\TermInterface;
-use Drupal\taxonomy\TermStorage;
 
+/**
+ * Class IvwLookupService.
+ *
+ * @package Drupal\ivw_integration
+ */
 class IvwLookupService implements IvwLookupServiceInterface {
 
-  const supportedEntityParameters = ['node', 'media', 'taxonomy_term'];
+  const SUPPORTED_ENTITY_PARAMETERS = ['node', 'media', 'taxonomy_term'];
   /**
+   * The route match.
+   *
    * @var \Drupal\Core\Routing\RouteMatchInterface
    */
   protected $currentRouteMatch;
   /**
+   * IVW integration configuration.
+   *
    * @var \Drupal\Core\Config\ImmutableConfig
    */
   protected $config;
   /**
+   * The entity type manager.
+   *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
+  /**
+   * IvwLookupService constructor.
+   *
+   * @param \Drupal\Core\Routing\RouteMatchInterface $currentRouteMatch
+   *   The route match.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The config factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
+   */
   public function __construct(RouteMatchInterface $currentRouteMatch, ConfigFactoryInterface $configFactory, EntityTypeManagerInterface $entityTypeManager) {
     $this->currentRouteMatch = $currentRouteMatch;
     $this->config            = $configFactory->get('ivw_integration.settings');
@@ -35,23 +55,21 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function byCurrentRoute($name, $parentOnly = FALSE) {
     return $this->byRoute($name, $this->currentRouteMatch, $parentOnly);
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function byRoute($name, RouteMatchInterface $route, $parentOnly = FALSE) {
 
     $entity = NULL;
 
-    foreach (static::supportedEntityParameters as $parameter) {
-      /**
-       * @var ContentEntityInterface $entity
-       */
+    foreach (static::SUPPORTED_ENTITY_PARAMETERS as $parameter) {
+      /* @var ContentEntityInterface $entity */
       if ($entity = $route->getParameter($parameter)) {
 
         // FIXME is this part required?
@@ -60,7 +78,8 @@ class IvwLookupService implements IvwLookupServiceInterface {
         }
         if ($entity instanceof TermInterface) {
           $setting = $this->searchTerm($name, $entity, $parentOnly);
-        } else {
+        }
+        else {
           $setting = $this->searchEntity($name, $entity, $parentOnly);
         }
 
@@ -74,7 +93,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function byEntity($name, ContentEntityInterface $entity, $parentOnly = FALSE) {
     $result = $this->searchEntity($name, $entity, $parentOnly);
@@ -82,7 +101,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function byTerm($name, TermInterface $term, $parentOnly = FALSE) {
     $result = $this->searchTerm($name, $term, $parentOnly);
@@ -90,14 +109,23 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
-   * @param string $name
-   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
-   * @param boolean $parentOnly
+   * Search value for property $name in entity.
    *
-   * @return string|NULL
+   * @param string $name
+   *   The name of the IVW property to look up.
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The content entity (usually node) to look up the property on.
+   * @param bool $parentOnly
+   *   If set to TRUE, skips lookup on first level ivw_settings field.
+   *   This is used when determining which property the
+   *   currently examined entity WOULD inherit if it had
+   *   no property for $name in its own ivw settings.
+   *
+   * @return string|null
+   *   The property value.
    */
   protected function searchEntity($name, ContentEntityInterface $entity, $parentOnly = FALSE) {
-    //  Search for ivw_integration_settings field
+    // Search for ivw_integration_settings field.
     foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
       $fieldType = $fieldDefinition->getType();
       if (!$parentOnly) {
@@ -111,8 +139,8 @@ class IvwLookupService implements IvwLookupServiceInterface {
         }
       }
 
-      // Check for fallback categories if no ivw_integration_setting is found
-      if (!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
+      // Check for fallback categories if no ivw_integration_setting is found.
+      if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
         $fieldName = $fieldDefinition->getName();
         if ($tid = $entity->$fieldName->target_id) {
           $term = Term::load($tid);
@@ -123,7 +151,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
       }
     }
 
-    // If we did not return before, it is possible that we found a termOverride
+    // If we did not return before, it is possible that we found a termOverride.
     if (isset($termOverride)) {
       return $termOverride;
     }
@@ -132,11 +160,20 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
-   * @param string $name
-   * @param \Drupal\taxonomy\TermInterface $term
+   * Search value for property $name in terms.
    *
+   * @param string $name
+   *   The name of the IVW property to look up.
+   * @param \Drupal\taxonomy\TermInterface $term
+   *   The term to look up the property on.
    * @param bool $parentOnly
+   *   If set to TRUE, skips lookup on first level ivw_settings field.
+   *   This is used when determining which property the
+   *   currently examined entity WOULD inherit if it had
+   *   no property for $name in its own ivw settings.
+   *
    * @return null|string
+   *   The property value.
    */
   protected function searchTerm($name, TermInterface $term, $parentOnly = FALSE) {
     if (!$parentOnly) {
@@ -148,9 +185,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
       }
     }
 
-    /**
-     * @var TermStorage $termStorage
-     */
+    /* @var TermStorage $termStorage  */
     $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
 
     foreach ($termStorage->loadParents($term->id()) as $parent) {
@@ -164,11 +199,17 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
+   * Get the value for a setting for the current context.
+   *
    * @param string $name
+   *   The name of the IVW property to look up.
    * @param \Drupal\Core\Field\FieldDefinitionInterface $fieldDefinition
+   *   The field definition interface.
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The entity interface.
    *
    * @return string|null
+   *   The property value.
    */
   protected function getOverriddenIvwSetting($name, FieldDefinitionInterface $fieldDefinition, ContentEntityInterface $entity) {
     if ($fieldDefinition->getType() === 'ivw_integration_settings') {
@@ -181,9 +222,13 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
-   * @param string $name
+   * Get defined default values.
    *
-   * @return string|NULL
+   * @param string $name
+   *   The name of the IVW property to look up.
+   *
+   * @return string|null
+   *   The property value.
    */
   private function defaults($name) {
     return $this->config->get($name . '_default');
