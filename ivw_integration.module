@@ -48,7 +48,7 @@ function ivw_integration_form_node_form_alter(&$form, FormStateInterface $form_s
     }
   }
   if ($has_settings) {
-    if (!isset($form['advanced'])) {
+    if (empty($form['advanced'])) {
       $form['advanced'] = array(
         '#type' => 'vertical_tabs',
         '#attributes' => array('class' => array('entity-meta')),
@@ -62,6 +62,7 @@ function ivw_integration_form_node_form_alter(&$form, FormStateInterface $form_s
       '#group' => 'advanced',
       '#optional' => TRUE,
     );
+
   }
 }
 
