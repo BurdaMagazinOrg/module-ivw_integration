@@ -5,10 +5,7 @@ namespace Drupal\ivw_integration;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Routing\CurrentRouteMatch;
-use Drupal\Core\Url;
 use Drupal\Core\Utility\Token;
-use Drupal\node\Entity\Node;
 
 /**
  * Class IvwTracker.
@@ -144,12 +141,6 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * {@inheritdoc}
    */
   public function getCacheTags() {
-    /** @var CurrentRouteMatch $currentRouteMatch */
-    $currentRouteMatch = \Drupal::service('current_route_match');
-
-    $entity = $currentRouteMatch->getParameter('taxonomy_term');
-    $entity = $currentRouteMatch->getParameter('node');
-
     /** @var IvwLookupService $lookup */
     $lookup = \Drupal::service('ivw_integration.lookup');
     $cache_tags = $lookup->getCacheTagsByCurrentRoute();
