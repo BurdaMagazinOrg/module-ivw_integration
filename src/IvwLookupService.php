@@ -113,7 +113,10 @@ class IvwLookupService implements IvwLookupServiceInterface {
             if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
               $fieldName = $fieldDefinition->getName();
               if ($tid = $entity->$fieldName->target_id) {
-                $cache_tags[] = 'taxonomy_term:' . $tid;
+                $term = Term::load($tid);
+                if ($term) {
+                  $cache_tags = array_merge($cache_tags, $term->getCacheTags());
+                }
               }
             }
           }
