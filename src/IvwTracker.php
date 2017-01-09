@@ -145,10 +145,6 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
     $lookup = \Drupal::service('ivw_integration.lookup');
     $cache_tags = $lookup->getCacheTagsByCurrentRoute();
 
-    if (empty($cache_tags)) {
-      $cache_tags[] = 'ivw_cache_tag';
-    }
-
     $settings = $this->configFactory->get('ivw_integration.settings');
 
     return Cache::mergeTags($cache_tags, $settings->getCacheTags());
