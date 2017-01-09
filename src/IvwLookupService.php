@@ -92,6 +92,38 @@ class IvwLookupService implements IvwLookupServiceInterface {
     return $this->defaults($name);
   }
 
+  public function getCacheTagsByCurrentRoute() {
+    return $this->getCacheTagsByRoute($this->currentRouteMatch);
+  }
+
+  public function getCacheTagsByRoute(RouteMatchInterface $route) {
+
+    $entity = NULL;
+    $cache_tags = [];
+
+    foreach (static::SUPPORTED_ENTITY_PARAMETERS as $parameter) {
+      /* @var ContentEntityInterface $entity */
+      if ($entity = $route->getParameter($parameter)) {
+
+        $cache_tags = $entity->getCacheTags();
+
+        if ($entity instanceof Node) {
+          foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
+            $fieldType = $fieldDefinition->getType();
+            if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
+              $fieldName = $fieldDefinition->getName();
+              if ($tid = $entity->$fieldName->target_id) {
+                $cache_tags[] = 'taxonomy_term:' . $tid;
+              }
+            }
+          }
+        }
+
+      }
+    }
+    return $cache_tags;
+  }
+
   /**
    * {@inheritdoc}
    */

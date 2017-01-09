@@ -5,6 +5,7 @@ namespace Drupal\ivw_integration;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\Token;
 use Drupal\node\Entity\Node;
@@ -143,33 +144,17 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * {@inheritdoc}
    */
   public function getCacheTags() {
-//    $result = \Drupal::service('path.alias_manager')->getAliasByPath($path);
+    /** @var CurrentRouteMatch $currentRouteMatch */
+    $currentRouteMatch = \Drupal::service('current_route_match');
 
-//    $url = Url::fromRoute('<current>', array(),array('absolute'=>'true'));
-//    $internal_path = $url->getInternalPath();
+    $entity = $currentRouteMatch->getParameter('taxonomy_term');
+    $entity = $currentRouteMatch->getParameter('node');
 
-    $path = \Drupal::service('path.current')->getPath();
+    /** @var IvwLookupService $lookup */
+    $lookup = \Drupal::service('ivw_integration.lookup');
+    $cache_tags = $lookup->getCacheTagsByCurrentRoute();
 
-    $params = Url::fromUri("internal:" . $path)->getRouteParameters();
-    $entity_type = key($params);
-    $cache_tags = [];
-    if ($entity_type && ($entity_type == 'node' || $entity_type == 'taxonomy_term')) {
-      $cache_tags[] = $entity_type . ':' . $params[$entity_type];
-      if($entity_type == 'node') {
-        // Get id of referenced taxonomy term
-        $entity = Node::load($params[$entity_type]);
-        foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
-          $fieldType = $fieldDefinition->getType();
-          if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
-            $fieldName = $fieldDefinition->getName();
-            if ($tid = $entity->$fieldName->target_id) {
-              $cache_tags[] = 'taxonomy_term:' . $tid;
-            }
-          }
-        }
-      }
-    }
-    else {
+    if (empty($cache_tags)) {
       $cache_tags[] = 'ivw_cache_tag';
     }
 
