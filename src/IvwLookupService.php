@@ -107,6 +107,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
         $cache_tags = $entity->getCacheTags();
 
+        // For Nodes, also get Taxonomy cachetag
         if ($entity instanceof Node) {
           foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
             $fieldType = $fieldDefinition->getType();
