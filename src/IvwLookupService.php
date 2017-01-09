@@ -92,10 +92,16 @@ class IvwLookupService implements IvwLookupServiceInterface {
     return $this->defaults($name);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getCacheTagsByCurrentRoute() {
     return $this->getCacheTagsByRoute($this->currentRouteMatch);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getCacheTagsByRoute(RouteMatchInterface $route) {
 
     $entity = NULL;
@@ -107,7 +113,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
         $cache_tags = $entity->getCacheTags();
 
-        // For Nodes, also get Taxonomy cachetag
+        // For Nodes, also get Taxonomy cachetags.
         if ($entity instanceof Node) {
           foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
             $fieldType = $fieldDefinition->getType();
