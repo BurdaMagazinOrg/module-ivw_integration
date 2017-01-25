@@ -7,7 +7,6 @@
 
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\taxonomy\Entity\Term;
 
 /**
  * Implements hook_theme().
@@ -23,7 +22,7 @@ function ivw_integration_theme() {
         'mobile_st' => NULL,
         'mobile_cp' => NULL,
         'mobile_sv' => NULL,
-        'mobile_width' => NULL
+        'mobile_width' => NULL,
       ),
       'template' => 'ivw-call',
     ),

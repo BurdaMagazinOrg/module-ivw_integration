@@ -149,11 +149,11 @@ class IvwLookupService implements IvwLookupServiceInterface {
           }
         }
       }
-    }
 
-    // If we did not return before, it is possible that we found a termOverride.
-    if (isset($termOverride)) {
-      return $termOverride;
+      // Return found termOverride.
+      if (isset($termOverride)) {
+        return $termOverride;
+      }
     }
 
     return NULL;
