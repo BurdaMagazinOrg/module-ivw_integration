@@ -91,11 +91,11 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
     if ($settings->get('offering_overridable')) {
       $element['offering'] = array(
         '#type' => 'textfield',
-        '#title' => t('Offering code'),
+        '#title' => $this->t('Offering code'),
         '#default_value' => isset($items[$delta]->offering) ? $items[$delta]->offering : NULL,
-        '#description' => t('A single ivw site can have multiple offerings, they can be differentiated by different numbers.'),
+        '#description' => $this->t('A single ivw site can have multiple offerings, they can be differentiated by different numbers.'),
         '#required' => FALSE,
-        '#empty_option' => t('Parent value'),
+        '#empty_option' => $this->t('Parent value'),
         '#min' => 1,
       );
     }
@@ -108,10 +108,36 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
           2 => $this->t('Other language, content is verifiable'),
           3 => $this->t('Other language, content is not verifiable'),
         ),
-        '#title' => t('Language'),
+        '#title' => $this->t('Language'),
         '#required' => FALSE,
-        '#empty_option' => t('Parent value'),
+        '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->language) ? $items[$delta]->language : NULL,
+      );
+    }
+    if ($settings->get('frabo_overridable')) {
+      $element['frabo'] = array(
+        '#type' => 'select',
+        '#options' => array(
+          'in' => $this->t('in: Deliver questionaire (preferred implementation)'),
+          'i2' => $this->t('i2: Alternative implementation, use this if in does not work'),
+          'ke' => $this->t('ke: Do not deliver questionaire'),
+        ),
+        '#title' => $this->t('Frabo control'),
+        '#empty_option' => $this->t('Parent value'),
+        '#default_value' => isset($items[$delta]->frabo) ? $items[$delta]->frabo : NULL,
+      );
+    }
+
+    if ($settings->get('frabo_mobile_overridable')) {
+      $element['frabo_mobile'] = array(
+        '#type' => 'select',
+        '#options' => array(
+          'mo' => $this->t('mo: Mobile delivery of questionaire'),
+          'ke' => $this->t('ke: Do not deliver questionaire'),
+        ),
+        '#title' => $this->t('Frabo mobile control'),
+        '#empty_option' => $this->t('Parent value'),
+        '#default_value' => isset($items[$delta]->frabo_mobile) ? $items[$delta]->frabo_mobile : NULL,
       );
     }
 
@@ -124,9 +150,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
           3 => $this->t('Video'),
           4 => $this->t('Other dynamic format'),
         ),
-        '#title' => t('Format'),
+        '#title' => $this->t('Format'),
         '#required' => FALSE,
-        '#empty_option' => t('Parent value'),
+        '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->format) ? $items[$delta]->format : NULL,
       );
     }
@@ -139,9 +165,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
           2 => $this->t('User'),
           3 => $this->t('Unknown'),
         ),
-        '#title' => t('Creator'),
+        '#title' => $this->t('Creator'),
         '#required' => FALSE,
-        '#empty_option' => t('Parent value'),
+        '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->creator) ? $items[$delta]->creator : NULL,
       );
     }
@@ -154,9 +180,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
           2 => $this->t('No Homepage'),
           3 => $this->t('Hompage of foreign site'),
         ),
-        '#title' => t('Homepage flag'),
+        '#title' => $this->t('Homepage flag'),
         '#required' => FALSE,
-        '#empty_option' => t('Parent value'),
+        '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->homepage) ? $items[$delta]->homepage : NULL,
       );
     }
@@ -169,9 +195,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
           2 => $this->t('Mobile'),
           3 => $this->t('Connected TV'),
         ),
-        '#title' => t('Delivery'),
+        '#title' => $this->t('Delivery'),
         '#required' => FALSE,
-        '#empty_option' => t('Parent value'),
+        '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->delivery) ? $items[$delta]->delivery : NULL,
       );
     }
@@ -183,9 +209,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
           1 => $this->t('App'),
           2 => $this->t('No App'),
         ),
-        '#title' => t('Fallback app flag'),
+        '#title' => $this->t('Fallback app flag'),
         '#required' => FALSE,
-        '#empty_option' => t('Parent value'),
+        '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->app) ? $items[$delta]->app : NULL,
       );
     }
@@ -197,9 +223,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
           1 => $this->t('Paid'),
           2 => $this->t('Not assigned'),
         ),
-        '#title' => t('Paid flag'),
+        '#title' => $this->t('Paid flag'),
         '#required' => FALSE,
-        '#empty_option' => t('Parent value'),
+        '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->paid) ? $items[$delta]->paid : NULL,
       );
     }
@@ -254,9 +280,9 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '#type' => 'select',
         '#group' => 'ivw_integration_settings_override',
         '#options' => $options,
-        '#title' => t('Content category'),
+        '#title' => $this->t('Content category'),
         '#required' => FALSE,
-        '#empty_option' => t('Parent value (:value)', array(':value' => $options[$this->getParentSetting($name)])),
+        '#empty_option' => $this->t('Parent value (:value)', array(':value' => $options[$this->getParentSetting($name)])),
         '#default_value' => isset($items[$delta]->$name) ? $items[$delta]->$name : NULL,
       );
     }

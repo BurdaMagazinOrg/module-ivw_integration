@@ -35,6 +35,14 @@ class IvwSettings extends FieldItemBase {
           'length' => 256,
           'not null' => TRUE,
         ),
+        'frabo' => array(
+          'type' => 'varchar',
+          'length' => 256,
+        ),
+        'frabo_mobile' => array(
+          'type' => 'varchar',
+          'length' => 256,
+        ),
         'format' => array(
           'type' => 'varchar',
           'length' => 256,
