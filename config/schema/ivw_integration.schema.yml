@@ -1,5 +1,5 @@
 ivw_integration.settings:
-  type: mapping
+  type: config_object
   label: 'IVW Settings'
   mapping:
     site:
@@ -21,65 +21,65 @@ ivw_integration.settings:
       type: string
       label: 'Default code for offering'
     offering_overridable:
-      type: bool
+      type: boolean
       label: 'Offering setting is overridable'
     language_default:
        type: integer
        label: 'Default language code'
     language_overridable:
-      type: bool
+      type: boolean
       label: 'Language setting is overridable'
     format_default:
        type: integer
        label: 'Default format code'
     format_overridable:
-      type: bool
+      type: boolean
       label: 'Format setting is overridable'
     creator_default:
        type: integer
        label: 'Default creator code'
     creator_overridable:
-      type: bool
+      type: boolean
       label: 'Creator setting is overridable'
     homepage_default:
        type: integer
        label: 'Default homepage code'
     homepage_overridable:
-      type: bool
+      type: boolean
       label: 'Homepage setting is overridable'
     delivery_default:
        type: integer
        label: 'Default delivery code'
     delivery_overridable:
-      type: bool
+      type: boolean
       label: 'Delivery setting is overridable'
     app_default:
        type: integer
        label: 'Default app flag'
     app_overridable:
-      type: bool
+      type: boolean
       label: 'App setting is overridable'
     paid_default:
       type: integer
       label: 'Default paid flag'
     paid_overridable:
-      type: bool
+      type: boolean
       label: 'Paid setting is overridable'
     content_default:
        type: string
        label: 'Default content code'
     content_overridable:
-      type: bool
+      type: boolean
       label: 'Content setting is overridable'
-    frabo:
+    frabo_default:
       type: string
       label: 'Frabo control'
     frabo_overridable:
-      type: bool
+      type: boolean
       label: 'Frabo control is overridable'
-    frabo_mobile:
+    frabo_mobile_default:
       type: string
       label: 'Frabo control for mobile'
     frabo_mobile_overridable:
-      type: bool
+      type: boolean
       label: 'Frabo control for mobile is overridable'
