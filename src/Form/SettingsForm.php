@@ -143,7 +143,7 @@ class SettingsForm extends ConfigFormBase {
 
     $form['default_values']['frabo_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => $this->t('Frabo control is overrideable'),
+      '#title' => $this->t('Frabo control is overridable'),
       '#default_value' => $ivw_integration_settings->get('frabo_overridable'),
     );
 
@@ -161,7 +161,7 @@ class SettingsForm extends ConfigFormBase {
 
     $form['default_values']['frabo_mobile_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => $this->t('Frabo mobile control is overrideable'),
+      '#title' => $this->t('Frabo mobile control is overridable'),
       '#default_value' => $ivw_integration_settings->get('frabo_mobile_overridable'),
     );
 
@@ -176,7 +176,7 @@ class SettingsForm extends ConfigFormBase {
 
     $form['default_values']['offering_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => $this->t('Offering code is overrideable'),
+      '#title' => $this->t('Offering code is overridable'),
       '#default_value' => $ivw_integration_settings->get('offering_overridable'),
     );
 
@@ -194,7 +194,7 @@ class SettingsForm extends ConfigFormBase {
 
     $form['default_values']['language_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => $this->t('Language code is overrideable'),
+      '#title' => $this->t('Language code is overridable'),
       '#default_value' => $ivw_integration_settings->get('language_overridable'),
     );
 
@@ -213,7 +213,7 @@ class SettingsForm extends ConfigFormBase {
 
     $form['default_values']['format_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => $this->t('Format code is overrideable'),
+      '#title' => $this->t('Format code is overridable'),
       '#default_value' => $ivw_integration_settings->get('format_overridable'),
     );
 
@@ -231,7 +231,7 @@ class SettingsForm extends ConfigFormBase {
 
     $form['default_values']['creator_overridable'] = array(
       '#type' => 'checkbox',
-      '#title' => $this->t('Creator code is overrideable'),
+      '#title' => $this->t('Creator code is overridable'),
       '#default_value' => $ivw_integration_settings->get('creator_overridable'),
     );
 
