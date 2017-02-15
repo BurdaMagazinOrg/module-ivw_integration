@@ -95,6 +95,8 @@ class IvwSettings extends FieldItemBase {
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
     $properties['offering'] = DataDefinition::create('string')->setLabel(t('Offering'));
     $properties['language'] = DataDefinition::create('string')->setLabel(t('Language'));
+    $properties['frabo'] = DataDefinition::create('string')->setLabel(t('Frabo control'));
+    $properties['frabo_mobile'] = DataDefinition::create('string')->setLabel(t('Frabo control for mobile'));
     $properties['format'] = DataDefinition::create('string')->setLabel(t('Format'));
     $properties['creator'] = DataDefinition::create('string')->setLabel(t('Creator'));
     $properties['homepage'] = DataDefinition::create('string')->setLabel(t('Homepage'));
