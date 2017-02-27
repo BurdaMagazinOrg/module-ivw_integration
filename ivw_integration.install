@@ -70,14 +70,15 @@ function ivw_integration_add_missing_field_columns($field_type) {
     }
 
     foreach ($field_table_names as $field_table_name) {
+      if (!$database_schema->tableExists($field_table_name)) {
+        continue;
+      }
       foreach ($field_schema['columns'] as $column => $definition) {
         $field_column_names = $table_mapping->getColumnNames($field_name);
 
         // The actual column name in the database for this column in this field and entity.
         $column_name = $field_column_names[$column];
-        if ($database_schema->tableExists(
-            $field_table_name
-          ) && !$database_schema->fieldExists(
+        if (!$database_schema->fieldExists(
             $field_table_name,
             $column_name
           )
