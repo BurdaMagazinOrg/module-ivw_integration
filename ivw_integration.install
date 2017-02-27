@@ -108,6 +108,5 @@ function ivw_integration_add_missing_field_columns($field_type) {
  */
 function ivw_integration_update_8101() {
   $messages = ivw_integration_add_missing_field_columns('ivw_integration_settings');
-  \Drupal::entityDefinitionUpdateManager()->applyUpdates();
   return implode('<br /><br />', $messages);
 }
