@@ -38,6 +38,7 @@ function ivw_integration_requirements($phase) {
  *   Gathered messages.
  */
 function ivw_integration_add_missing_field_columns($field_type) {
+  $messages = [];
   $entity_type_manager = \Drupal::entityTypeManager();
   $database_schema = \Drupal::database()->schema();
 
@@ -59,6 +60,9 @@ function ivw_integration_add_missing_field_columns($field_type) {
     // Table mapping is used to generate the table names of the found fields.
     $table_mapping = $target_entity_type_storage->getTableMapping();
 
+    // The full column name mapping of this field type.
+    $field_column_names = $table_mapping->getColumnNames($field_name);
+
     // Get the table name, that needs to be updated.
     $field_table_names = [$table_mapping->getDedicatedDataTableName($field_storage)];
 
@@ -74,8 +78,6 @@ function ivw_integration_add_missing_field_columns($field_type) {
         continue;
       }
       foreach ($field_schema['columns'] as $column => $definition) {
-        $field_column_names = $table_mapping->getColumnNames($field_name);
-
         // The actual column name in the database for this column in this
         // field and entity.
         $column_name = $field_column_names[$column];
@@ -86,10 +88,10 @@ function ivw_integration_add_missing_field_columns($field_type) {
         ) {
           $messages[] = t(
             'Adding field @field to table @table',
-            array(
+            [
               '@field' => $column_name,
               '@table' => $field_table_name,
-            )
+            ]
           );
           $database_schema->addField(
             $field_table_name,
