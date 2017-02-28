@@ -46,7 +46,7 @@ function ivw_integration_add_missing_field_columns($field_type) {
     ->getStorage('field_storage_config')
     ->loadByProperties(['type' => $field_type]);
 
-  foreach ($field_storage_configs as $key => $field_storage) {
+  foreach ($field_storage_configs as $field_storage) {
     // The name of the field.
     $field_name = $field_storage->getName();
     $field_schema = $field_storage->getSchema();
@@ -76,7 +76,8 @@ function ivw_integration_add_missing_field_columns($field_type) {
       foreach ($field_schema['columns'] as $column => $definition) {
         $field_column_names = $table_mapping->getColumnNames($field_name);
 
-        // The actual column name in the database for this column in this field and entity.
+        // The actual column name in the database for this column in this
+        // field and entity.
         $column_name = $field_column_names[$column];
         if (!$database_schema->fieldExists(
             $field_table_name,
