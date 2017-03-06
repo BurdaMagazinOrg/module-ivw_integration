@@ -15,16 +15,16 @@ class SettingsForm extends ConfigFormBase {
   /**
    * The token object.
    *
-   * @var Token
+   * @var \Drupal\Core\Utility\Token
    */
   protected $token = array();
 
   /**
    * Constructs a \Drupal\ivw_integration\SettingsForm object.
    *
-   * @param ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
-   * @param Token $token
+   * @param \Drupal\Core\Utility\Token $token
    *   The token object.
    */
   public function __construct(ConfigFactoryInterface $config_factory, Token $token) {
