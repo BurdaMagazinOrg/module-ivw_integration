@@ -16,23 +16,23 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   /**
    * The config factory.
    *
-   * @var ConfigFactoryInterface
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
 
   /**
    * The token object.
    *
-   * @var Token
+   * @var \Drupal\Core\Utility\Token
    */
   protected $token;
 
   /**
    * Generates IVW tracking information.
    *
-   * @param ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.
-   * @param Token $token
+   * @param \Drupal\Core\Utility\Token $token
    *   Token service.
    */
   public function __construct(
