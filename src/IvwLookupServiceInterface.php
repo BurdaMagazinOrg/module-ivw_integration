@@ -17,12 +17,12 @@ interface IvwLookupServiceInterface {
    * Automatically uses the current route to look up an IVW property.
    *
    * @param string $name
-   *    The name of the IVW property to look up.
+   *   The name of the IVW property to look up.
    * @param bool $parentOnly
-   *    If set to TRUE, skips lookup on first level ivw_settings field.
+   *   If set to TRUE, skips lookup on first level ivw_settings field.
    *
    * @return string
-   *    The property value
+   *   The property value
    */
   public function byCurrentRoute($name, $parentOnly = FALSE);
 
@@ -30,18 +30,18 @@ interface IvwLookupServiceInterface {
    * Find value by route.
    *
    * @param string $name
-   *    The name of the IVW property to look up.
+   *   The name of the IVW property to look up.
    * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
-   *    The route matching the entity (node, term) on which to look up
-   *    properties.
+   *   The route matching the entity (node, term) on which to look up
+   *   properties.
    * @param bool $parentOnly
-   *    If set to TRUE, skips lookup on first level ivw_settings field.
-   *    This is used when determining which property the
-   *    currently examined entity WOULD inherit if it had
-   *    no property for $name in its own ivw settings.
+   *   If set to TRUE, skips lookup on first level ivw_settings field.
+   *   This is used when determining which property the
+   *   currently examined entity WOULD inherit if it had
+   *   no property for $name in its own ivw settings.
    *
    * @return string
-   *    The property value
+   *   The property value
    */
   public function byRoute($name, RouteMatchInterface $routeMatch, $parentOnly = FALSE);
 
@@ -49,17 +49,17 @@ interface IvwLookupServiceInterface {
    * Find value by entity.
    *
    * @param string $name
-   *    The name of the IVW property to look up.
+   *   The name of the IVW property to look up.
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
-   *    The content entity (usually node) to look up the property on.
+   *   The content entity (usually node) to look up the property on.
    * @param bool $parentOnly
-   *    If set to TRUE, skips lookup on first level ivw_settings field.
-   *    This is used when determining which property the
-   *    currently examined entity WOULD inherit if it had
-   *    no property for $name in its own ivw settings.
+   *   If set to TRUE, skips lookup on first level ivw_settings field.
+   *   This is used when determining which property the
+   *   currently examined entity WOULD inherit if it had
+   *   no property for $name in its own ivw settings.
    *
    * @return string
-   *    The property value
+   *   The property value
    */
   public function byEntity($name, ContentEntityInterface $entity, $parentOnly = FALSE);
 
@@ -67,17 +67,17 @@ interface IvwLookupServiceInterface {
    * Find value by entity.
    *
    * @param string $name
-   *    The name of the IVW property to look up.
+   *   The name of the IVW property to look up.
    * @param \Drupal\taxonomy\TermInterface $term
-   *    The term to look up the property on.
+   *   The term to look up the property on.
    * @param bool $parentOnly
-   *    If set to TRUE, skips lookup on first level ivw_settings field.
-   *    This is used when determining which property the
-   *    currently examined entity WOULD inherit if it had
-   *    no property for $name in its own ivw settings.
+   *   If set to TRUE, skips lookup on first level ivw_settings field.
+   *   This is used when determining which property the
+   *   currently examined entity WOULD inherit if it had
+   *   no property for $name in its own ivw settings.
    *
    * @return string
-   *    The property value
+   *   The property value
    */
   public function byTerm($name, TermInterface $term, $parentOnly = FALSE);
 

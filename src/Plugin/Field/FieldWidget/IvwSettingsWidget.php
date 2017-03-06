@@ -27,7 +27,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
   /**
    * The config factory.
    *
-   * @var ConfigFactoryInterface
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
 
@@ -297,7 +297,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
    *   The name of the IVW property to look up.
    *
    * @return string
-   *    The property value.
+   *   The property value.
    */
   private function getParentSetting($name) {
     return $this->lookupService->byCurrentRoute($name, TRUE);
