@@ -2,6 +2,7 @@
 
 namespace Drupal\ivw_integration;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -115,23 +116,72 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
         // For Nodes, also get Taxonomy cachetags.
         if ($entity instanceof Node) {
-          foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
-            $fieldType = $fieldDefinition->getType();
-            if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
-              $fieldName = $fieldDefinition->getName();
-              if ($tid = $entity->$fieldName->target_id) {
-                $term = Term::load($tid);
-                if ($term) {
-                  $cache_tags = array_merge($cache_tags, $term->getCacheTags());
-                }
-              }
-            }
+          if ($term = $this->getTermOfNode($entity)) {
+            $entity = $term;
           }
+        }
+
+        // If $entity is Term, get cache tags of it and its parents.
+        if ($entity instanceof Term) {
+          $cache_tags = Cache::mergeTags($cache_tags, $this->getCacheTagsByTerm($entity));
         }
 
       }
     }
     return $cache_tags;
+  }
+
+  /**
+   * Gets cache tags of a term and its parents.
+   *
+   * @param \Drupal\taxonomy\TermInterface $term
+   *   The term, from which cache tags should be gathered.
+   *
+   * @return array
+   *   The gathered cache tags.
+   */
+  private function getCacheTagsByTerm(TermInterface $term) {
+    /* @var \Drupal\taxonomy\TermStorage $termStorage  */
+    $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
+
+    $cache_tags = $term->getCacheTags();
+
+    /** @var \Drupal\taxonomy\TermInterface $parent */
+    foreach ($termStorage->loadParents($term->id()) as $parent) {
+      $parentCacheTags = $this->getCacheTagsByTerm($parent);
+      $cache_tags = Cache::mergeTags($cache_tags, $parentCacheTags);
+    }
+
+    return $cache_tags;
+  }
+
+  /**
+   * Gets the term associated with an entity.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The entity, in which the term should be found.
+   *
+   * @return bool|\Drupal\taxonomy\TermInterface
+   *   The Term or false.
+   */
+  private function getTermOfNode(ContentEntityInterface $entity) {
+    foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
+      if ($fieldDefinition->getType() === 'entity_reference'
+        && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
+
+        $fieldName = $fieldDefinition->getName();
+        if ($tid = $entity->$fieldName->target_id) {
+          $term = Term::load($tid);
+          if ($term) {
+            return $term;
+          }
+          else {
+            return FALSE;
+          }
+        }
+
+      }
+    }
   }
 
   /**
