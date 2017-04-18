@@ -27,7 +27,7 @@ class IvwEmptyFormatter extends FormatterBase {
    */
   public function viewElements(FieldItemListInterface $items, $langcode = NULL) {
     // Does not actually output anything.
-    return array();
+    return [];
   }
 
 }

@@ -94,8 +94,8 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $mobile_site = $config->get("mobile_site") ? $config->get("mobile_site") : '';
     $mobile_sv = $tracker['mobile_sv'];
 
-    return array(
-      'ivw_call' => array(
+    return [
+      'ivw_call' => [
         '#theme' => 'ivw_call',
         '#st' => $tracker['st'],
         '#cp' => $tracker['cp'],
@@ -106,8 +106,8 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
         '#mobile_st' => $mobile_site,
         '#mobile_sv' => $mobile_sv,
         '#mobile_width' => $mobile_width,
-      ),
-    );
+      ],
+    ];
   }
 
   /**

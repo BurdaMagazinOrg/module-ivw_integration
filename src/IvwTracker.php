@@ -47,14 +47,14 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * {@inheritdoc}
    */
   public function getTrackingInformation() {
-    return array(
+    return [
       'st' => $this->getSt(),
       'mobile_st' => $this->getMobileSt(),
       'cp' => $this->getCp(),
       'cpm' => $this->getCpm(),
       'sv' => $this->getSv(),
       'mobile_sv' => $this->getMobileSv(),
-    );
+    ];
   }
 
   /**
@@ -89,7 +89,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
     $settings = $this->configFactory->get('ivw_integration.settings');
     $code_template = $settings->get('code_template');
 
-    return $this->token->replace($code_template, array(), array('sanitize' => FALSE));
+    return $this->token->replace($code_template, [], ['sanitize' => FALSE]);
   }
 
   /**
@@ -113,7 +113,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *   If non is defined anywhere 'in' is returned as default.
    */
   protected function getSv() {
-    $sv = $this->token->replace('[ivw:frabo]', array(), array('sanitize' => FALSE));
+    $sv = $this->token->replace('[ivw:frabo]', [], ['sanitize' => FALSE]);
     return empty($sv) ? 'in' : $sv;
   }
 
@@ -125,7 +125,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *   If non is defined anywhere 'mo' is returned as default.
    */
   protected function getMobileSv() {
-    $sv = $this->token->replace('[ivw:frabo_mobile]', array(), array('sanitize' => FALSE));
+    $sv = $this->token->replace('[ivw:frabo_mobile]', [], ['sanitize' => FALSE]);
     return empty($sv) ? 'mo' : $sv;
   }
 

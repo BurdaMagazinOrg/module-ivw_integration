@@ -23,63 +23,63 @@ class IvwSettings extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
-    return array(
-      'columns' => array(
-        'offering' => array(
+    return [
+      'columns' => [
+        'offering' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'language' => array(
+        ],
+        'language' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'frabo' => array(
+        ],
+        'frabo' => [
           'type' => 'varchar',
           'length' => 256,
-        ),
-        'frabo_mobile' => array(
+        ],
+        'frabo_mobile' => [
           'type' => 'varchar',
           'length' => 256,
-        ),
-        'format' => array(
-          'type' => 'varchar',
-          'length' => 256,
-          'not null' => TRUE,
-        ),
-        'creator' => array(
+        ],
+        'format' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'homepage' => array(
+        ],
+        'creator' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'delivery' => array(
+        ],
+        'homepage' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'app' => array(
+        ],
+        'delivery' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'paid' => array(
+        ],
+        'app' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'content' => array(
+        ],
+        'paid' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-      ),
-    );
+        ],
+        'content' => [
+          'type' => 'varchar',
+          'length' => 256,
+          'not null' => TRUE,
+        ],
+      ],
+    ];
   }
 
   /**

@@ -12,9 +12,9 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements hook_theme().
  */
 function ivw_integration_theme() {
-  return array(
-    'ivw_call' => array(
-      'variables' => array(
+  return [
+    'ivw_call' => [
+      'variables' => [
         'st' => NULL,
         'cp' => NULL,
         'sv' => NULL,
@@ -23,10 +23,10 @@ function ivw_integration_theme() {
         'mobile_cp' => NULL,
         'mobile_sv' => NULL,
         'mobile_width' => NULL,
-      ),
+      ],
       'template' => 'ivw-call',
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -48,19 +48,19 @@ function ivw_integration_form_node_form_alter(&$form, FormStateInterface $form_s
   }
   if ($has_settings) {
     if (empty($form['advanced'])) {
-      $form['advanced'] = array(
+      $form['advanced'] = [
         '#type' => 'vertical_tabs',
-        '#attributes' => array('class' => array('entity-meta')),
+        '#attributes' => ['class' => ['entity-meta']],
         '#weight' => 99,
-      );
+      ];
     }
-    $form['ivw_integration_settings_override'] = array(
+    $form['ivw_integration_settings_override'] = [
       '#type' => 'details',
       '#title' => t('IVW settings'),
       '#open' => FALSE,
       '#group' => 'advanced',
       '#optional' => TRUE,
-    );
+    ];
 
   }
 }
