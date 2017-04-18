@@ -23,55 +23,63 @@ class IvwSettings extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
-    return array(
-      'columns' => array(
-        'offering' => array(
+    return [
+      'columns' => [
+        'offering' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'language' => array(
+        ],
+        'language' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'format' => array(
+        ],
+        'frabo' => [
+          'type' => 'varchar',
+          'length' => 256,
+        ],
+        'frabo_mobile' => [
+          'type' => 'varchar',
+          'length' => 256,
+        ],
+        'format' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'creator' => array(
+        ],
+        'creator' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'homepage' => array(
+        ],
+        'homepage' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'delivery' => array(
+        ],
+        'delivery' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'app' => array(
+        ],
+        'app' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'paid' => array(
+        ],
+        'paid' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-        'content' => array(
+        ],
+        'content' => [
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
-        ),
-      ),
-    );
+        ],
+      ],
+    ];
   }
 
   /**
@@ -87,6 +95,8 @@ class IvwSettings extends FieldItemBase {
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
     $properties['offering'] = DataDefinition::create('string')->setLabel(t('Offering'));
     $properties['language'] = DataDefinition::create('string')->setLabel(t('Language'));
+    $properties['frabo'] = DataDefinition::create('string')->setLabel(t('Frabo control'));
+    $properties['frabo_mobile'] = DataDefinition::create('string')->setLabel(t('Frabo control for mobile'));
     $properties['format'] = DataDefinition::create('string')->setLabel(t('Format'));
     $properties['creator'] = DataDefinition::create('string')->setLabel(t('Creator'));
     $properties['homepage'] = DataDefinition::create('string')->setLabel(t('Homepage'));

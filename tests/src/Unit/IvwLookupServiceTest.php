@@ -38,10 +38,10 @@ class IvwLookupServiceTest extends UnitTestCase {
    * {@inheritdoc}
    */
   public static function getInfo() {
-    return array(
+    return [
       'name' => "IvwLookupServic's controller functionality",
       'description' => 'Test Unit for module ivw_integration and service IvwLookupServic.',
-    );
+    ];
   }
 
   /**
@@ -75,23 +75,23 @@ class IvwLookupServiceTest extends UnitTestCase {
     $config->set('responsive', 1);
     $config->set('mobile_width', 480);
     $config->set('offering_default', '01');
-    $config->set('offering_overrideable', 0);
+    $config->set('offering_overridable', 0);
     $config->set('language_default', 1);
-    $config->set('language_overrideable', 0);
+    $config->set('language_overridable', 0);
     $config->set('format_default', 1);
-    $config->set('format_overrideable', 0);
+    $config->set('format_overridable', 0);
     $config->set('creator_default', 1);
-    $config->set('creator_overrideable', 0);
+    $config->set('creator_overridable', 0);
     $config->set('homepage_default', 2);
-    $config->set('homepage_overrideable', 0);
+    $config->set('homepage_overridable', 0);
     $config->set('delivery_default', 1);
-    $config->set('delivery_overrideable', 0);
+    $config->set('delivery_overridable', 0);
     $config->set('app_default', 1);
-    $config->set('app_overrideable', 0);
+    $config->set('app_overridable', 0);
     $config->set('paid_default', 1);
-    $config->set('paid_overrideable', 0);
+    $config->set('paid_overridable', 0);
     $config->set('content_default', '01');
-    $config->set('content_overrideable', 1);
+    $config->set('content_overridable', 1);
 
     $this->configFactoryMock->expects($this->once())
       ->method('get')

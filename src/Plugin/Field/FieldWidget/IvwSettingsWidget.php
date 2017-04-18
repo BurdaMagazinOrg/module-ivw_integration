@@ -27,7 +27,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
   /**
    * The config factory.
    *
-   * @var ConfigFactoryInterface
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
 
@@ -89,7 +89,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
     $settings = $this->configFactory->get('ivw_integration.settings');
 
     if ($settings->get('offering_overridable')) {
-      $element['offering'] = array(
+      $element['offering'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Offering code'),
         '#default_value' => isset($items[$delta]->offering) ? $items[$delta]->offering : NULL,
@@ -97,116 +97,142 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '#required' => FALSE,
         '#empty_option' => $this->t('Parent value'),
         '#min' => 1,
-      );
+      ];
     }
 
     if ($settings->get('language_overridable')) {
-      $element['language'] = array(
+      $element['language'] = [
         '#type' => 'select',
-        '#options' => array(
+        '#options' => [
           1 => $this->t('German'),
           2 => $this->t('Other language, content is verifiable'),
           3 => $this->t('Other language, content is not verifiable'),
-        ),
+        ],
         '#title' => $this->t('Language'),
         '#required' => FALSE,
         '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->language) ? $items[$delta]->language : NULL,
-      );
+      ];
+    }
+    if ($settings->get('frabo_overridable')) {
+      $element['frabo'] = [
+        '#type' => 'select',
+        '#options' => [
+          'in' => $this->t('in: Deliver questionaire (preferred implementation)'),
+          'i2' => $this->t('i2: Alternative implementation, use this if in does not work'),
+          'ke' => $this->t('ke: Do not deliver questionaire'),
+        ],
+        '#title' => $this->t('Frabo control'),
+        '#empty_option' => $this->t('Parent value'),
+        '#default_value' => isset($items[$delta]->frabo) ? $items[$delta]->frabo : NULL,
+      ];
+    }
+
+    if ($settings->get('frabo_mobile_overridable')) {
+      $element['frabo_mobile'] = [
+        '#type' => 'select',
+        '#options' => [
+          'mo' => $this->t('mo: Mobile delivery of questionaire'),
+          'ke' => $this->t('ke: Do not deliver questionaire'),
+        ],
+        '#title' => $this->t('Frabo mobile control'),
+        '#empty_option' => $this->t('Parent value'),
+        '#default_value' => isset($items[$delta]->frabo_mobile) ? $items[$delta]->frabo_mobile : NULL,
+      ];
     }
 
     if ($settings->get('format_overridable')) {
-      $element['format'] = array(
+      $element['format'] = [
         '#type' => 'select',
-        '#options' => array(
+        '#options' => [
           1 => $this->t('Image/Text'),
           2 => $this->t('Audio'),
           3 => $this->t('Video'),
           4 => $this->t('Other dynamic format'),
-        ),
+        ],
         '#title' => $this->t('Format'),
         '#required' => FALSE,
         '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->format) ? $items[$delta]->format : NULL,
-      );
+      ];
     }
 
     if ($settings->get('creator_overridable')) {
-      $element['creator'] = array(
+      $element['creator'] = [
         '#type' => 'select',
-        '#options' => array(
+        '#options' => [
           1 => $this->t('Editors'),
           2 => $this->t('User'),
           3 => $this->t('Unknown'),
-        ),
+        ],
         '#title' => $this->t('Creator'),
         '#required' => FALSE,
         '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->creator) ? $items[$delta]->creator : NULL,
-      );
+      ];
     }
 
     if ($settings->get('homepage_overridable')) {
-      $element['homepage'] = array(
+      $element['homepage'] = [
         '#type' => 'select',
-        '#options' => array(
+        '#options' => [
           1 => $this->t('Homepage of the site'),
           2 => $this->t('No Homepage'),
           3 => $this->t('Hompage of foreign site'),
-        ),
+        ],
         '#title' => $this->t('Homepage flag'),
         '#required' => FALSE,
         '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->homepage) ? $items[$delta]->homepage : NULL,
-      );
+      ];
     }
 
     if ($settings->get('delivery_overridable')) {
-      $element['delivery'] = array(
+      $element['delivery'] = [
         '#type' => 'select',
-        '#options' => array(
+        '#options' => [
           1 => $this->t('Online'),
           2 => $this->t('Mobile'),
           3 => $this->t('Connected TV'),
-        ),
+        ],
         '#title' => $this->t('Delivery'),
         '#required' => FALSE,
         '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->delivery) ? $items[$delta]->delivery : NULL,
-      );
+      ];
     }
 
     if ($settings->get('app_overridable')) {
-      $element['app'] = array(
+      $element['app'] = [
         '#type' => 'select',
-        '#options' => array(
+        '#options' => [
           1 => $this->t('App'),
           2 => $this->t('No App'),
-        ),
+        ],
         '#title' => $this->t('Fallback app flag'),
         '#required' => FALSE,
         '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->app) ? $items[$delta]->app : NULL,
-      );
+      ];
     }
 
     if ($settings->get('paid_overridable')) {
-      $element['paid'] = array(
+      $element['paid'] = [
         '#type' => 'select',
-        '#options' => array(
+        '#options' => [
           1 => $this->t('Paid'),
           2 => $this->t('Not assigned'),
-        ),
+        ],
         '#title' => $this->t('Paid flag'),
         '#required' => FALSE,
         '#empty_option' => $this->t('Parent value'),
         '#default_value' => isset($items[$delta]->paid) ? $items[$delta]->paid : NULL,
-      );
+      ];
     }
 
     if ($settings->get('content_overridable')) {
       $name = 'content';
-      $options = array(
+      $options = [
         '01' => $this->t('News'),
         '02' => $this->t('Sport'),
         '03' => $this->t('Entertainment/Boulevard/Stars/Film/Music'),
@@ -249,16 +275,16 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
         '40' => $this->t('Cars classifieds'),
         '41' => $this->t('Miscellaneous classifieds'),
         '42' => $this->t('Miscellaneous (E-Commerce)'),
-      );
-      $element[$name] = array(
+      ];
+      $element[$name] = [
         '#type' => 'select',
         '#group' => 'ivw_integration_settings_override',
         '#options' => $options,
         '#title' => $this->t('Content category'),
         '#required' => FALSE,
-        '#empty_option' => $this->t('Parent value (:value)', array(':value' => $options[$this->getParentSetting($name)])),
+        '#empty_option' => $this->t('Parent value (:value)', [':value' => $options[$this->getParentSetting($name)]]),
         '#default_value' => isset($items[$delta]->$name) ? $items[$delta]->$name : NULL,
-      );
+      ];
     }
 
     return $element;
@@ -271,7 +297,7 @@ class IvwSettingsWidget extends WidgetBase implements ContainerFactoryPluginInte
    *   The name of the IVW property to look up.
    *
    * @return string
-   *    The property value.
+   *   The property value.
    */
   private function getParentSetting($name) {
     return $this->lookupService->byCurrentRoute($name, TRUE);

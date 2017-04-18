@@ -14,76 +14,76 @@ use Drupal\Core\Entity\ContentEntityInterface;
  * Implements hook_token_info().
  */
 function ivw_integration_token_info() {
-  $type = array(
+  $type = [
     'name' => t('IVW'),
     'description' => t('Tokens for IVW data.'),
     'needs-data' => 'ivw',
-  );
+  ];
 
   // Core comment tokens.
-  $ivw['site'] = array(
+  $ivw['site'] = [
     'name' => t("IVW site name"),
     'description' => t("Site name as provided by IVW."),
-  );
-  $ivw['responsive'] = array(
+  ];
+  $ivw['responsive'] = [
     'name' => t("Responsive flag"),
     'description' => t("Has the value 1 if the site is cionfigured to be responsive, else it is set to 0."),
-  );
-  $ivw['mobile_width'] = array(
+  ];
+  $ivw['mobile_width'] = [
     'name' => t("Mobile width"),
     'description' => t("The maximum width in pixels until a devive is considered to be mobile."),
-  );
-  $ivw['offering'] = array(
+  ];
+  $ivw['offering'] = [
     'name' => t("Offering"),
     'description' => t("An identifier for the offering on this site."),
-  );
-  $ivw['language'] = array(
+  ];
+  $ivw['language'] = [
     'name' => t("Content language"),
     'description' => t("Content language ID."),
-  );
-  $ivw['format'] = array(
+  ];
+  $ivw['format'] = [
     'name' => t("Format"),
     'description' => t("The content format ID."),
-  );
-  $ivw['creator'] = array(
+  ];
+  $ivw['creator'] = [
     'name' => t("Creator"),
     'description' => t("The content creator ID."),
-  );
-  $ivw['homepage'] = array(
+  ];
+  $ivw['homepage'] = [
     'name' => t('Hompage'),
     'description' => t('Denotes, if the content is the homepage of the offering.'),
-  );
-  $ivw['delivery'] = array(
+  ];
+  $ivw['delivery'] = [
     'name' => t("Deliver"),
     'description' => t("Delivery type ID."),
-  );
-  $ivw['app'] = array(
+  ];
+  $ivw['app'] = [
     'name' => t("App flag"),
     'description' => t("Flags if the offering is an mobile app."),
-  );
-  $ivw['paid'] = array(
+  ];
+  $ivw['paid'] = [
     'name' => t("paid flag"),
     'description' => t("Flags paid content."),
-  );
-  $ivw['content'] = array(
+  ];
+  $ivw['content'] = [
     'name' => t("Content"),
     'description' => t("Content category identifier."),
-  );
-  $ivw['frabo'] = array(
+  ];
+  $ivw['frabo'] = [
     'name' => t("Frabo control"),
     'description' => t("The frabo control variable."),
-  );
-  $ivw['frabo_mobile'] = array(
+  ];
+  $ivw['frabo_mobile'] = [
     'name' => t("Frabo mobile control"),
     'description' => t("The frabo mobile control variable."),
-  );
+  ];
 
-  return array(
-    'types' => array('ivw' => $type),
-    'tokens' => array(
+  return [
+    'types' => ['ivw' => $type],
+    'tokens' => [
       'ivw' => $ivw,
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -91,7 +91,7 @@ function ivw_integration_token_info() {
  */
 function ivw_integration_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
   $sanitize = !empty($options['sanitize']);
-  $replacements = array();
+  $replacements = [];
 
   if ($type == 'ivw') {
 

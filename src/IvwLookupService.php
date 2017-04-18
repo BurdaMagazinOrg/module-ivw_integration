@@ -8,8 +8,6 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\node\Entity\Node;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\TermInterface;
 
 /**
@@ -75,7 +73,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
         // FIXME is this part required?
         if (is_numeric($entity)) {
-          $entity = Node::load($entity);
+          $entity = $this->entityTypeManager->getStorage('node')->load($entity);
         }
         if ($entity instanceof TermInterface) {
           $setting = $this->searchTerm($name, $entity, $parentOnly);
@@ -235,17 +233,20 @@ class IvwLookupService implements IvwLookupServiceInterface {
       if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
         $fieldName = $fieldDefinition->getName();
         if ($tid = $entity->$fieldName->target_id) {
-          $term = Term::load($tid);
+          /** @var \Drupal\taxonomy\TermInterface $term */
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')
+            ->load($tid);
+
           if ($term) {
             $termOverride = $this->searchTerm($name, $term);
           }
         }
       }
-    }
 
-    // If we did not return before, it is possible that we found a termOverride.
-    if (isset($termOverride)) {
-      return $termOverride;
+      // Return found termOverride.
+      if (isset($termOverride)) {
+        return $termOverride;
+      }
     }
 
     return NULL;
@@ -277,7 +278,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
       }
     }
 
-    /* @var TermStorage $termStorage  */
+    /* @var \Drupal\taxonomy\TermStorage $termStorage  */
     $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
 
     foreach ($termStorage->loadParents($term->id()) as $parent) {
