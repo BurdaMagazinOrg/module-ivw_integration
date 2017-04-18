@@ -2,6 +2,7 @@
 
 namespace Drupal\ivw_integration;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Utility\Token;
@@ -28,19 +29,30 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   protected $token;
 
   /**
+   * The IVW lookup service.
+   *
+   * @var \Drupal\ivw_integration\IvwLookupServiceInterface
+   */
+  protected $lookupService;
+
+  /**
    * Generates IVW tracking information.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.
    * @param \Drupal\Core\Utility\Token $token
    *   Token service.
+   * @param \Drupal\ivw_integration\IvwLookupServiceInterface $lookupService
+   *   The IVW lookup service.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
-    Token $token
+    Token $token,
+    IvwLookupServiceInterface $lookupService
   ) {
     $this->configFactory = $config_factory;
     $this->token = $token;
+    $this->lookupService = $lookupService;
   }
 
   /**
@@ -140,9 +152,11 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * {@inheritdoc}
    */
   public function getCacheTags() {
+    $cache_tags = $this->lookupService->getCacheTagsByCurrentRoute();
+
     $settings = $this->configFactory->get('ivw_integration.settings');
 
-    return $settings->getCacheTags();
+    return Cache::mergeTags($cache_tags, $settings->getCacheTags());
   }
 
   /**

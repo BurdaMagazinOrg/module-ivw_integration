@@ -81,4 +81,23 @@ interface IvwLookupServiceInterface {
    */
   public function byTerm($name, TermInterface $term, $parentOnly = FALSE);
 
+  /**
+   * Look up cache tags for the current route.
+   *
+   * @return array|\string[]
+   *   An array of cache tags
+   */
+  public function getCacheTagsByCurrentRoute();
+
+  /**
+   * Look up cache tags for the provided route.
+   *
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route
+   *   The route, for which cache tags should be found.
+   *
+   * @return array|\string[]
+   *   An array of cache tags
+   */
+  public function getCacheTagsByRoute(RouteMatchInterface $route);
+
 }
