@@ -170,7 +170,9 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
         $fieldName = $fieldDefinition->getName();
         if ($tid = $entity->$fieldName->target_id) {
-          $term = Term::load($tid);
+          /** @var \Drupal\taxonomy\TermInterface $term */
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')
+            ->load($tid);
           if ($term) {
             return $term;
           }
