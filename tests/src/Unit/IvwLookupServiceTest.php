@@ -38,10 +38,10 @@ class IvwLookupServiceTest extends UnitTestCase {
    * {@inheritdoc}
    */
   public static function getInfo() {
-    return array(
+    return [
       'name' => "IvwLookupServic's controller functionality",
       'description' => 'Test Unit for module ivw_integration and service IvwLookupServic.',
-    );
+    ];
   }
 
   /**
