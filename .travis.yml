@@ -18,6 +18,7 @@ branches:
 
 env:
   global:
+    - DRUPAL_TRAVIS_TEST_JAVASCRIPT=false
     - PATH="$PATH:$HOME/.composer/vendor/bin"
 
 before_install:
