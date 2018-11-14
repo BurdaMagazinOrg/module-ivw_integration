@@ -84,13 +84,16 @@ function ivw_integration_page_attachments(array &$page) {
     return;
   }
 
+  // Base minification script on the core javascript setting.
+  $minified = \Drupal::config('system.performance')->get('js.preprocess');
+
   $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $trackerService->getCacheTags());
 
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
       '#attributes' => [
-        'src' => 'https://script.ioam.de/iam.js',
+        'src' => 'https://script.ioam.de/iam.js' . ($minified ? '?m=1' : ''),
       ],
     ],
     'ivw_library',
