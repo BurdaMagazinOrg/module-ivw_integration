@@ -73,19 +73,22 @@ class IvwLookupService implements IvwLookupServiceInterface {
       /* @var ContentEntityInterface $entity */
       if ($entity = $route->getParameter($parameter)) {
 
-        // FIXME is this part required?
         if (is_numeric($entity)) {
-          $entity = $this->entityTypeManager->getStorage('node')->load($entity);
+          // On some routes like revisions, the entity parameter
+          // might not yet be instantiated as object.
+          $entity = $this->entityTypeManager->getStorage($parameter)->load($entity);
         }
-        if ($entity instanceof TermInterface) {
-          $setting = $this->searchTerm($name, $entity, $parentOnly);
-        }
-        else {
-          $setting = $this->searchEntity($name, $entity, $parentOnly);
-        }
+        if (!empty($entity)) {
+          if ($entity instanceof TermInterface) {
+            $setting = $this->searchTerm($name, $entity, $parentOnly);
+          }
+          else {
+            $setting = $this->searchEntity($name, $entity, $parentOnly);
+          }
 
-        if ($setting !== NULL) {
-          return $setting;
+          if ($setting !== NULL) {
+            return $setting;
+          }
         }
       }
     }
@@ -112,18 +115,25 @@ class IvwLookupService implements IvwLookupServiceInterface {
       /* @var ContentEntityInterface $entity */
       if ($entity = $route->getParameter($parameter)) {
 
-        $cache_tags = $entity->getCacheTags();
-
-        // For Nodes, also get Taxonomy cachetags.
-        if ($entity instanceof Node) {
-          if ($term = $this->getTermOfNode($entity)) {
-            $entity = $term;
-          }
+        if (is_numeric($entity)) {
+          // On some routes like revisions, the entity parameter
+          // might not yet be instantiated as object.
+          $entity = $this->entityTypeManager->getStorage($parameter)->load($entity);
         }
+        if (!empty($entity)) {
+          $cache_tags = $entity->getCacheTags();
 
-        // If $entity is Term, get cache tags of it and its parents.
-        if ($entity instanceof Term) {
-          $cache_tags = Cache::mergeTags($cache_tags, $this->getCacheTagsByTerm($entity));
+          // For Nodes, also get Taxonomy cachetags.
+          if ($entity instanceof Node) {
+            if ($term = $this->getTermOfNode($entity)) {
+              $entity = $term;
+            }
+          }
+
+          // If $entity is Term, get cache tags of it and its parents.
+          if ($entity instanceof Term) {
+            $cache_tags = Cache::mergeTags($cache_tags, $this->getCacheTagsByTerm($entity));
+          }
         }
 
       }
