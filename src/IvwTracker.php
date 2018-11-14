@@ -15,6 +15,13 @@ use Drupal\Core\Utility\Token;
 class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
 
   /**
+   * Static cache of tracking information.
+   *
+   * @var array|null
+   */
+  protected $trackingInformation;
+
+  /**
    * The config factory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
@@ -59,14 +66,19 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * {@inheritdoc}
    */
   public function getTrackingInformation() {
-    return [
-      'st' => $this->getSt(),
-      'mobile_st' => $this->getMobileSt(),
-      'cp' => $this->getCp(),
-      'cpm' => $this->getCpm(),
-      'sv' => $this->getSv(),
-      'mobile_sv' => $this->getMobileSv(),
-    ];
+    if (!isset($this->trackingInformation)) {
+      $this->trackingInformation = [
+        'st' => $this->getSt(),
+        'mobile_st' => $this->getMobileSt(),
+        'cp' => $this->getCp(),
+        'sv' => $this->getSv(),
+        'mobile_sv' => $this->getMobileSv(),
+      ];
+      // Calculate cpm based upon cp.
+      // TODO: this is absolutely not generic.
+      $this->trackingInformation['cpm'] = str_replace('D1A', 'D2A', $this->trackingInformation['cp']);
+    }
+    return $this->trackingInformation;
   }
 
   /**
@@ -102,19 +114,6 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
     $code_template = $settings->get('code_template');
 
     return $this->token->replace($code_template, [], ['sanitize' => FALSE]);
-  }
-
-  /**
-   * Gets the cpm parameter.
-   *
-   * Possible overrides have been applied for the current page.
-   *
-   * @return string
-   *   The value of the cpm parameter.
-   */
-  protected function getCpm() {
-    // TODO: this is absolutely not generic.
-    return str_replace('D1A', 'D2A', $this->getCp());
   }
 
   /**
