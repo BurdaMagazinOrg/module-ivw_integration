@@ -19,7 +19,6 @@ use Drupal\taxonomy\TermInterface;
  */
 class IvwLookupService implements IvwLookupServiceInterface {
 
-  const SUPPORTED_ENTITY_PARAMETERS = ['node', 'media', 'taxonomy_term'];
   /**
    * The route match.
    *
@@ -56,6 +55,15 @@ class IvwLookupService implements IvwLookupServiceInterface {
   }
 
   /**
+   * Gets the supported entity parameters.
+   *
+   * @return array
+   */
+  public static function getSupportedEntityParameters() {
+    return ['node', 'media', 'taxonomy_term'];
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function byCurrentRoute($name, $parentOnly = FALSE) {
@@ -69,7 +77,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
     $entity = NULL;
 
-    foreach (static::SUPPORTED_ENTITY_PARAMETERS as $parameter) {
+    foreach (self::getSupportedEntityParameters() as $parameter) {
       /* @var ContentEntityInterface $entity */
       if ($entity = $route->getParameter($parameter)) {
 
@@ -111,7 +119,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
     $entity = NULL;
     $cache_tags = [];
 
-    foreach (static::SUPPORTED_ENTITY_PARAMETERS as $parameter) {
+    foreach (self::getSupportedEntityParameters() as $parameter) {
       /* @var ContentEntityInterface $entity */
       if ($entity = $route->getParameter($parameter)) {
 
