@@ -5,6 +5,8 @@
  * Contains installation hooks for module.
  */
 
+use Drupal\user\Entity\Role;
+
 /**
  * Implements hook_requirements().
  */
@@ -113,4 +115,16 @@ function ivw_integration_add_missing_field_columns($field_type) {
 function ivw_integration_update_8101() {
   $messages = ivw_integration_add_missing_field_columns('ivw_integration_settings');
   return implode('<br /><br />', $messages);
+}
+
+/**
+ * Update all current users for the new permission.
+ */
+function ivw_integration_update_8102() {
+  $roles = Role::loadMultiple();
+  foreach ($roles as $role) {
+    if ($role->hasPermission("administer site configuration")) {
+      $role->grantPermission("administer ivw integration configuration");
+    }
+  }
 }
