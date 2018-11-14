@@ -58,6 +58,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
    * Gets the supported entity parameters.
    *
    * @return array
+   *   The supported entity parameters.
    */
   public static function getSupportedEntityParameters() {
     return ['node', 'media', 'taxonomy_term'];
