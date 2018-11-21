@@ -128,3 +128,18 @@ function ivw_integration_update_8102() {
     }
   }
 }
+
+/**
+ * Grant new permission to users who can administer site config.
+ */
+function ivw_integration_update_8103() {
+  // Update hook 8102 did not include the save operation, thus retry it here.
+  $roles = Role::loadMultiple();
+  /** @var \Drupal\user\RoleInterface $role */
+  foreach ($roles as $role) {
+    if ($role->hasPermission("administer site configuration") && !$role->hasPermission("administer ivw integration configuration")) {
+      $role->grantPermission("administer ivw integration configuration");
+      $role->save();
+    }
+  }
+}
