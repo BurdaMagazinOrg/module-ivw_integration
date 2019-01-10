@@ -127,7 +127,12 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $ivw_integration_settings->get('mobile_width'),
       '#description' => $this->t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.'),
     ];
-
+    $form['site_settings']['mcvd'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Activate Multistage Client & Visit Detection (MCVD)'),
+      '#default_value' => $ivw_integration_settings->get('mcvd'),
+      '#description' => $this->t('This activates the MCVD tracking capability. See <a href="https://www.infonline.de/downloads/web-mew-und-ctv/">INFOnline Fact Sheet \'Multistage Client & Visit Detection\' (MCVD)</a> for more information about this.'),
+    ];
     $frabo_default = $ivw_integration_settings->get('frabo_default');
     $form['default_values']['frabo_default'] = [
       '#type' => 'select',
@@ -398,6 +403,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('frabo_overridable', $values['frabo_overridable'])
       ->set('frabo_mobile_default', $values['frabo_mobile_default'])
       ->set('frabo_mobile_overridable', $values['frabo_mobile_overridable'])
+      ->set('mcvd', $values['mcvd'])
       ->save();
   }
 
