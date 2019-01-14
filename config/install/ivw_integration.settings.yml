@@ -25,3 +25,4 @@ frabo_default: 'in'
 frabo_overridable: false
 frabo_mobile_default: 'mo'
 frabo_mobile_overridable: false
+mcvd: false

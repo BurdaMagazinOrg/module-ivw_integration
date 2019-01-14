@@ -83,3 +83,6 @@ ivw_integration.settings:
     frabo_mobile_overridable:
       type: boolean
       label: 'Frabo control for mobile is overridable'
+    mcvd:
+      type: boolean
+      label: 'Activate Multistage Client & Visit Detection (MCVD)'

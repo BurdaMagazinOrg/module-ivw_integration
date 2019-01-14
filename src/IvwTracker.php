@@ -73,6 +73,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
         'cp' => $this->getCp(),
         'sv' => $this->getSv(),
         'mobile_sv' => $this->getMobileSv(),
+        'sc' => $this->getSc(),
       ];
       // Calculate cpm based upon cp.
       // TODO: this is absolutely not generic.
@@ -138,6 +139,16 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   protected function getMobileSv() {
     $sv = $this->token->replace('[ivw:frabo_mobile]', [], ['sanitize' => FALSE]);
     return empty($sv) ? 'mo' : $sv;
+  }
+
+  /**
+   * Gets the sc parameter.
+   *
+   * @return string
+   *   The value of the st parameter.
+   */
+  protected function getSc() {
+    return $this->configFactory->get('ivw_integration.settings')->get('mcvd') ? 'yes' : '';
   }
 
   /**
