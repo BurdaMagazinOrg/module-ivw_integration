@@ -50,8 +50,8 @@ class IvwLookupServiceTest extends UnitTestCase {
   public function setUp() {
     parent::setUp();
 
-    $this->routeMatchMock = $this->getMock('\Drupal\Core\Routing\RouteMatchInterface');
-    $this->entityTypeManagerMock = $this->getMock('\Drupal\Core\Entity\EntityTypeManagerInterface');
+    $this->routeMatchMock = $this->createMock('\Drupal\Core\Routing\RouteMatchInterface');
+    $this->entityTypeManagerMock = $this->createMock('\Drupal\Core\Entity\EntityTypeManagerInterface');
     $this->setUpConfigFactoryMock();
   }
 
@@ -59,11 +59,11 @@ class IvwLookupServiceTest extends UnitTestCase {
    * Setup Config relevant for proper functioning of tests.
    */
   protected function setUpConfigFactoryMock() {
-    $this->configFactoryMock = $this->getMock('\Drupal\Core\Config\ConfigFactoryInterface');
+    $this->configFactoryMock = $this->createMock('\Drupal\Core\Config\ConfigFactoryInterface');
 
-    $storage = $this->getMock('Drupal\Core\Config\StorageInterface');
-    $event_dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-    $typed_config = $this->getMock('Drupal\Core\Config\TypedConfigManagerInterface');
+    $storage = $this->createMock('Drupal\Core\Config\StorageInterface');
+    $event_dispatcher = $this->createMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+    $typed_config = $this->createMock('Drupal\Core\Config\TypedConfigManagerInterface');
     $config = new Config('ivw_integration', $storage, $event_dispatcher, $typed_config);
     $config->set('site', 'TestSiteName');
     $config->set('mobile_site', 'TestMobileSiteName');

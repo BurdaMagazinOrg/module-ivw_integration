@@ -2,7 +2,7 @@ name: IVW Tracking
 type: module
 description: 'IVW (SZM 2) tracking'
 package: Tracking
-core: 8.x
+core_version_requirement: ^8.8 || ^9
 
 dependencies:
   - token:token

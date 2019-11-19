@@ -5,7 +5,8 @@
   "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "require": {
-    "drupal/breakpoint_js_settings": "~1.0"
+    "drupal/breakpoint_js_settings": "~1.0",
+    "drupal/core": "^8.8|^9.0"
   },
   "require-dev": {
     "burdamagazinorg/thunder-dev-tools": "dev-master"
