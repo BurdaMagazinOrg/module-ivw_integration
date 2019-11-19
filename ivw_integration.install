@@ -13,7 +13,7 @@ use Drupal\Core\Url;
  */
 function ivw_integration_requirements($phase) {
   $requirements = [];
-  \Drupal\Core\Url::fromRoute()->getInternalPath();
+
   if ($phase == 'runtime') {
     $config = \Drupal::config('ivw_integration.settings');
 
