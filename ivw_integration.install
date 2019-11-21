@@ -7,6 +7,7 @@
 
 use Drupal\user\Entity\Role;
 use Drupal\Core\Url;
+use Drupal\Core\Link;
 
 /**
  * Implements hook_requirements().
@@ -21,7 +22,7 @@ function ivw_integration_requirements($phase) {
     if (empty($config->get('site'))) {
       $requirements['ivw_integration'] = [
         'title' => t('IVW'),
-        'description' => t('IVW has not been configured yet. Please configure its settings from the <a href="@url">IVW settings page</a>.', ['@url' => Url::fromRoute('ivw_integration.admin_settings')->getInternalPath()]),
+        'description' => t('IVW has not been configured yet. Please configure its settings from the @settings.', ['@settings' => Link::fromTextAndUrl('IVW settings page', Url::fromRoute('ivw_integration.admin_settings'))->toString()]),
         'severity' => REQUIREMENT_WARNING,
         'value' => t('Not configured'),
       ];
