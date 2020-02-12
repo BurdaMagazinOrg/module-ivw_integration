@@ -12,7 +12,7 @@ cache:
   - "$HOME/.npm"
 
 php:
-  - 7.2
+  - 7.3
 
 branches:
   only:
@@ -20,14 +20,16 @@ branches:
 
 env:
   global:
-    - DRUPAL_TRAVIS_TEST_JAVASCRIPT=false
     - PATH="$PATH:$HOME/.composer/vendor/bin"
 
 before_install:
-  - composer global require thunder/travis
+  - composer global require thunder/drupal-testing
+
+before_script:
+  - phpenv config-rm xdebug.ini
 
 script:
-  - test-drupal-module
+  - test-drupal-project
 
 notifications:
   email: false
