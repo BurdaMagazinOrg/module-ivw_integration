@@ -1,0 +1,9 @@
+name: 'IVW integration test'
+type: module
+description: 'Support module for IVW integration tests.'
+package: Testing
+dependencies:
+  - ivw_integration:ivw_integration
+  - drupal:field
+  - drupal:node
+  - drupal:block
