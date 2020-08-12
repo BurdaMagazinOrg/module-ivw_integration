@@ -2,14 +2,15 @@ langcode: en
 status: true
 dependencies:
   module:
-    - ivw_integration
     - node
-id: node.field_ivw_settings
-field_name: field_ivw_settings
+    - taxonomy
+id: node.field_taxonomy
+field_name: field_taxonomy
 entity_type: node
-type: ivw_integration_settings
-settings: {  }
-module: ivw_integration
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
 locked: false
 cardinality: 1
 translatable: true

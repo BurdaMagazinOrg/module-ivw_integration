@@ -17,6 +17,7 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
    * @var array
    */
   protected static $modules = [
+    'taxonomy',
     'field',
     'node',
     'block',
@@ -43,13 +44,17 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
 
     // Create and log in an administrative user.
     $this->adminUser = $this->drupalCreateUser([
+      'create ivw_test content',
       'administer ivw integration configuration',
+      'create terms in ivw_taxonomy',
     ]);
 
-    $this->config('ivw_integration.theme')->set('site', 'TestSiteName')
+    // Setting defaults. To provide sane defaults and have a quick reference for
+    // the actual tests.
+    $this->config('ivw_integration.settings')->set('site', 'TestSiteName')
       ->set('mobile_site', 'TestMobileSiteName')
-      ->set('frabo', 'IN')
-      ->set('frabo_mobile', 'mo')
+      ->set('frabo_default', 'IN')
+      ->set('frabo_mobile_default', 'mo')
       ->set('frabo_overridable', 0)
       ->set('frabo_mobile_overridable', 0)
       ->set('code_template', '[ivw:offering]L[ivw:language]F[ivw:format]S[ivw:creator]H[ivw:homepage]D[ivw:delivery]A[ivw:app]P[ivw:paid]C[ivw:content]')
@@ -72,7 +77,7 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
       ->set('paid_default', 1)
       ->set('paid_overridable', 0)
       ->set('content_default', '01')
-      ->set('content_overridable', 1)
+      ->set('content_overridable', 0)
       ->set('mcvd', 0)
       ->save();
 
@@ -81,23 +86,120 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
 
   /**
    * Tests overriding of site values.
+   *
+   * @dataProvider overrideTestCases
    */
-  public function testOverride() {
-    // Load the front page.
+  public function testOverride($settings, $termOverrides, $nodeOverrides, $expectedOutput) {
+
+    if (!empty($settings)) {
+      $ivwSettings = $this->config('ivw_integration.settings');
+      foreach ($settings as $settingName => $settingValue) {
+        $ivwSettings->set($settingName, $settingValue);
+      }
+      $ivwSettings->save();
+    }
+
+    if (!empty($termOverrides)) {
+      // Load the term edit page.
+      $this->drupalGet('admin/structure/taxonomy/manage/ivw_taxonomy/add');
+      $this->assertSession()->statusCodeEquals(200);
+
+      $edit = [
+        'name[0][value]' => $this->randomString(),
+      ];
+
+      foreach ($termOverrides as $termOverrideName => $termOverrideValue) {
+        $edit["field_ivw_settings[0][$termOverrideName]"] = $termOverrideValue;
+      }
+      $this->drupalPostForm(NULL, $edit, 'Save');
+    }
+
+    // Load the node edit page.
     $this->drupalGet('node/add/ivw_test');
     $this->assertSession()->statusCodeEquals(200);
 
-    $title = 'ivw test title';
-    $format = '2';
-
     $edit = [
-      'title[0][value]' => $title,
-      'field_ivw_settings[0][format]' => $format,
+      'title[0][value]' => $this->randomString(),
     ];
 
-    $this->drupalPostForm(NULL, $edit, 'Save');
+    if (!empty($termOverrides)) {
+      $edit['field_taxonomy'] = 1;
+    }
 
-    $this->assertSession()->pageTextContains($title);
+    if (!empty($nodeOverrides)) {
+      foreach ($nodeOverrides as $nodeOverrideName => $nodeOverrideValue) {
+        $edit["field_ivw_settings[0][$nodeOverrideName]"] = $nodeOverrideValue;
+      }
+    }
+
+    $this->drupalPostForm(NULL, $edit, 'Save');
+    $this->assertSession()->pageTextContains($expectedOutput);
+  }
+
+  /**
+   * A data provider for testOverride.
+   */
+  public function overrideTestCases() {
+    return [
+      'No overrides' => [
+        [
+          'content_default' => '01',
+          'content_overridable' => 0,
+          'code_template' => 'IVWContent-[ivw:content]',
+        ],
+        [],
+        [],
+        'IVWContent-01',
+      ],
+      'Override enabled, but no override value given in node' => [
+        [
+          'content_default' => '01',
+          'content_overridable' => 1,
+          'code_template' => 'IVWContent-[ivw:content]',
+        ],
+        [],
+        [],
+        'IVWContent-01',
+      ],
+      'Override with value given in node' => [
+        [
+          'content_default' => '01',
+          'content_overridable' => 1,
+          'code_template' => 'IVWContent-[ivw:content]',
+        ],
+        [],
+        [
+          'content' => '02',
+        ],
+        'IVWContent-02',
+      ],
+      'Override with value given in taxonomy' => [
+        [
+          'content_default' => '01',
+          'content_overridable' => 1,
+          'code_template' => 'IVWContent-[ivw:content]',
+        ],
+        [
+          'content' => '03',
+        ],
+        [],
+        'IVWContent-03',
+      ],
+      'Override with value given in taxonomy and node' => [
+        [
+          'content_default' => '01',
+          'content_overridable' => 1,
+          'code_template' => 'IVWContent-[ivw:content]',
+        ],
+        [
+          'content' => '04',
+        ],
+        [
+          'content' => '05',
+        ],
+        'IVWContent-05',
+      ],
+    ];
   }
 
 }

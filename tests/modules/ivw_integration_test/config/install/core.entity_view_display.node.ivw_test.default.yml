@@ -1,0 +1,32 @@
+uuid: cab94f7d-6d7d-4792-9d52-e85973953cc8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.ivw_test.field_ivw_settings
+    - field.field.node.ivw_test.field_taxonomy
+    - node.type.ivw_test
+  module:
+    - user
+_core:
+  default_config_hash: kHQHVt6TTLdWAGAK7nIpB2AWEp4jm4ARFxcixNc9lCw
+id: node.ivw_test.default
+targetEntityType: node
+bundle: ivw_test
+mode: default
+content:
+  field_taxonomy:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_ivw_settings: true
