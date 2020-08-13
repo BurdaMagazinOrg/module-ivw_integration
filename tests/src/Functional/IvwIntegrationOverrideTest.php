@@ -99,40 +99,42 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
       $ivwSettings->save();
     }
 
+    $nodeEdit = [
+      'title[0][value]' => $this->randomString(),
+    ];
+
+    if (!empty($nodeOverrides)) {
+      foreach ($nodeOverrides as $nodeOverrideName => $nodeOverrideValue) {
+        $nodeEdit["field_ivw_settings[0][$nodeOverrideName]"] = $nodeOverrideValue;
+      }
+    }
+
     if (!empty($termOverrides)) {
       // Load the term edit page.
       $this->drupalGet('admin/structure/taxonomy/manage/ivw_taxonomy/add');
       $this->assertSession()->statusCodeEquals(200);
 
-      $edit = [
-        'name[0][value]' => $this->randomString(),
+      $termName = $this->randomString();
+      $termEdit = [
+        'name[0][value]' => $termName,
       ];
 
       foreach ($termOverrides as $termOverrideName => $termOverrideValue) {
-        $edit["field_ivw_settings[0][$termOverrideName]"] = $termOverrideValue;
+        $termEdit["field_ivw_settings[0][$termOverrideName]"] = $termOverrideValue;
       }
-      $this->drupalPostForm(NULL, $edit, 'Save');
+
+      $this->drupalPostForm(NULL, $termEdit, 'Save');
+
+      $terms = taxonomy_term_load_multiple_by_name($termName);
+      $term = reset($terms);
+      $nodeEdit['field_a'] = $term->id();
     }
 
     // Load the node edit page.
     $this->drupalGet('node/add/ivw_test');
     $this->assertSession()->statusCodeEquals(200);
 
-    $edit = [
-      'title[0][value]' => $this->randomString(),
-    ];
-
-    if (!empty($termOverrides)) {
-      $edit['field_a'] = 1;
-    }
-
-    if (!empty($nodeOverrides)) {
-      foreach ($nodeOverrides as $nodeOverrideName => $nodeOverrideValue) {
-        $edit["field_ivw_settings[0][$nodeOverrideName]"] = $nodeOverrideValue;
-      }
-    }
-
-    $this->drupalPostForm(NULL, $edit, 'Save');
+    $this->drupalPostForm(NULL, $nodeEdit, 'Save');
     $this->assertSession()->pageTextContains($expectedOutput);
   }
 
