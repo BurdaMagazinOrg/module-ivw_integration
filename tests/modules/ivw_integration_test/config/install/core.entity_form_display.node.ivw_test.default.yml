@@ -3,7 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.ivw_test.field_ivw_settings
-    - field.field.node.ivw_test.field_taxonomy
+    - field.field.node.ivw_test.field_a
     - node.type.ivw_test
   module:
     - ivw_integration
@@ -24,7 +24,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_taxonomy:
+  field_a:
     weight: 26
     settings: {  }
     third_party_settings: {  }

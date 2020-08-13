@@ -2,11 +2,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_taxonomy
+    - field.storage.node.field_a
     - node.type.ivw_test
     - taxonomy.vocabulary.ivw_taxonomy
-id: node.ivw_test.field_taxonomy
-field_name: field_taxonomy
+id: node.ivw_test.field_a
+field_name: field_a
 entity_type: node
 bundle: ivw_test
 label: Taxonomy

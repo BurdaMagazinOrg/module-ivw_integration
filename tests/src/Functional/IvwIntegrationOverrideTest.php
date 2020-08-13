@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\ivw_integration\Functional;
 
+use Drupal\taxonomy\Entity\Term;
 use Drupal\Tests\BrowserTestBase;
 
 /**
@@ -123,7 +124,7 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
     ];
 
     if (!empty($termOverrides)) {
-      $edit['field_taxonomy'] = 1;
+      $edit['field_a'] = 1;
     }
 
     if (!empty($nodeOverrides)) {
