@@ -1,4 +1,3 @@
-uuid: cab94f7d-6d7d-4792-9d52-e85973953cc8
 langcode: en
 status: true
 dependencies:
@@ -8,8 +7,6 @@ dependencies:
     - node.type.ivw_test
   module:
     - user
-_core:
-  default_config_hash: kHQHVt6TTLdWAGAK7nIpB2AWEp4jm4ARFxcixNc9lCw
 id: node.ivw_test.default
 targetEntityType: node
 bundle: ivw_test
