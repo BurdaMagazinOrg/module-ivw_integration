@@ -25,14 +25,12 @@ class IvwLookupService implements IvwLookupServiceInterface {
    * @var \Drupal\Core\Routing\RouteMatchInterface
    */
   protected $currentRouteMatch;
-
   /**
    * IVW integration configuration.
    *
    * @var \Drupal\Core\Config\ImmutableConfig
    */
   protected $config;
-
   /**
    * The entity type manager.
    *
@@ -50,13 +48,9 @@ class IvwLookupService implements IvwLookupServiceInterface {
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
    */
-  public function __construct(
-    RouteMatchInterface $currentRouteMatch,
-    ConfigFactoryInterface $configFactory,
-    EntityTypeManagerInterface $entityTypeManager
-  ) {
+  public function __construct(RouteMatchInterface $currentRouteMatch, ConfigFactoryInterface $configFactory, EntityTypeManagerInterface $entityTypeManager) {
     $this->currentRouteMatch = $currentRouteMatch;
-    $this->config = $configFactory->get('ivw_integration.settings');
+    $this->config            = $configFactory->get('ivw_integration.settings');
     $this->entityTypeManager = $entityTypeManager;
   }
 
@@ -80,11 +74,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function byRoute(
-    $name,
-    RouteMatchInterface $route,
-    $parentOnly = FALSE
-  ) {
+  public function byRoute($name, RouteMatchInterface $route, $parentOnly = FALSE) {
 
     $entity = NULL;
 
@@ -95,8 +85,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
         if (is_numeric($entity)) {
           // On some routes like revisions, the entity parameter
           // might not yet be instantiated as object.
-          $entity = $this->entityTypeManager->getStorage($parameter)
-            ->load($entity);
+          $entity = $this->entityTypeManager->getStorage($parameter)->load($entity);
         }
         if (!empty($entity)) {
           if ($entity instanceof TermInterface) {
@@ -138,8 +127,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
         if (is_numeric($entity)) {
           // On some routes like revisions, the entity parameter
           // might not yet be instantiated as object.
-          $entity = $this->entityTypeManager->getStorage($parameter)
-            ->load($entity);
+          $entity = $this->entityTypeManager->getStorage($parameter)->load($entity);
         }
         if (!empty($entity)) {
           $cache_tags = $entity->getCacheTags();
@@ -153,8 +141,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
 
           // If $entity is Term, get cache tags of it and its parents.
           if ($entity instanceof Term) {
-            $cache_tags = Cache::mergeTags($cache_tags,
-              $this->getCacheTagsByTerm($entity));
+            $cache_tags = Cache::mergeTags($cache_tags, $this->getCacheTagsByTerm($entity));
           }
         }
 
@@ -173,7 +160,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
    *   The gathered cache tags.
    */
   private function getCacheTagsByTerm(TermInterface $term) {
-    /* @var \Drupal\taxonomy\TermStorage $termStorage */
+    /* @var \Drupal\taxonomy\TermStorage $termStorage  */
     $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
 
     $cache_tags = $term->getCacheTags();
@@ -221,11 +208,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function byEntity(
-    $name,
-    ContentEntityInterface $entity,
-    $parentOnly = FALSE
-  ) {
+  public function byEntity($name, ContentEntityInterface $entity, $parentOnly = FALSE) {
     $result = $this->searchEntity($name, $entity, $parentOnly);
     return $result !== NULL ? $result : $this->defaults($name);
   }
@@ -254,12 +237,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
    * @return string|null
    *   The property value.
    */
-  protected function searchEntity(
-    $name,
-    ContentEntityInterface $entity,
-    $parentOnly = FALSE
-  ) {
-    $termOverride = NULL;
+  protected function searchEntity($name, ContentEntityInterface $entity, $parentOnly = FALSE) {
     // Search for ivw_integration_settings field.
     foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
       $fieldType = $fieldDefinition->getType();
@@ -268,15 +246,14 @@ class IvwLookupService implements IvwLookupServiceInterface {
          * If settings are found, check if an overridden value for the
          * given setting is found and return that
          */
-        $overiddenSetting = $this->getOverriddenIvwSetting($name,
-          $fieldDefinition, $entity);
+        $overiddenSetting = $this->getOverriddenIvwSetting($name, $fieldDefinition, $entity);
         if (isset($overiddenSetting)) {
           return $overiddenSetting;
         }
       }
 
       // Check for fallback categories if no ivw_integration_setting is found.
-      if (!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
+      if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
         $fieldName = $fieldDefinition->getName();
         if ($tid = $entity->$fieldName->target_id) {
           /** @var \Drupal\taxonomy\TermInterface $term */
@@ -288,11 +265,11 @@ class IvwLookupService implements IvwLookupServiceInterface {
           }
         }
       }
-    }
 
-    // Return found termOverride.
-    if (isset($termOverride)) {
-      return $termOverride;
+      // Return found termOverride.
+      if (isset($termOverride)) {
+        return $termOverride;
+      }
     }
 
     return NULL;
@@ -314,22 +291,17 @@ class IvwLookupService implements IvwLookupServiceInterface {
    * @return null|string
    *   The property value.
    */
-  protected function searchTerm(
-    $name,
-    TermInterface $term,
-    $parentOnly = FALSE
-  ) {
+  protected function searchTerm($name, TermInterface $term, $parentOnly = FALSE) {
     if (!$parentOnly) {
       foreach ($term->getFieldDefinitions() as $fieldDefinition) {
-        $override = $this->getOverriddenIvwSetting($name, $fieldDefinition,
-          $term);
+        $override = $this->getOverriddenIvwSetting($name, $fieldDefinition, $term);
         if (isset($override)) {
           return $override;
         }
       }
     }
 
-    /* @var \Drupal\taxonomy\TermStorage $termStorage */
+    /* @var \Drupal\taxonomy\TermStorage $termStorage  */
     $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
 
     foreach ($termStorage->loadParents($term->id()) as $parent) {
@@ -355,11 +327,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
    * @return string|null
    *   The property value.
    */
-  protected function getOverriddenIvwSetting(
-    $name,
-    FieldDefinitionInterface $fieldDefinition,
-    ContentEntityInterface $entity
-  ) {
+  protected function getOverriddenIvwSetting($name, FieldDefinitionInterface $fieldDefinition, ContentEntityInterface $entity) {
     if ($fieldDefinition->getType() === 'ivw_integration_settings') {
       $fieldName = $fieldDefinition->getName();
       if (!empty($entity->$fieldName->get(0)->$name)) {
