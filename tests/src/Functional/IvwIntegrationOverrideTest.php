@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\ivw_integration\Functional;
 
-use Drupal\taxonomy\Entity\Term;
 use Drupal\Tests\BrowserTestBase;
 
 /**
