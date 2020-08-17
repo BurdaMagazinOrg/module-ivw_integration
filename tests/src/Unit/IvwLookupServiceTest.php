@@ -39,8 +39,8 @@ class IvwLookupServiceTest extends UnitTestCase {
    */
   public static function getInfo() {
     return [
-      'name' => "IvwLookupServic's controller functionality",
-      'description' => 'Test Unit for module ivw_integration and service IvwLookupServic.',
+      'name' => "IvwLookupService's controller functionality",
+      'description' => 'Test Unit for module ivw_integration and service IvwLookupService.',
     ];
   }
 
@@ -67,8 +67,8 @@ class IvwLookupServiceTest extends UnitTestCase {
     $config = new Config('ivw_integration', $storage, $event_dispatcher, $typed_config);
     $config->set('site', 'TestSiteName');
     $config->set('mobile_site', 'TestMobileSiteName');
-    $config->set('frabo', 'IN');
-    $config->set('frabo_mobile', 'mo');
+    $config->set('frabo_default', 'IN');
+    $config->set('frabo_mobile_default', 'mo');
     $config->set('frabo_overridable', 0);
     $config->set('frabo_mobile_overridable', 0);
     $config->set('code_template', '[ivw:offering]L[ivw:language]F[ivw:format]S[ivw:creator]H[ivw:homepage]D[ivw:delivery]A[ivw:app]P[ivw:paid]C[ivw:content]');
