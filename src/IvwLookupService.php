@@ -238,6 +238,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
    *   The property value.
    */
   protected function searchEntity($name, ContentEntityInterface $entity, $parentOnly = FALSE) {
+    $termOverride = NULL;
     // Search for ivw_integration_settings field.
     foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
       $fieldType = $fieldDefinition->getType();
@@ -246,14 +247,15 @@ class IvwLookupService implements IvwLookupServiceInterface {
          * If settings are found, check if an overridden value for the
          * given setting is found and return that
          */
-        $overiddenSetting = $this->getOverriddenIvwSetting($name, $fieldDefinition, $entity);
+        $overiddenSetting = $this->getOverriddenIvwSetting($name,
+          $fieldDefinition, $entity);
         if (isset($overiddenSetting)) {
           return $overiddenSetting;
         }
       }
 
       // Check for fallback categories if no ivw_integration_setting is found.
-      if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
+      if (!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
         $fieldName = $fieldDefinition->getName();
         if ($tid = $entity->$fieldName->target_id) {
           /** @var \Drupal\taxonomy\TermInterface $term */
@@ -265,14 +267,10 @@ class IvwLookupService implements IvwLookupServiceInterface {
           }
         }
       }
-
-      // Return found termOverride.
-      if (isset($termOverride)) {
-        return $termOverride;
-      }
     }
 
-    return NULL;
+    // Return found termOverride.
+    return $termOverride ?? NULL;
   }
 
   /**
