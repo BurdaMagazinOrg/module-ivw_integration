@@ -89,8 +89,7 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
    *
    * @dataProvider overrideTestCases
    */
-  public function testOverride($settings, $termOverrides, $nodeOverrides, $expectedOutput) {
-
+  public function testOverride($settings, $termFieldOverrides, $nodeOverrides, $expectedOutput) {
     if (!empty($settings)) {
       $ivwSettings = $this->config('ivw_integration.settings');
       foreach ($settings as $settingName => $settingValue) {
@@ -109,7 +108,9 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
       }
     }
 
-    if (!empty($termOverrides)) {
+    if (!empty($termFieldOverrides)) {
+      $field_name = array_key_first($termFieldOverrides);
+
       // Load the term edit page.
       $this->drupalGet('admin/structure/taxonomy/manage/ivw_taxonomy/add');
       $this->assertSession()->statusCodeEquals(200);
@@ -119,7 +120,7 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
         'name[0][value]' => $termName,
       ];
 
-      foreach ($termOverrides as $termOverrideName => $termOverrideValue) {
+      foreach ($termFieldOverrides[$field_name] as $termOverrideName => $termOverrideValue) {
         $termEdit["field_ivw_settings[0][$termOverrideName]"] = $termOverrideValue;
       }
 
@@ -127,7 +128,7 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
 
       $terms = taxonomy_term_load_multiple_by_name($termName);
       $term = reset($terms);
-      $nodeEdit['field_a'] = $term->id();
+      $nodeEdit[$field_name] = $term->id();
     }
 
     // Load the node edit page.
@@ -182,19 +183,42 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
           'code_template' => 'IVWContent-[ivw:content]',
         ],
         [
-          'content' => '03',
+          'field_a' =>
+            [
+              'content' => '03',
+            ],
         ],
         [],
         'IVWContent-03',
       ],
-      'Override with value given in taxonomy and node' => [
+      'Override with value given in taxonomy field a and node' => [
         [
           'content_default' => '01',
           'content_overridable' => 1,
           'code_template' => 'IVWContent-[ivw:content]',
         ],
         [
-          'content' => '04',
+          'field_a' =>
+            [
+              'content' => '04',
+            ],
+        ],
+        [
+          'content' => '05',
+        ],
+        'IVWContent-05',
+      ],
+      'Override with value given in taxonomy field z and node' => [
+        [
+          'content_default' => '01',
+          'content_overridable' => 1,
+          'code_template' => 'IVWContent-[ivw:content]',
+        ],
+        [
+          'field_z' =>
+            [
+              'content' => '04',
+            ],
         ],
         [
           'content' => '05',

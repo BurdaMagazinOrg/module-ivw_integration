@@ -2,8 +2,9 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.ivw_test.field_ivw_settings
     - field.field.node.ivw_test.field_a
+    - field.field.node.ivw_test.field_ivw_settings
+    - field.field.node.ivw_test.field_z
     - node.type.ivw_test
   module:
     - user
@@ -14,6 +15,14 @@ mode: default
 content:
   field_a:
     weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_z:
+    weight: 2
     label: above
     settings:
       link: true
