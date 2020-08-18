@@ -6,7 +6,7 @@
   "minimum-stability": "dev",
   "require": {
       "drupal/breakpoint_js_settings": "~1.0",
-      "drupal/token": "^1.7"
+      "drupal/token": "^1.6"
   },
   "require-dev": {
     "burdamagazinorg/thunder-dev-tools": "dev-master"
