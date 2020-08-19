@@ -1,5 +1,6 @@
 name: 'IVW integration test'
 type: module
+core: 8.x
 description: 'Support module for IVW integration tests.'
 package: Testing
 dependencies:
