@@ -2,6 +2,7 @@ name: 'IVW integration test'
 type: module
 description: 'Support module for IVW integration tests.'
 package: Testing
+core_version_requirement: ^8.8 || ^9
 dependencies:
   - ivw_integration:ivw_integration
   - drupal:field
