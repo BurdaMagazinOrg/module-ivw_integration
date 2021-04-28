@@ -14,14 +14,14 @@ use Drupal\ivw_integration\IvwTrackerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Resolves a IVW script tag for an entity.
+ * Resolves the IVW attributes for an entity.
  *
  * @DataProducer(
  *   id = "ivw_call",
  *   name = @Translation("IVW"),
- *   description = @Translation("Resolves a IVW script tag for an entity."),
- *   produces = @ContextDefinition("string",
- *     label = @Translation("IVW script tag")
+ *   description = @Translation("Resolves the IVW attributes for an entity."),
+ *   produces = @ContextDefinition("any",
+ *     label = @Translation("IVW attributes")
  *   ),
  *   consumes = {
  *     "entity" = @ContextDefinition("entity",
@@ -100,7 +100,7 @@ class IvwCall extends DataProducerPluginBase implements ContainerFactoryPluginIn
   }
 
   /**
-   * Resolve the IVW script tag string.
+   * Resolve the IVW data attributes.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
@@ -108,7 +108,7 @@ class IvwCall extends DataProducerPluginBase implements ContainerFactoryPluginIn
    *   The cacheable dependency interface.
    *
    * @return mixed
-   *   The IVW script tag.
+   *   The IVW attributes.
    */
   public function resolve(EntityInterface $entity, RefinableCacheableDependencyInterface $metadata) {
     if (!($entity instanceof ContentEntityInterface)) {
@@ -125,24 +125,19 @@ class IvwCall extends DataProducerPluginBase implements ContainerFactoryPluginIn
 
       $mobile_width = $this->config->get("mobile_width") ? $this->config->get("mobile_width") : '';
       $mobile_site = $this->config->get("mobile_site") ? $this->config->get("mobile_site") : '';
-      $mobile_sv = $tracker['mobile_sv'];
 
-      $html = [
-        'ivw_call' => [
-          '#theme' => 'ivw_call',
-          '#st' => $tracker['st'],
-          '#cp' => $tracker['cp'],
-          '#sv' => $tracker['sv'],
-          '#sc' => $tracker['sc'],
-          // Not yet configurable.
-          '#co' => '',
-          '#mobile_cp' => $tracker['cpm'],
-          '#mobile_st' => $mobile_site,
-          '#mobile_sv' => $mobile_sv,
-          '#mobile_width' => $mobile_width,
-        ],
+      return [
+        'st' => $tracker['st'],
+        'cp' => $tracker['cp'],
+        'sv' => $tracker['sv'],
+        'sc' => $tracker['sc'],
+        // Not yet configurable.
+        'co' => '',
+        'mobile_cp' => $tracker['cpm'],
+        'mobile_st' => $mobile_site,
+        'mobile_sv' => $tracker['mobile_sv'],
+        'mobile_width' => $mobile_width,
       ];
-      return $this->renderer->render($html);
     });
 
     if (!$context->isEmpty()) {

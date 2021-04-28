@@ -1,0 +1,11 @@
+type Ivw {
+  st: String
+  cp: String
+  sv: String
+  sc: String
+  co: String
+  mobile_cp: String
+  mobile_st: String
+  mobile_sv: String
+  mobile_width: String
+}

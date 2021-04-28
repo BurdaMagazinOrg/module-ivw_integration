@@ -7,12 +7,12 @@ use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
 
 /**
- * Extension to add the IVW script tag.
+ * Extension to add the IVW field.
  *
  * @SchemaExtension(
  *   id = "ivw",
  *   name = "Ivw extension",
- *   description = "Adds the IVW script tag.",
+ *   description = "Adds the IVW query field.",
  *   schema = "composable"
  * )
  */
