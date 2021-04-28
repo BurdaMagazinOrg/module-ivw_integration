@@ -5,7 +5,9 @@ namespace Drupal\ivw_integration;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Utility\Token;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Class IvwTracker.
@@ -65,14 +67,14 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   /**
    * {@inheritdoc}
    */
-  public function getTrackingInformation() {
+  public function getTrackingInformation(ContentEntityInterface $entity = NULL) {
     if (!isset($this->trackingInformation)) {
       $this->trackingInformation = [
         'st' => $this->getSt(),
         'mobile_st' => $this->getMobileSt(),
-        'cp' => $this->getCp(),
-        'sv' => $this->getSv(),
-        'mobile_sv' => $this->getMobileSv(),
+        'cp' => $this->getCp($entity),
+        'sv' => $this->getSv($entity),
+        'mobile_sv' => $this->getMobileSv($entity),
         'sc' => $this->getSc(),
       ];
       // Calculate cpm based upon cp.
@@ -110,11 +112,21 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    * @return string
    *   The value of the cp parameter.
    */
-  protected function getCp() {
+  protected function getCp(ContentEntityInterface $entity = NULL) {
     $settings = $this->configFactory->get('ivw_integration.settings');
     $code_template = $settings->get('code_template');
 
-    return $this->token->replace($code_template, [], ['sanitize' => FALSE]);
+    $data = [];
+    if ($entity) {
+      if ($entity instanceof TermInterface) {
+        $data['term'] = $entity;
+      }
+      else {
+        $data['entity'] = $entity;
+      }
+    }
+
+    return $this->token->replace($code_template, $data, ['sanitize' => FALSE]);
   }
 
   /**
@@ -124,8 +136,17 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *   The value of the sv parameter.
    *   If non is defined anywhere 'in' is returned as default.
    */
-  protected function getSv() {
-    $sv = $this->token->replace('[ivw:frabo]', [], ['sanitize' => FALSE]);
+  protected function getSv(ContentEntityInterface $entity = NULL) {
+    $data = [];
+    if ($entity) {
+      if ($entity instanceof TermInterface) {
+        $data['term'] = $entity;
+      }
+      else {
+        $data['entity'] = $entity;
+      }
+    }
+    $sv = $this->token->replace('[ivw:frabo]', $data, ['sanitize' => FALSE]);
     return empty($sv) ? 'in' : $sv;
   }
 
@@ -136,8 +157,17 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *   The value of the sv parameter.
    *   If non is defined anywhere 'mo' is returned as default.
    */
-  protected function getMobileSv() {
-    $sv = $this->token->replace('[ivw:frabo_mobile]', [], ['sanitize' => FALSE]);
+  protected function getMobileSv(ContentEntityInterface $entity = NULL) {
+    $data = [];
+    if ($entity) {
+      if ($entity instanceof TermInterface) {
+        $data['term'] = $entity;
+      }
+      else {
+        $data['entity'] = $entity;
+      }
+    }
+    $sv = $this->token->replace('[ivw:frabo_mobile]', $data, ['sanitize' => FALSE]);
     return empty($sv) ? 'mo' : $sv;
   }
 
