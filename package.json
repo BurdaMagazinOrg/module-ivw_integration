@@ -1,0 +1,20 @@
+{
+  "name": "ivw_integration",
+  "version": "1.0.0",
+  "description": "Ivw integration module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BurdaMagazinOrg/module-ivw_integration.git"
+  },
+  "author": "Christian Fritsch",
+  "license": "GPL-2.0-or-later",
+  "bugs": {
+    "url": "https://github.com/BurdaMagazinOrg/module-ivw_integration/issues"
+  },
+  "homepage": "https://github.com/BurdaMagazinOrg/module-ivw_integration#readme",
+
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  },
+  "dependencies": {}
+}
