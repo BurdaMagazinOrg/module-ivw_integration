@@ -5,9 +5,7 @@ namespace Drupal\ivw_integration;
 use Drupal\Core\Entity\ContentEntityInterface;
 
 /**
- * Interface IvwTrackerInterface.
- *
- * @package Drupal\ivw_integration
+ * Interface for the tracking service.
  */
 interface IvwTrackerInterface {
 

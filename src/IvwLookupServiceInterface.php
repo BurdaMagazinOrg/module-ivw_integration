@@ -7,9 +7,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\taxonomy\TermInterface;
 
 /**
- * Interface IvwLookupServiceInterface.
- *
- * @package Drupal\ivw_integration
+ * Interface for the lookup service.
  */
 interface IvwLookupServiceInterface {
 

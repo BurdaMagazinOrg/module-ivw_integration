@@ -10,9 +10,7 @@ use Drupal\Core\Utility\Token;
 use Drupal\taxonomy\TermInterface;
 
 /**
- * Class IvwTracker.
- *
- * @package Drupal\ivw_integration
+ * Provides all the IVW tracking information.
  */
 class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
 
@@ -78,7 +76,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
         'sc' => $this->getSc(),
       ];
       // Calculate cpm based upon cp.
-      // TODO: this is absolutely not generic.
+      // @todo This is absolutely not generic.
       $this->trackingInformation['cpm'] = str_replace('D1A', 'D2A', $this->trackingInformation['cp']);
     }
     return $this->trackingInformation;

@@ -102,7 +102,7 @@ function ivw_integration_tokens($type, $tokens, array $data, array $options, Bub
     elseif (isset($data['term']) && $data['term'] instanceof TermInterface) {
       $lookupFrom = 'term';
     }
-    /* @var \Drupal\ivw_integration\IvwLookupServiceInterface $lookup */
+    /** @var \Drupal\ivw_integration\IvwLookupServiceInterface $lookup */
     $lookup = \Drupal::service('ivw_integration.lookup');
     foreach ($tokens as $name => $original) {
 

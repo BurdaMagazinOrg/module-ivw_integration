@@ -13,9 +13,7 @@ use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\TermInterface;
 
 /**
- * Class IvwLookupService.
- *
- * @package Drupal\ivw_integration
+ * Service to get correct values based on the content hierarchy.
  */
 class IvwLookupService implements IvwLookupServiceInterface {
 
@@ -75,11 +73,8 @@ class IvwLookupService implements IvwLookupServiceInterface {
    * {@inheritdoc}
    */
   public function byRoute($name, RouteMatchInterface $route, $parentOnly = FALSE) {
-
-    $entity = NULL;
-
     foreach (self::getSupportedEntityParameters() as $parameter) {
-      /* @var ContentEntityInterface $entity */
+      /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
       if ($entity = $route->getParameter($parameter)) {
 
         if (is_numeric($entity)) {
@@ -116,12 +111,10 @@ class IvwLookupService implements IvwLookupServiceInterface {
    * {@inheritdoc}
    */
   public function getCacheTagsByRoute(RouteMatchInterface $route) {
-
-    $entity = NULL;
     $cache_tags = [];
 
     foreach (self::getSupportedEntityParameters() as $parameter) {
-      /* @var ContentEntityInterface $entity */
+      /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
       if ($entity = $route->getParameter($parameter)) {
 
         if (is_numeric($entity)) {
@@ -160,12 +153,11 @@ class IvwLookupService implements IvwLookupServiceInterface {
    *   The gathered cache tags.
    */
   private function getCacheTagsByTerm(TermInterface $term) {
-    /* @var \Drupal\taxonomy\TermStorage $termStorage  */
+    /** @var \Drupal\taxonomy\TermStorageInterface $termStorage  */
     $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
 
     $cache_tags = $term->getCacheTags();
 
-    /** @var \Drupal\taxonomy\TermInterface $parent */
     foreach ($termStorage->loadParents($term->id()) as $parent) {
       $parentCacheTags = $this->getCacheTagsByTerm($parent);
       $cache_tags = Cache::mergeTags($cache_tags, $parentCacheTags);
@@ -299,7 +291,7 @@ class IvwLookupService implements IvwLookupServiceInterface {
       }
     }
 
-    /* @var \Drupal\taxonomy\TermStorage $termStorage  */
+    /** @var \Drupal\taxonomy\TermStorageInterface $termStorage  */
     $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
 
     foreach ($termStorage->loadParents($term->id()) as $parent) {
