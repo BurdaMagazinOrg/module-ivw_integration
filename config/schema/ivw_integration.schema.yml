@@ -46,6 +46,9 @@ ivw_integration.settings:
     mobile_site:
       type: string
       label: 'IVW mobile site name as used in st parameter'
+    service_domain_name:
+      type: string
+      label: 'Domain name for anonymous INFOnline measurement. It should look similar to data-{hash}.example.com'
     code_template:
       type: string
       label: 'IVW code template'

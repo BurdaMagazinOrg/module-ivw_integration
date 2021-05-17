@@ -19,4 +19,14 @@
     if ((typeof window.iom !== 'undefined') && (typeof window.iom.c === 'function')) {
         iom.c(iam_data, 1);
     }
+
+    if ((typeof window.ima !== 'undefined') && (typeof window.ima === 'function')) {
+      ima('init', {
+        st: '{{ st }}',
+        cp: '{{ cp }}',
+        dn: '{{ dn }}',
+      });
+
+      ima('count');
+    }
 </script>

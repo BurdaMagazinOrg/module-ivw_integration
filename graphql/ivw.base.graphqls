@@ -4,6 +4,7 @@ type Ivw {
   sv: String
   sc: String
   co: String
+  dn: String
   mobile_cp: String
   mobile_st: String
   mobile_sv: String

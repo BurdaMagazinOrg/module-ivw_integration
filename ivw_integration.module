@@ -20,6 +20,7 @@ function ivw_integration_theme() {
         'sv' => NULL,
         'co' => NULL,
         'sc' => NULL,
+        'dn' => NULL,
         'mobile_st' => NULL,
         'mobile_cp' => NULL,
         'mobile_sv' => NULL,
@@ -100,5 +101,27 @@ function ivw_integration_page_attachments(array &$page) {
     'ivw_library',
   ];
 
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'link',
+      '#attributes' => [
+        'rel' => 'prefetch',
+        'as' => 'script',
+        'data-name' => 'ima',
+        'href' => 'https://' . $tracker['dn'] . '/sensor.modern.ncl.min.js',
+      ],
+    ],
+    'ima_prefetch',
+  ];
+
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#value' => '!function(e,n,c,r,t,l,o,a,d){r=e.IMAGlobalObject=r,e[r]=e[r]||function(){(e[r].q=e[r].q||[]).push(arguments)},l=n.querySelector("[data-name="+r+"]"),t=t&&!l?t+"/sensor.modern.ncl.min.js":l.href,e[r].src=t,o=n.createElement("script"),d=e.crypto&&e.crypto.subtle,a="noModule"in o&&!/Edge/.test(e.navigator.userAgent),o.src=a?d?t:t.replace(".ncl",".lcl"):t.replace(".modern.n",".legacy.l"),n.head.appendChild(o)}(window,document,0,"ima");',
+    ],
+    'ima_bootstrap',
+  ];
+
   $page['#attached']['library'][] = 'ivw_integration/ivw_call';
+
 }
