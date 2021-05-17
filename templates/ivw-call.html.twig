@@ -11,9 +11,10 @@
         iam_data.cp = "{{ mobile_cp }}";
         iam_data.sv = "{{ mobile_sv }}";
 
+        var mobile_service_domain_name = "{{ mobile_dn }}";
         var ivw_mobile_site = "{{ mobile_st }}";
         if((typeof ivw_mobile_site !== 'undefined') && ivw_mobile_site != '') {
-            iam_data.st = ivw_mobile_site;
+           iam_data.st = ivw_mobile_site;
         }
     }
     if ((typeof window.iom !== 'undefined') && (typeof window.iom.c === 'function')) {
@@ -21,10 +22,16 @@
     }
 
     if ((typeof window.ima !== 'undefined') && (typeof window.ima === 'function')) {
+      var dn = "{{ dn }}"
+
+      if((typeof mobile_service_domain_name !== 'undefined') && mobile_service_domain_name != '') {
+        dn = mobile_service_domain_name;
+      }
+
       ima('init', {
         st: '{{ st }}',
         cp: '{{ cp }}',
-        dn: '{{ dn }}',
+        dn: dn,
       });
 
       ima('count');

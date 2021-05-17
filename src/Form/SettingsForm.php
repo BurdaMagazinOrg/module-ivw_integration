@@ -98,6 +98,13 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $ivw_integration_settings->get('service_domain_name'),
       '#description' => $this->t('Service domain name for anonymous INFOnline measurement'),
     ];
+    $form['site_settings']['mobile_service_domain_name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Service domain name for mobile site'),
+      '#required' => FALSE,
+      '#default_value' => $ivw_integration_settings->get('service_domain_name'),
+      '#description' => $this->t('Service domain name for anonymous INFOnline measurement for mobile site'),
+    ];
     $form['site_settings']['code_template'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Code template'),
@@ -386,6 +393,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('site', $values['site'])
       ->set('mobile_site', $values['mobile_site'])
       ->set('service_domain_name', $values['service_domain_name'])
+      ->set('mobile_service_domain_name', $values['mobile_service_domain_name'])
       ->set('code_template', $values['code_template'])
       ->set('responsive', $values['responsive'])
       ->set('mobile_width', $values['mobile_width'])
