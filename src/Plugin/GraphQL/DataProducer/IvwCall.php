@@ -137,6 +137,7 @@ class IvwCall extends DataProducerPluginBase implements ContainerFactoryPluginIn
         'mobile_cp' => $tracker['cpm'],
         'mobile_st' => $mobile_site,
         'mobile_sv' => $tracker['mobile_sv'],
+        'mobile_dn' => $tracker['mobile_dn'],
         'mobile_width' => $mobile_width,
       ];
     });

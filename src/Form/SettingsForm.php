@@ -102,7 +102,7 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Service domain name for mobile site'),
       '#required' => FALSE,
-      '#default_value' => $ivw_integration_settings->get('service_domain_name'),
+      '#default_value' => $ivw_integration_settings->get('mobile_service_domain_name'),
       '#description' => $this->t('Service domain name for anonymous INFOnline measurement for mobile site'),
     ];
     $form['site_settings']['code_template'] = [
