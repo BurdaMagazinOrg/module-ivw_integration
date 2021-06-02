@@ -1,37 +1,39 @@
 <script type="text/javascript">
+    var responsive_data = {
+      "cp": "{{ cp }}",
+      "dn": "{{ dn }}",
+      "sv": "{{ sv }}",
+      "st": "{{ st }}"
+    }
+
+    if ( (window.innerWidth < {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
+      responsive_data.cp = "{{ mobile_cp }}";
+      responsive_data.sv = "{{ mobile_sv }}";
+      responsive_data.dn = "{{ mobile_dn }}";
+
+      var ivw_mobile_site = "{{ mobile_st }}";
+      if((typeof ivw_mobile_site !== 'undefined') && ivw_mobile_site != '') {
+        responsive_data.st = ivw_mobile_site;
+      }
+    }
+
     var iam_data = {
-        "st": "{{ st }}",
-        "cp": "{{ cp }}",
-        "sv": "{{ sv }}",
+        "st": responsive_data.st,
+        "cp": responsive_data.cp,
+        "sv": responsive_data.sv,
         "co": "{{ co }}",
         "sc": "{{ sc }}"
     };
 
-    if ( (window.innerWidth < {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
-        iam_data.cp = "{{ mobile_cp }}";
-        iam_data.sv = "{{ mobile_sv }}";
-
-        var mobile_service_domain_name = "{{ mobile_dn }}";
-        var ivw_mobile_site = "{{ mobile_st }}";
-        if((typeof ivw_mobile_site !== 'undefined') && ivw_mobile_site != '') {
-            iam_data.st = ivw_mobile_site;
-        }
-    }
     if ((typeof window.iom !== 'undefined') && (typeof window.iom.c === 'function')) {
       iom.c(iam_data, 1);
     }
 
     if ((typeof window.ima !== 'undefined') && (typeof window.ima === 'function')) {
-      var responsive_dn = "{{ dn }}"
-
-      if((typeof mobile_service_domain_name !== 'undefined') && mobile_service_domain_name != '') {
-        responsive_dn = mobile_service_domain_name;
-      }
-
       ima('init', {
-        st: '{{ st }}',
-        cp: '{{ cp }}',
-        dn: responsive_dn,
+        "st": responsive_data.st,
+        "cp": responsive_data.cp,
+        "dn": responsive_data.dn,
       });
 
       ima('count');
