@@ -32,6 +32,19 @@ class IvwSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('ivw_call')
         ->map('entity', $builder->fromParent())
     ));
+
+    $fields = [
+      'st', 'cp', 'sv', 'sc', 'co', 'dn', 'mobile_cp', 'mobile_st', 'mobile_sv',
+      'mobile_width', 'mobile_dn',
+    ];
+    foreach ($fields as $field) {
+      $registry->addFieldResolver('Ivw', $field,
+        $builder->callback(function ($arr) use ($field) {
+          return $arr[$field];
+        })
+      );
+    }
+
   }
 
 }
