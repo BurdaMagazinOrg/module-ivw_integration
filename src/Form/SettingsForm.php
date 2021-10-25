@@ -96,15 +96,17 @@ class SettingsForm extends ConfigFormBase {
       '#title' => $this->t('Service domain name'),
       '#required' => FALSE,
       '#default_value' => $ivw_integration_settings->get('service_domain_name'),
-      '#description' => $this->t('Service domain name for anonymous INFOnline measurement'),
+      '#description' => $this->t('Service domain name for Measurement Manager'),
     ];
+
     $form['site_settings']['mobile_service_domain_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Service domain name for mobile site'),
       '#required' => FALSE,
       '#default_value' => $ivw_integration_settings->get('mobile_service_domain_name'),
-      '#description' => $this->t('Service domain name for anonymous INFOnline measurement for mobile site'),
+      '#description' => $this->t('Service domain name for Measurement Manager for mobile site.'),
     ];
+
     $form['site_settings']['code_template'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Code template'),
@@ -141,12 +143,39 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $ivw_integration_settings->get('mobile_width'),
       '#description' => $this->t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.'),
     ];
-    $form['site_settings']['mcvd'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Activate Multistage Client & Visit Detection (MCVD)'),
-      '#default_value' => $ivw_integration_settings->get('mcvd'),
-      '#description' => $this->t('This activates the MCVD tracking capability. See <a href="https://www.infonline.de/downloads/web-mew-und-ctv/">INFOnline Fact Sheet \'Multistage Client & Visit Detection\' (MCVD)</a> for more information about this.'),
+
+    $form['site_settings']['distribution_channel'] = [
+      '#type' => 'select',
+      '#options' => [
+        'web' => $this->t('web'),
+        'hyb' => $this->t('hyb'),
+        'app' => $this->t('app'),
+        'ctv' => $this->t('ctv'),
+      ],
+      '#title' => $this->t('The distribution channel'),
+      '#default_value' => $ivw_integration_settings->get('distribution_channel') ?: 'web',
+      '#description' => $this->t('The pixel type.'),
     ];
+
+    $form['site_settings']['pixel_type'] = [
+      '#type' => 'select',
+      '#options' => [
+        'cp' => $this->t('cp'),
+        'sp' => $this->t('sp'),
+        'xp' => $this->t('xp'),
+      ],
+      '#title' => $this->t('Pixel type'),
+      '#default_value' => $ivw_integration_settings->get('pixel_type') ?: 'cp',
+      '#description' => $this->t('The pixel type.'),
+    ];
+
+    $form['site_settings']['debug'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Debugging'),
+      '#default_value' => $ivw_integration_settings->get('debug'),
+      '#description' => $this->t('Activate debugging.'),
+    ];
+
     $frabo_default = $ivw_integration_settings->get('frabo_default');
     $form['default_values']['frabo_default'] = [
       '#type' => 'select',
@@ -419,7 +448,9 @@ class SettingsForm extends ConfigFormBase {
       ->set('frabo_overridable', $values['frabo_overridable'])
       ->set('frabo_mobile_default', $values['frabo_mobile_default'])
       ->set('frabo_mobile_overridable', $values['frabo_mobile_overridable'])
-      ->set('mcvd', $values['mcvd'])
+      ->set('debug', $values['debug'])
+      ->set('pixel_type', $values['pixel_type'])
+      ->set('distribution_channel', $values['distribution_channel'])
       ->save();
   }
 

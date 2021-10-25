@@ -78,7 +78,6 @@ class IvwIntegrationOverrideTest extends BrowserTestBase {
       ->set('paid_overridable', 0)
       ->set('content_default', '01')
       ->set('content_overridable', 0)
-      ->set('mcvd', 0)
       ->save();
 
     $this->drupalLogin($this->adminUser);

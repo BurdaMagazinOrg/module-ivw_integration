@@ -73,9 +73,11 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
         'cp' => $this->getCp($entity),
         'sv' => $this->getSv($entity),
         'mobile_sv' => $this->getMobileSv($entity),
-        'sc' => $this->getSc(),
         'dn' => $this->getDn(),
         'mobile_dn' => $this->getMobileDn(),
+        'dg' => $this->getDg(),
+        'pt' => $this->getPt(),
+        'dc' => $this->getDc(),
       ];
       // Calculate cpm based upon cp.
       // @todo This is absolutely not generic.
@@ -172,16 +174,6 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   }
 
   /**
-   * Gets the sc parameter.
-   *
-   * @return string
-   *   The value of the st parameter.
-   */
-  protected function getSc() {
-    return $this->configFactory->get('ivw_integration.settings')->get('mcvd') ? 'yes' : '';
-  }
-
-  /**
    * Gets the dn parameter.
    *
    * @return string
@@ -199,6 +191,36 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    */
   protected function getMobileDn() {
     return $this->configFactory->get('ivw_integration.settings')->get('mobile_service_domain_name');
+  }
+
+  /**
+   * Gets the debug parameter.
+   *
+   * @return bool
+   *   The value of the debug parameter.
+   */
+  protected function getDg() {
+    return $this->configFactory->get('ivw_integration.settings')->get('debug');
+  }
+
+  /**
+   * Gets the pixel type parameter.
+   *
+   * @return string
+   *   The value of the pixel type parameter.
+   */
+  protected function getPt() {
+    return $this->configFactory->get('ivw_integration.settings')->get('pixel_type');
+  }
+
+  /**
+   * Gets distribution channel.
+   *
+   * @return string
+   *   The value of the distribution channel.
+   */
+  protected function getDc() {
+    return $this->configFactory->get('ivw_integration.settings')->get('distribution_channel');
   }
 
   /**
