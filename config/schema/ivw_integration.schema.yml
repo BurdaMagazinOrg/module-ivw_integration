@@ -136,3 +136,9 @@ ivw_integration.settings:
     distribution_channel:
       type: string
       label: 'The distribution type'
+    legacy_mode:
+      type: boolean
+      label: 'Display legacy code additionally to  measurement manager'
+    bfe:
+      type: boolean
+      label: 'Participate in agof daily digital facts'

@@ -30,3 +30,5 @@ frabo_mobile_overridable: false
 debug: false
 pixel_type: 'cp'
 distribution_channel: 'web'
+legacy_mode: false
+bfe: true
