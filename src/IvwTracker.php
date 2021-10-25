@@ -78,6 +78,8 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
         'dg' => $this->getDg(),
         'pt' => $this->getPt(),
         'dc' => $this->getDc(),
+        'legacy_mode' => $this->getLegacyMode(),
+        'bfe' => $this->getBfe(),
       ];
       // Calculate cpm based upon cp.
       // @todo This is absolutely not generic.
@@ -211,6 +213,26 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    */
   protected function getPt() {
     return $this->configFactory->get('ivw_integration.settings')->get('pixel_type');
+  }
+
+  /**
+   * Gets the legacy mode parameter.
+   *
+   * @return bool
+   *   The value of the legacy mode parameter.
+   */
+  protected function getLegacyMode() {
+    return $this->configFactory->get('ivw_integration.settings')->get('legacy_mode');
+  }
+
+  /**
+   * Gets the bfe value.
+   *
+   * @return bool
+   *   The value of the bfe value.
+   */
+  protected function getBfe() {
+    return $this->configFactory->get('ivw_integration.settings')->get('bfe');
   }
 
   /**

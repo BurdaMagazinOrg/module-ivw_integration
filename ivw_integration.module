@@ -87,40 +87,53 @@ function ivw_integration_page_attachments(array &$page) {
     return;
   }
 
-  // Base minification script on the core javascript setting.
-  $minified = \Drupal::config('system.performance')->get('js.preprocess');
+  $page['#cache']['tags'] = Cache::mergeTags($page['#cache']['tags'] ?? [], $trackerService->getCacheTags());
 
-  $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $trackerService->getCacheTags());
+  if ($tracker['legacy_mode']) {
+    $page['#attached']['html_head'][] = [
+      [
+        '#tag' => 'script',
+        '#attributes' => [
+          'src' => 'https://script.ioam.de/iam.js' . (\Drupal::config('system.performance')->get('js.preprocess') ? '?m=1' : ''),
+        ],
+      ],
+      'ivw_library',
+    ];
+  }
 
   $page['#attached']['html_head'][] = [
     [
-      '#tag' => 'script',
+      '#tag' => 'link',
       '#attributes' => [
-        'src' => 'https://script.ioam.de/iam.js' . ($minified ? '?m=1' : ''),
+        'rel' => 'preload',
+        'href' => '//' . $tracker['dn'] . '/iomm/latest/manager/base/es6/bundle.js',
+        'as' => 'script',
+        'id' => 'IOMmBundle'
       ],
     ],
-    'ivw_library',
+    'web_manager_base_preload',
   ];
 
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'link',
       '#attributes' => [
-        'rel' => 'prefetch',
-        'as' => 'script',
-        'data-name' => 'ima',
-        'href' => 'https://' . $tracker['dn'] . '/sensor.modern.ncl.min.js',
+        'rel' => 'preload',
+        'href' => '//' . $tracker['dn'] . '/iomm/latest/bootstrap/loader.js',
+        'as' => 'script'
       ],
     ],
-    'ima_prefetch',
+    'web_manager_preload',
   ];
 
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
-      '#value' => '!function(e,n,c,r,t,l,o,a,d){r=e.IMAGlobalObject=r,e[r]=e[r]||function(){(e[r].q=e[r].q||[]).push(arguments)},l=n.querySelector("[data-name="+r+"]"),t=t&&!l?t+"/sensor.modern.ncl.min.js":l.href,e[r].src=t,o=n.createElement("script"),d=e.crypto&&e.crypto.subtle,a="noModule"in o&&!/Edge/.test(e.navigator.userAgent),o.src=a?d?t:t.replace(".ncl",".lcl"):t.replace(".modern.n",".legacy.l"),n.head.appendChild(o)}(window,document,0,"ima");',
+      '#attributes' => [
+        'src' => '//' . $tracker['dn'] . '/iomm/latest/bootstrap/loader.js',
+      ],
     ],
-    'ima_bootstrap',
+    'web_manager',
   ];
 
   $page['#attached']['library'][] = 'ivw_integration/ivw_call';

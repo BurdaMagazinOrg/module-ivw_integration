@@ -176,6 +176,18 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Activate debugging.'),
     ];
 
+    $form['site_settings']['legacy_mode'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use legacy code.'),
+      '#default_value' => $ivw_integration_settings->get('legacy_mode'),
+    ];
+
+    $form['site_settings']['bfe'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('BFE.'),
+      '#default_value' => $ivw_integration_settings->get('bfe'),
+    ];
+
     $frabo_default = $ivw_integration_settings->get('frabo_default');
     $form['default_values']['frabo_default'] = [
       '#type' => 'select',
@@ -451,6 +463,8 @@ class SettingsForm extends ConfigFormBase {
       ->set('debug', $values['debug'])
       ->set('pixel_type', $values['pixel_type'])
       ->set('distribution_channel', $values['distribution_channel'])
+      ->set('legacy_mode', $values['legacy_mode'])
+      ->set('bfe', $values['bfe'])
       ->save();
   }
 

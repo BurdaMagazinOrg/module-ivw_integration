@@ -8,9 +8,11 @@ type Ivw {
   dg: String
   pt: String
   dc: String
+  bfe: String
   mobile_cp: String
   mobile_st: String
   mobile_sv: String
   mobile_dn: String
   mobile_width: String
+  legacy_mode: String
 }

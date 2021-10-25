@@ -3,7 +3,11 @@
       "cp": "{{ cp }}",
       "dn": "{{ dn }}",
       "sv": "{{ sv }}",
-      "st": "{{ st }}"
+      "st": "{{ st }}",
+      "dc": "{{ dc }}",
+      "pt": "{{ pt }}",
+      "dg": "{{ dg }}",
+      "bfe": "{{ bfe }}",
     }
 
     if ( (window.innerWidth < {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
@@ -25,16 +29,21 @@
     };
 
     if ((typeof window.iom !== 'undefined') && (typeof window.iom.c === 'function')) {
-      iom.c(iam_data, 1);
+        iom.c(iam_data, 1);
     }
 
-    if ((typeof window.ima !== 'undefined') && (typeof window.ima === 'function')) {
-      ima('init', {
+    if ((typeof window.IOMm !== 'undefined') && (typeof window.IOMm === 'function')) {
+      IOMm('configure', {
         "st": responsive_data.st,
-        "cp": responsive_data.cp,
         "dn": responsive_data.dn,
+        "cd": responsive_data.dc,
+        "dg": responsive_data.dg,
       });
 
-      ima('count');
+      IOMm('pageview', { cp: responsive_data.cp, pt: responsive_data.cp });
+
+      if (responsive_data.bfe) {
+        IOMm('3p', 'qds');
+      }
     }
 </script>
