@@ -105,13 +105,14 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
         '#dg' => $tracker['dg'],
         '#dc' => $tracker['dc'],
         '#pt' => $tracker['pt'],
+        '#bfe' => $tracker['bfe'],
     // Not yet configurable.
         '#co' => '',
         '#mobile_cp' => $tracker['cpm'],
         '#mobile_st' => $mobile_site,
         '#mobile_sv' => $mobile_sv,
-        '#mobile_dn' => $tracker['mobile_dn'],
         '#mobile_width' => $mobile_width,
+        '#legacy_mode' => $tracker['legacy_mode'],
       ],
     ];
   }

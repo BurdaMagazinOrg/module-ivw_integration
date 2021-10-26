@@ -21,10 +21,13 @@ function ivw_integration_theme() {
         'co' => NULL,
         'sc' => NULL,
         'dn' => NULL,
+        'dc' => NULL,
+        'dg' => NULL,
+        'pt' => NULL,
+        'bfe' => NULL,
         'mobile_st' => NULL,
         'mobile_cp' => NULL,
         'mobile_sv' => NULL,
-        'mobile_dn' => NULL,
         'mobile_width' => NULL,
       ],
       'template' => 'ivw-call',
@@ -131,6 +134,7 @@ function ivw_integration_page_attachments(array &$page) {
       '#tag' => 'script',
       '#attributes' => [
         'src' => '//' . $tracker['dn'] . '/iomm/latest/bootstrap/loader.js',
+        'data-cmp-ab' => 2
       ],
     ],
     'web_manager',
