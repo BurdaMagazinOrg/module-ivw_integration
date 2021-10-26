@@ -130,7 +130,6 @@ class IvwCall extends DataProducerPluginBase implements ContainerFactoryPluginIn
         'st' => $tracker['st'],
         'cp' => $tracker['cp'],
         'sv' => $tracker['sv'],
-        'sc' => $tracker['sc'],
         'dn' => $tracker['dn'],
         // Not yet configurable.
         'co' => '',

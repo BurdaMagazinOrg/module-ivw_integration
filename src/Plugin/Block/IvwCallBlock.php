@@ -100,7 +100,6 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
         '#st' => $tracker['st'],
         '#cp' => $tracker['cp'],
         '#sv' => $tracker['sv'],
-        '#sc' => $tracker['sc'],
         '#dn' => $tracker['dn'],
         '#dg' => $tracker['dg'],
         '#dc' => $tracker['dc'],

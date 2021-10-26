@@ -19,7 +19,6 @@ function ivw_integration_theme() {
         'cp' => NULL,
         'sv' => NULL,
         'co' => NULL,
-        'sc' => NULL,
         'dn' => NULL,
         'dc' => NULL,
         'dg' => NULL,
