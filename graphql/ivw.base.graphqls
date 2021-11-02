@@ -2,7 +2,6 @@ type Ivw {
   st: String
   cp: String
   sv: String
-  sc: String
   co: String
   dn: String
   dg: String
