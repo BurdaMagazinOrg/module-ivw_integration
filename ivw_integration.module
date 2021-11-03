@@ -110,7 +110,7 @@ function ivw_integration_page_attachments(array &$page) {
         'rel' => 'preload',
         'href' => '//' . $tracker['dn'] . '/iomm/latest/manager/base/es6/bundle.js',
         'as' => 'script',
-        'id' => 'IOMmBundle'
+        'id' => 'IOMmBundle',
       ],
     ],
     'web_manager_base_preload',
@@ -122,7 +122,7 @@ function ivw_integration_page_attachments(array &$page) {
       '#attributes' => [
         'rel' => 'preload',
         'href' => '//' . $tracker['dn'] . '/iomm/latest/bootstrap/loader.js',
-        'as' => 'script'
+        'as' => 'script',
       ],
     ],
     'web_manager_preload',
@@ -133,7 +133,7 @@ function ivw_integration_page_attachments(array &$page) {
       '#tag' => 'script',
       '#attributes' => [
         'src' => '//' . $tracker['dn'] . '/iomm/latest/bootstrap/loader.js',
-        'data-cmp-ab' => 2
+        'data-cmp-ab' => 2,
       ],
     ],
     'web_manager',
