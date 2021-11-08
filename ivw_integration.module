@@ -89,6 +89,10 @@ function ivw_integration_page_attachments(array &$page) {
     return;
   }
 
+  if (!$trackerService->isLanguageEnabled()) {
+    return;
+  }
+
   $page['#cache']['tags'] = Cache::mergeTags($page['#cache']['tags'] ?? [], $trackerService->getCacheTags());
 
   if ($tracker['legacy_mode']) {

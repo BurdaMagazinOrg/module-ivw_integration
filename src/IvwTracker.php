@@ -6,6 +6,7 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Utility\Token;
 use Drupal\taxonomy\TermInterface;
 
@@ -13,6 +14,14 @@ use Drupal\taxonomy\TermInterface;
  * Provides all the IVW tracking information.
  */
 class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
+
+  /**
+   * Language manager.
+   *
+   * @param \Drupal\Core\Language\LanguageManager
+   */
+  protected $languageManager;
+
 
   /**
    * Static cache of tracking information.
@@ -51,15 +60,19 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *   Token service.
    * @param \Drupal\ivw_integration\IvwLookupServiceInterface $lookupService
    *   The IVW lookup service.
+   * @param \Drupal\Core\Language\LanguageManager $language_manager
+   *   The Drupal language manager.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
     Token $token,
-    IvwLookupServiceInterface $lookupService
+    IvwLookupServiceInterface $lookupService,
+    LanguageManager $language_manager
   ) {
     $this->configFactory = $config_factory;
     $this->token = $token;
     $this->lookupService = $lookupService;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -257,6 +270,30 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    */
   public function getCacheMaxAge() {
     return 0;
+  }
+
+  /**
+   * Should the tracker be enabled for the current language?
+   *
+   * @return bool
+   *   Returns TRUE if the tracker is enabled, FALSE otherwise.
+   */
+  public function isLanguageEnabled() {
+      $config = $this->configFactory->get('ivw_integration.settings');
+      $current_language = $this->languageManager->getCurrentLanguage()->getId();
+      $disabled_languages = $config->get('disabled_languages');
+
+      if (!$disabled_languages) {
+          return TRUE;
+    }
+
+    if (
+          array_key_exists($current_language, $disabled_languages)
+          && $disabled_languages[$current_language] === $current_language
+      ) {
+          return FALSE;
+    }
+    return TRUE;
   }
 
 }

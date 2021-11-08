@@ -139,3 +139,8 @@ ivw_integration.settings:
     bfe:
       type: boolean
       label: 'Participate in agof daily digital facts'
+    disabled_languages:
+      type: sequence
+      label: 'Disabled languages'
+      sequence:
+        type: string

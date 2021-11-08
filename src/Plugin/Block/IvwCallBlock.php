@@ -90,6 +90,11 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
       return [];
     }
 
+    // Disable for language specific sites.
+    if (!$this->ivwTracker->isLanguageEnabled()) {
+      return [];
+    }
+
     $mobile_width = $config->get("mobile_width") ? $config->get("mobile_width") : '';
     $mobile_site = $config->get("mobile_site") ? $config->get("mobile_site") : '';
     $mobile_sv = $tracker['mobile_sv'];

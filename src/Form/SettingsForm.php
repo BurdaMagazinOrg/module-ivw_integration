@@ -5,6 +5,7 @@ namespace Drupal\ivw_integration\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Language\LanguageManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Utility\Token;
 
@@ -12,6 +13,15 @@ use Drupal\Core\Utility\Token;
  * Defines a form that configures ivw settings.
  */
 class SettingsForm extends ConfigFormBase {
+
+  /**
+   * Language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManager
+   *   Language manager.
+   */
+  protected $languageManager;
+
   /**
    * The token object.
    *
@@ -27,9 +37,10 @@ class SettingsForm extends ConfigFormBase {
    * @param \Drupal\Core\Utility\Token $token
    *   The token object.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Token $token) {
+  public function __construct(ConfigFactoryInterface $config_factory, Token $token, LanguageManager $language_manager) {
     parent::__construct($config_factory);
     $this->token = $token;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -38,7 +49,8 @@ class SettingsForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('token')
+      $container->get('token'),
+      $container->get('language_manager')
     );
   }
 
@@ -73,6 +85,13 @@ class SettingsForm extends ConfigFormBase {
     $form['default_values'] = [
       '#type' => 'details',
       '#title' => $this->t('Default values'),
+      '#open' => FALSE,
+      '#group' => 'ivw_settings',
+    ];
+
+    $form['language_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Language'),
       '#open' => FALSE,
       '#group' => 'ivw_settings',
     ];
@@ -414,6 +433,21 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $ivw_integration_settings->get('content_overridable'),
     ];
 
+    // Language specific options.
+    $languages = $this->languageManager->getLanguages();
+    $language_options = [];
+    foreach ($languages as $language) {
+      $language_options[$language->getId()] = $language->getName();
+    }
+
+    $form['language_settings']['disabled_languages'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Language settings'),
+      '#description' => $this->t('IVW will be disabled for the selected languages.'),
+      '#options' => $language_options,
+      '#default_value' => !empty($ivw_integration_settings->get('disabled_languages')) ? $ivw_integration_settings->get('disabled_languages') : [],
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -452,6 +486,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('frabo_mobile_default', $values['frabo_mobile_default'])
       ->set('frabo_mobile_overridable', $values['frabo_mobile_overridable'])
       ->set('debug', $values['debug'])
+      ->set('disabled_languages', $values['disabled_languages'])
       ->set('pixel_type', $values['pixel_type'])
       ->set('distribution_channel', $values['distribution_channel'])
       ->set('legacy_mode', $values['legacy_mode'])
