@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        PHP: ['8.0']
+        PHP: ['7.4', '8.0']
 
     steps:
     - uses: actions/checkout@v1
