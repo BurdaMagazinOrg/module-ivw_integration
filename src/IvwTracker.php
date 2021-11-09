@@ -18,10 +18,9 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   /**
    * Language manager.
    *
-   * @param \Drupal\Core\Language\LanguageManager
+   * @var \Drupal\Core\Language\LanguageManager
    */
   protected $languageManager;
-
 
   /**
    * Static cache of tracking information.
@@ -279,19 +278,19 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *   Returns TRUE if the tracker is enabled, FALSE otherwise.
    */
   public function isLanguageEnabled() {
-      $config = $this->configFactory->get('ivw_integration.settings');
-      $current_language = $this->languageManager->getCurrentLanguage()->getId();
-      $disabled_languages = $config->get('disabled_languages');
+    $config = $this->configFactory->get('ivw_integration.settings');
+    $current_language = $this->languageManager->getCurrentLanguage()->getId();
+    $disabled_languages = $config->get('disabled_languages');
 
-      if (!$disabled_languages) {
-          return TRUE;
+    if (!$disabled_languages) {
+      return TRUE;
     }
 
     if (
           array_key_exists($current_language, $disabled_languages)
           && $disabled_languages[$current_language] === $current_language
       ) {
-          return FALSE;
+      return FALSE;
     }
     return TRUE;
   }

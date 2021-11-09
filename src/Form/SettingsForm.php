@@ -36,6 +36,8 @@ class SettingsForm extends ConfigFormBase {
    *   The factory for configuration objects.
    * @param \Drupal\Core\Utility\Token $token
    *   The token object.
+   * @param \Drupal\Core\Language\LanguageManager $language_manager
+   *   The Language manager.
    */
   public function __construct(ConfigFactoryInterface $config_factory, Token $token, LanguageManager $language_manager) {
     parent::__construct($config_factory);
