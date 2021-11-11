@@ -145,5 +145,4 @@ function ivw_integration_page_attachments(array &$page) {
     'web_manager',
   ];
 
-
 }
