@@ -124,6 +124,18 @@ function ivw_integration_page_attachments(array &$page) {
 
   $page['#attached']['html_head'][] = [
     [
+      '#tag' => 'link',
+      '#attributes' => [
+        'rel' => 'preload',
+        'href' => '//' . $tracker['dn'] . '/iomm/latest/bootstrap/loader.js',
+        'as' => 'script',
+      ],
+    ],
+    'web_manager_base_preload',
+  ];
+
+  $page['#attached']['html_head'][] = [
+    [
       '#tag' => 'script',
       '#attributes' => [
         'src' => '//' . $tracker['dn'] . '/iomm/latest/bootstrap/loader.js',
