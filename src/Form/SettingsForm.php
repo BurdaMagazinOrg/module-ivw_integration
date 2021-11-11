@@ -115,14 +115,14 @@ class SettingsForm extends ConfigFormBase {
     $form['site_settings']['service_domain_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Service domain name'),
-      '#required' => FALSE,
+      '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('service_domain_name'),
       '#description' => $this->t('Service domain name for Measurement Manager'),
     ];
     $form['site_settings']['service_domain_name_mobile'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Mobile service domain name'),
-      '#required' => FALSE,
+      '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('service_domain_name_mobile'),
       '#description' => $this->t('Mobile service domain name for Measurement Manager'),
     ];
@@ -203,7 +203,7 @@ class SettingsForm extends ConfigFormBase {
 
     $form['site_settings']['bfe'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('BFE.'),
+      '#title' => $this->t('Agof daily digital facts.'),
       '#default_value' => $ivw_integration_settings->get('bfe'),
     ];
 
