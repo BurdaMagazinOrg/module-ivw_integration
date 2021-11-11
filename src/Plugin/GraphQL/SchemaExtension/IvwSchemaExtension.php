@@ -46,6 +46,7 @@ class IvwSchemaExtension extends SdlSchemaExtensionPluginBase {
       'mobile_cp',
       'mobile_st',
       'mobile_sv',
+      'mobile_dn',
       'mobile_width',
       'legacy_mode',
     ];

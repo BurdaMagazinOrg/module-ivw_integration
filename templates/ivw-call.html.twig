@@ -13,6 +13,7 @@
     if ( (window.innerWidth < {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
       responsive_data.cp = "{{ mobile_cp }}";
       responsive_data.sv = "{{ mobile_sv }}";
+      responsive_data.dn = "{{ mobile_dn }}";
 
       var ivw_mobile_site = "{{ mobile_st }}";
       if((typeof ivw_mobile_site !== 'undefined') && ivw_mobile_site != '') {

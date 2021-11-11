@@ -49,6 +49,9 @@ ivw_integration.settings:
     service_domain_name:
       type: string
       label: 'Domain name for anonymous Measurement Manager.'
+    service_domain_name_mobile:
+      type: string
+      label: 'Mobile domain name for anonymous Measurement Manager.'
     code_template:
       type: string
       label: 'IVW code template'

@@ -27,6 +27,7 @@ function ivw_integration_theme() {
         'mobile_st' => NULL,
         'mobile_cp' => NULL,
         'mobile_sv' => NULL,
+        'mobile_dn' => NULL,
         'mobile_width' => NULL,
       ],
       'template' => 'ivw-call',
