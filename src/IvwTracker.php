@@ -205,7 +205,7 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *   The value of the dn parameter.
    */
   protected function getMobileDn() {
-    return $this->configFactory->get('ivw_integration.settings')->get('service_domain_name_mobile');
+    return $this->configFactory->get('ivw_integration.settings')->get('mobile_service_domain_name');
   }
 
   /**
