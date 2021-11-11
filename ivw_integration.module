@@ -131,7 +131,7 @@ function ivw_integration_page_attachments(array &$page) {
         'as' => 'script',
       ],
     ],
-    'web_manager_base_preload',
+    'web_manager_bootstrap_preload',
   ];
 
   $page['#attached']['html_head'][] = [

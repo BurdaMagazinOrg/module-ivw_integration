@@ -10,7 +10,7 @@
       "bfe": "{{ bfe }}",
     }
 
-    if ( (window.innerWidth < {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
+    if ( (window.innerWidth <= {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
       responsive_data.cp = "{{ mobile_cp }}";
       responsive_data.sv = "{{ mobile_sv }}";
       responsive_data.dn = "{{ mobile_dn }}";
