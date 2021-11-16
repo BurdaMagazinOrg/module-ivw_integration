@@ -48,10 +48,10 @@ ivw_integration.settings:
       label: 'IVW mobile site name as used in st parameter'
     service_domain_name:
       type: string
-      label: 'Domain name for anonymous INFOnline measurement. It should look similar to data-{hash}.example.com'
+      label: 'Domain name for anonymous Measurement Manager.'
     mobile_service_domain_name:
       type: string
-      label: 'Mobile domain name for anonymous INFOnline measurement. It should look similar to data-{hash}.example.com'
+      label: 'Mobile domain name for anonymous Measurement Manager.'
     code_template:
       type: string
       label: 'IVW code template'
@@ -127,6 +127,23 @@ ivw_integration.settings:
     frabo_mobile_overridable:
       type: boolean
       label: 'Frabo control for mobile is overridable'
-    mcvd:
+    debug:
       type: boolean
-      label: 'Activate Multistage Client & Visit Detection (MCVD)'
+      label: 'Activate debugging'
+    pixel_type:
+      type: string
+      label: 'The pixel type'
+    distribution_channel:
+      type: string
+      label: 'The distribution type'
+    legacy_mode:
+      type: boolean
+      label: 'Display legacy code additionally to  measurement manager'
+    bfe:
+      type: boolean
+      label: 'Participate in agof daily digital facts'
+    disabled_languages:
+      type: sequence
+      label: 'Disabled languages'
+      sequence:
+        type: string

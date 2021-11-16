@@ -14,7 +14,7 @@ interface IvwTrackerInterface {
    *
    * @return string[]
    *   Array containing 'st', 'mobile_st', 'cp', 'cpm',
-   *   'sv' and 'mobile_sv' parameters.
+   *   'sv', 'mobile_sv' and 'mobile_dn' parameters.
    */
   public function getTrackingInformation(ContentEntityInterface $entity = NULL);
 

@@ -3,10 +3,14 @@
       "cp": "{{ cp }}",
       "dn": "{{ dn }}",
       "sv": "{{ sv }}",
-      "st": "{{ st }}"
+      "st": "{{ st }}",
+      "dc": "{{ dc }}",
+      "pt": "{{ pt }}",
+      "dg": "{{ dg }}",
+      "bfe": "{{ bfe }}",
     }
 
-    if ( (window.innerWidth < {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
+    if ( (window.innerWidth <= {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
       responsive_data.cp = "{{ mobile_cp }}";
       responsive_data.sv = "{{ mobile_sv }}";
       responsive_data.dn = "{{ mobile_dn }}";
@@ -21,21 +25,25 @@
         "st": responsive_data.st,
         "cp": responsive_data.cp,
         "sv": responsive_data.sv,
-        "co": "{{ co }}",
-        "sc": "{{ sc }}"
+        "co": "{{ co }}"
     };
 
     if ((typeof window.iom !== 'undefined') && (typeof window.iom.c === 'function')) {
-      iom.c(iam_data, 1);
+        iom.c(iam_data, 1);
     }
 
-    if ((typeof window.ima !== 'undefined') && (typeof window.ima === 'function')) {
-      ima('init', {
+    if ((typeof window.IOMm !== 'undefined') && (typeof window.IOMm === 'function')) {
+      IOMm('configure', {
         "st": responsive_data.st,
-        "cp": responsive_data.cp,
         "dn": responsive_data.dn,
+        "dc": responsive_data.dc,
+        "dg": responsive_data.dg,
       });
 
-      ima('count');
+      IOMm('pageview', { cp: responsive_data.cp, pt: responsive_data.cp });
+
+      if (responsive_data.bfe) {
+        IOMm('3p', 'qds');
+      }
     }
 </script>

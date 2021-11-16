@@ -92,7 +92,6 @@ class IvwLookupServiceTest extends UnitTestCase {
     $config->set('paid_overridable', 0);
     $config->set('content_default', '01');
     $config->set('content_overridable', 1);
-    $config->set('mcvd', 0);
 
     $this->configFactoryMock->expects($this->once())
       ->method('get')

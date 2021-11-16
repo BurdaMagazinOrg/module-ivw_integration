@@ -6,6 +6,7 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Utility\Token;
 use Drupal\taxonomy\TermInterface;
 
@@ -13,6 +14,13 @@ use Drupal\taxonomy\TermInterface;
  * Provides all the IVW tracking information.
  */
 class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
+
+  /**
+   * Language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManager
+   */
+  protected $languageManager;
 
   /**
    * Static cache of tracking information.
@@ -51,15 +59,19 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    *   Token service.
    * @param \Drupal\ivw_integration\IvwLookupServiceInterface $lookupService
    *   The IVW lookup service.
+   * @param \Drupal\Core\Language\LanguageManager $language_manager
+   *   The Drupal language manager.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
     Token $token,
-    IvwLookupServiceInterface $lookupService
+    IvwLookupServiceInterface $lookupService,
+    LanguageManager $language_manager
   ) {
     $this->configFactory = $config_factory;
     $this->token = $token;
     $this->lookupService = $lookupService;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -73,9 +85,14 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
         'cp' => $this->getCp($entity),
         'sv' => $this->getSv($entity),
         'mobile_sv' => $this->getMobileSv($entity),
-        'sc' => $this->getSc(),
+        'mobile_dn' => $this->getMobileDn(),
         'dn' => $this->getDn(),
         'mobile_dn' => $this->getMobileDn(),
+        'dg' => $this->getDg(),
+        'pt' => $this->getPt(),
+        'dc' => $this->getDc(),
+        'legacy_mode' => $this->getLegacyMode(),
+        'bfe' => $this->getBfe(),
       ];
       // Calculate cpm based upon cp.
       // @todo This is absolutely not generic.
@@ -172,16 +189,6 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   }
 
   /**
-   * Gets the sc parameter.
-   *
-   * @return string
-   *   The value of the st parameter.
-   */
-  protected function getSc() {
-    return $this->configFactory->get('ivw_integration.settings')->get('mcvd') ? 'yes' : '';
-  }
-
-  /**
    * Gets the dn parameter.
    *
    * @return string
@@ -192,13 +199,63 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
   }
 
   /**
-   * Gets the mobile_dn parameter.
+   * Gets the dn parameter.
    *
    * @return string
-   *   The value of the mobile_dn parameter.
+   *   The value of the dn parameter.
    */
   protected function getMobileDn() {
     return $this->configFactory->get('ivw_integration.settings')->get('mobile_service_domain_name');
+  }
+
+  /**
+   * Gets the debug parameter.
+   *
+   * @return bool
+   *   The value of the debug parameter.
+   */
+  protected function getDg() {
+    return $this->configFactory->get('ivw_integration.settings')->get('debug');
+  }
+
+  /**
+   * Gets the pixel type parameter.
+   *
+   * @return string
+   *   The value of the pixel type parameter.
+   */
+  protected function getPt() {
+    return $this->configFactory->get('ivw_integration.settings')->get('pixel_type');
+  }
+
+  /**
+   * Gets the legacy mode parameter.
+   *
+   * @return bool
+   *   The value of the legacy mode parameter.
+   */
+  protected function getLegacyMode() {
+    return $this->configFactory->get('ivw_integration.settings')->get('legacy_mode');
+  }
+
+  /**
+   * Gets the bfe value.
+   *
+   * @return bool
+   *   The value of the bfe value.
+   */
+  protected function getBfe() {
+    return $this->configFactory->get('ivw_integration.settings')->get('bfe');
+  }
+
+  /**
+   * Gets distribution channel.
+   *
+   * @return string
+   *   The value of the distribution channel.
+   */
+  protected function getDc() {
+    return $this->configFactory->get('ivw_integration.settings')->get('distribution_channel');
   }
 
   /**
@@ -224,6 +281,30 @@ class IvwTracker implements IvwTrackerInterface, CacheableDependencyInterface {
    */
   public function getCacheMaxAge() {
     return 0;
+  }
+
+  /**
+   * Should the tracker be enabled for the current language?
+   *
+   * @return bool
+   *   Returns TRUE if the tracker is enabled, FALSE otherwise.
+   */
+  public function isLanguageEnabled() {
+    $config = $this->configFactory->get('ivw_integration.settings');
+    $current_language = $this->languageManager->getCurrentLanguage()->getId();
+    $disabled_languages = $config->get('disabled_languages');
+
+    if (!$disabled_languages) {
+      return TRUE;
+    }
+
+    if (
+          array_key_exists($current_language, $disabled_languages)
+          && $disabled_languages[$current_language] === $current_language
+      ) {
+      return FALSE;
+    }
+    return TRUE;
   }
 
 }

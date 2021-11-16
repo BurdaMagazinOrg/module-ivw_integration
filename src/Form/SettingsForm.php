@@ -5,6 +5,7 @@ namespace Drupal\ivw_integration\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Language\LanguageManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Utility\Token;
 
@@ -12,6 +13,15 @@ use Drupal\Core\Utility\Token;
  * Defines a form that configures ivw settings.
  */
 class SettingsForm extends ConfigFormBase {
+
+  /**
+   * Language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManager
+   *   Language manager.
+   */
+  protected $languageManager;
+
   /**
    * The token object.
    *
@@ -26,10 +36,13 @@ class SettingsForm extends ConfigFormBase {
    *   The factory for configuration objects.
    * @param \Drupal\Core\Utility\Token $token
    *   The token object.
+   * @param \Drupal\Core\Language\LanguageManager $language_manager
+   *   The Language manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Token $token) {
+  public function __construct(ConfigFactoryInterface $config_factory, Token $token, LanguageManager $language_manager) {
     parent::__construct($config_factory);
     $this->token = $token;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -38,7 +51,8 @@ class SettingsForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('token')
+      $container->get('token'),
+      $container->get('language_manager')
     );
   }
 
@@ -77,6 +91,13 @@ class SettingsForm extends ConfigFormBase {
       '#group' => 'ivw_settings',
     ];
 
+    $form['language_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Language'),
+      '#open' => FALSE,
+      '#group' => 'ivw_settings',
+    ];
+
     $form['site_settings']['site'] = [
       '#type' => 'textfield',
       '#title' => $this->t('IVW Site name'),
@@ -94,16 +115,16 @@ class SettingsForm extends ConfigFormBase {
     $form['site_settings']['service_domain_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Service domain name'),
-      '#required' => FALSE,
+      '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('service_domain_name'),
-      '#description' => $this->t('Service domain name for anonymous INFOnline measurement'),
+      '#description' => $this->t('Service domain name for Measurement Manager'),
     ];
     $form['site_settings']['mobile_service_domain_name'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Service domain name for mobile site'),
-      '#required' => FALSE,
+      '#title' => $this->t('Mobile service domain name'),
+      '#required' => TRUE,
       '#default_value' => $ivw_integration_settings->get('mobile_service_domain_name'),
-      '#description' => $this->t('Service domain name for anonymous INFOnline measurement for mobile site'),
+      '#description' => $this->t('Mobile service domain name for Measurement Manager'),
     ];
     $form['site_settings']['code_template'] = [
       '#type' => 'textfield',
@@ -141,12 +162,51 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $ivw_integration_settings->get('mobile_width'),
       '#description' => $this->t('On a responsive site, this value tells the javascript up to which screen width, the device should be treated as mobile.'),
     ];
-    $form['site_settings']['mcvd'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Activate Multistage Client & Visit Detection (MCVD)'),
-      '#default_value' => $ivw_integration_settings->get('mcvd'),
-      '#description' => $this->t('This activates the MCVD tracking capability. See <a href="https://www.infonline.de/downloads/web-mew-und-ctv/">INFOnline Fact Sheet \'Multistage Client & Visit Detection\' (MCVD)</a> for more information about this.'),
+
+    $form['site_settings']['distribution_channel'] = [
+      '#type' => 'select',
+      '#options' => [
+        'web' => $this->t('web'),
+        'hyb' => $this->t('hyb'),
+        'app' => $this->t('app'),
+        'ctv' => $this->t('ctv'),
+      ],
+      '#title' => $this->t('The distribution channel'),
+      '#default_value' => $ivw_integration_settings->get('distribution_channel') ?: 'web',
+      '#description' => $this->t('The pixel type.'),
     ];
+
+    $form['site_settings']['pixel_type'] = [
+      '#type' => 'select',
+      '#options' => [
+        'cp' => $this->t('cp'),
+        'sp' => $this->t('sp'),
+        'xp' => $this->t('xp'),
+      ],
+      '#title' => $this->t('Pixel type'),
+      '#default_value' => $ivw_integration_settings->get('pixel_type') ?: 'cp',
+      '#description' => $this->t('The pixel type.'),
+    ];
+
+    $form['site_settings']['debug'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Debugging'),
+      '#default_value' => $ivw_integration_settings->get('debug'),
+      '#description' => $this->t('Activate debugging.'),
+    ];
+
+    $form['site_settings']['legacy_mode'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use legacy code.'),
+      '#default_value' => $ivw_integration_settings->get('legacy_mode'),
+    ];
+
+    $form['site_settings']['bfe'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Agof daily digital facts.'),
+      '#default_value' => $ivw_integration_settings->get('bfe'),
+    ];
+
     $frabo_default = $ivw_integration_settings->get('frabo_default');
     $form['default_values']['frabo_default'] = [
       '#type' => 'select',
@@ -381,6 +441,21 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $ivw_integration_settings->get('content_overridable'),
     ];
 
+    // Language specific options.
+    $languages = $this->languageManager->getLanguages();
+    $language_options = [];
+    foreach ($languages as $language) {
+      $language_options[$language->getId()] = $language->getName();
+    }
+
+    $form['language_settings']['disabled_languages'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Language settings'),
+      '#description' => $this->t('IVW will be disabled for the selected languages.'),
+      '#options' => $language_options,
+      '#default_value' => !empty($ivw_integration_settings->get('disabled_languages')) ? $ivw_integration_settings->get('disabled_languages') : [],
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -419,7 +494,12 @@ class SettingsForm extends ConfigFormBase {
       ->set('frabo_overridable', $values['frabo_overridable'])
       ->set('frabo_mobile_default', $values['frabo_mobile_default'])
       ->set('frabo_mobile_overridable', $values['frabo_mobile_overridable'])
-      ->set('mcvd', $values['mcvd'])
+      ->set('debug', $values['debug'])
+      ->set('disabled_languages', $values['disabled_languages'])
+      ->set('pixel_type', $values['pixel_type'])
+      ->set('distribution_channel', $values['distribution_channel'])
+      ->set('legacy_mode', $values['legacy_mode'])
+      ->set('bfe', $values['bfe'])
       ->save();
   }
 

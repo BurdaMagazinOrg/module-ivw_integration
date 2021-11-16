@@ -90,9 +90,15 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
       return [];
     }
 
+    // Disable for language specific sites.
+    if (!$this->ivwTracker->isLanguageEnabled()) {
+      return [];
+    }
+
     $mobile_width = $config->get("mobile_width") ? $config->get("mobile_width") : '';
     $mobile_site = $config->get("mobile_site") ? $config->get("mobile_site") : '';
     $mobile_sv = $tracker['mobile_sv'];
+    $mobile_dn = $tracker['mobile_dn'];
 
     return [
       'ivw_call' => [
@@ -100,15 +106,19 @@ class IvwCallBlock extends BlockBase implements ContainerFactoryPluginInterface 
         '#st' => $tracker['st'],
         '#cp' => $tracker['cp'],
         '#sv' => $tracker['sv'],
-        '#sc' => $tracker['sc'],
         '#dn' => $tracker['dn'],
+        '#dg' => $tracker['dg'],
+        '#dc' => $tracker['dc'],
+        '#pt' => $tracker['pt'],
+        '#bfe' => $tracker['bfe'],
     // Not yet configurable.
         '#co' => '',
         '#mobile_cp' => $tracker['cpm'],
         '#mobile_st' => $mobile_site,
         '#mobile_sv' => $mobile_sv,
-        '#mobile_dn' => $tracker['mobile_dn'],
+        '#mobile_dn' => $mobile_dn,
         '#mobile_width' => $mobile_width,
+        '#legacy_mode' => $tracker['legacy_mode'],
       ],
     ];
   }
