@@ -24,6 +24,7 @@ function ivw_integration_theme() {
         'dg' => NULL,
         'pt' => NULL,
         'bfe' => NULL,
+        'legacy_mode' => NULL,
         'mobile_st' => NULL,
         'mobile_cp' => NULL,
         'mobile_sv' => NULL,

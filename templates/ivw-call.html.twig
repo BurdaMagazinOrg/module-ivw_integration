@@ -33,12 +33,18 @@
     }
 
     if ((typeof window.IOMm !== 'undefined') && (typeof window.IOMm === 'function')) {
-      IOMm('configure', {
+      var IOMmConfigureParameter = {
         "st": responsive_data.st,
         "dn": responsive_data.dn,
         "dc": responsive_data.dc,
         "dg": responsive_data.dg,
-      });
+      }
+
+      if ("{{ legacy_mode }}" !== "1") {
+        IOMmConfigureParameter.mh = 5
+      }
+
+      IOMm('configure', IOMmConfigureParameter);
 
       IOMm('pageview', { cp: responsive_data.cp, pt: responsive_data.pt });
 
