@@ -21,6 +21,7 @@
       }
     }
 
+{% if legacy_mode  %}
     var iam_data = {
         "st": responsive_data.st,
         "cp": responsive_data.cp,
@@ -31,7 +32,7 @@
     if ((typeof window.iom !== 'undefined') && (typeof window.iom.c === 'function')) {
         iom.c(iam_data, 1);
     }
-
+{% endif %}
     if ((typeof window.IOMm !== 'undefined') && (typeof window.IOMm === 'function')) {
       var IOMmConfigureParameter = {
         "st": responsive_data.st,
@@ -40,9 +41,9 @@
         "dg": responsive_data.dg,
       }
 
-      if ("{{ legacy_mode }}" !== "1") {
-        IOMmConfigureParameter.mh = 5
-      }
+{% if legacy_mode is empty %}
+      IOMmConfigureParameter.mh = 5
+{% endif %}
 
       IOMm('configure', IOMmConfigureParameter);
 
