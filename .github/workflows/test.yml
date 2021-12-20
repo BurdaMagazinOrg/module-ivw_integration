@@ -47,5 +47,8 @@ jobs:
     - name: Get build environment
       run: composer global require thunder/drupal-testing
 
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+
     - name: Run the tests
       run: test-drupal-project
