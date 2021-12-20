@@ -131,8 +131,6 @@ class IvwIntegrationOverrideTest extends WebDriverTestBase {
 
     // Load the node edit page.
     $this->drupalGet('node/add/ivw_test');
-    $this->assertSession()->statusCodeEquals(200);
-
     $this->drupalPostForm(NULL, $nodeEdit, 'Save');
     $this->assertSession()->pageTextContains($expectedOutput);
   }
