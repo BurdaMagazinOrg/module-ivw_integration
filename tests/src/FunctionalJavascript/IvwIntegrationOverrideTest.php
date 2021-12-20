@@ -2,14 +2,14 @@
 
 namespace Drupal\Tests\ivw_integration\Functional;
 
-use Drupal\Tests\BrowserTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
  * Test override functionality of ivw.
  *
  * @group ivw_integration
  */
-class IvwIntegrationOverrideTest extends BrowserTestBase {
+class IvwIntegrationOverrideTest extends WebDriverTestBase {
 
   /**
    * Modules to enable.
