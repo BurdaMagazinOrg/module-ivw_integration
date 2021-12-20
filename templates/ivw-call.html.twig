@@ -8,12 +8,14 @@
       "pt": "{{ pt }}",
       "dg": "{{ dg }}",
       "bfe": "{{ bfe }}",
+      "sample": "in",
     }
 
     if ( (window.innerWidth <= {{ mobile_width }}) || (/iPhone/.test(window.navigator.userAgent))) {
       responsive_data.cp = "{{ mobile_cp }}";
       responsive_data.sv = "{{ mobile_sv }}";
       responsive_data.dn = "{{ mobile_dn }}";
+      responsive_data.sample = "mo";
 
       var ivw_mobile_site = "{{ mobile_st }}";
       if((typeof ivw_mobile_site !== 'undefined') && ivw_mobile_site != '') {
@@ -50,7 +52,7 @@
       IOMm('pageview', { cp: responsive_data.cp, pt: responsive_data.pt });
 
       if (responsive_data.bfe) {
-        IOMm('3p', 'qds');
+        IOMm('3p', 'qds', responsive_data.sample);
       }
     }
 </script>
