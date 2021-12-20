@@ -112,7 +112,6 @@ class IvwIntegrationOverrideTest extends WebDriverTestBase {
 
       // Load the term edit page.
       $this->drupalGet('admin/structure/taxonomy/manage/ivw_taxonomy/add');
-      $this->assertSession()->statusCodeEquals(200);
 
       $termName = $this->randomString();
       $termEdit = [
