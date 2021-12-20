@@ -59,4 +59,4 @@ jobs:
         http-port: ${{ env.DRUPAL_TESTING_HTTP_PORT }}
 
     - name: Run the tests
-      run: test-drupal-project
+      run: test-drupal-project -v
